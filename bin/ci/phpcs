@@ -2,18 +2,30 @@
 
 set -eu
 
+readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
+createCacheDir() {
+    if [ ! -d "${rootDir}"/var/ci/phpcs ]; then
+        mkdir -p "${rootDir}"/var/ci/phpcs
+    fi
+}
+
 if type docker > /dev/null 2>&1; then
-    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+    createCacheDir
 
     docker \
         run \
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
+            --volume "${rootDir}"/var/ci/phpcs:/app/var/ci/phpcs \
+            --user $(id -u):$(id -g) \
             --entrypoint /app/bin/ci/phpcs \
             --workdir /app \
             steevanb/php-ci:latest
 else
+    createCacheDir
+
     phpcs \
         -p \
         --warning-severity=0 \
@@ -21,5 +33,6 @@ else
         --bootstrap=config/ci/phpcs.php \
         --standard=/composer/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
         --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
+        --cache=var/ci/phpcs/cache \
         .
 fi
