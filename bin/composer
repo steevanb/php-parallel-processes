@@ -13,9 +13,9 @@ docker \
         --rm \
         --interactive \
         --tty \
-        --volume ${rootDir}:/app \
+        --volume "${rootDir}":/app \
         --user $(id -u):$(id -g) \
-        --workdir=/app \
+        --workdir /app \
         --env COMPOSER_HOME=/app/var/composer \
         composer:2.1.3 \
         composer $@

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Console;
 
 use Steevanb\ParallelProcess\{
+    Console\Output\BufferedOutput,
     Process\ParallelProcess,
     Process\ParallelProcessArray
 };
 use Symfony\Component\Console\{
     Input\InputInterface,
-    Output\ConsoleOutput,
     Output\OutputInterface,
     SingleCommandApplication
 };
@@ -47,7 +47,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
         $this->setCode(
             function () use ($output): void {
-                $waitings = $this->getParallelProcesses();
+                $parallelProcesses = $this->getParallelProcesses();
 
                 $this->outputProcesses($output, false);
 
@@ -55,13 +55,18 @@ class ParallelProcessesApplication extends SingleCommandApplication
                     $parallelProcess->getProcess()->start();
                 }
 
-                while (count($waitings) > 0) {
-                    foreach ($waitings->toArray() as $waitingIndex => $waiting) {
-                        if ($waiting->getProcess()->isTerminated()) {
-                            unset($waitings[$waitingIndex]);
+                $terminated = 0;
+                while ($terminated !== count($parallelProcesses)) {
+                    $terminated = 0;
+
+                    /** @var ParallelProcess $parallelProcess */
+                    foreach ($parallelProcesses->toArray() as $parallelProcess) {
+                        if ($parallelProcess->getProcess()->isTerminated()) {
+                            $terminated++;
                             $this->outputProcesses($output);
                         }
                     }
+
                     usleep(100000);
                 }
 
@@ -74,7 +79,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected function createDefaultOutput(): OutputInterface
     {
-        return new ConsoleOutput();
+        return new BufferedOutput();
     }
 
     protected function outputProcesses(OutputInterface $output, bool $rewrite = true): self
@@ -84,8 +89,9 @@ class ParallelProcessesApplication extends SingleCommandApplication
         }
 
         foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            $this->outputParallelProcessState($output, $parallelProcess);
+            $output->writeln($this->getParallelProcessStateOutput($parallelProcess));
         }
+        $this->writeBufferedLines($output);
 
         return $this;
     }
@@ -94,15 +100,23 @@ class ParallelProcessesApplication extends SingleCommandApplication
     {
         $this->resetOutput($output);
 
+        /** @var ParallelProcess $parallelProcess */
         foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            $this->outputParallelProcessState($output, $parallelProcess);
+            $output->writeln($this->getParallelProcessStateOutput($parallelProcess));
 
             if ($parallelProcess->getProcess()->isSuccessful() === false) {
-                foreach (explode("\n", $parallelProcess->getProcess()->getOutput()) as $line) {
+                $outputs = explode(
+                    "\n",
+                    $parallelProcess->getProcess()->getOutput()
+                        . "\n"
+                        . $parallelProcess->getProcess()->getErrorOutput()
+                );
+                foreach ($outputs as $line) {
                     $output->writeln('    ' . $line);
                 }
             }
         }
+        $this->writeBufferedLines($output);
 
         return $this;
     }
@@ -114,16 +128,13 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
-    protected function outputParallelProcessState(OutputInterface $output, ParallelProcess $parallelProcess): self
+    protected function getParallelProcessStateOutput(ParallelProcess $parallelProcess): string
     {
-        $output->writeln(
+        return
             "\e[" .
             $this->getProcessStateColor($parallelProcess->getProcess())
             . "m > \e[0m "
-            . $parallelProcess->getName()
-        );
-
-        return $this;
+            . $parallelProcess->getName();
     }
 
     protected function getProcessStateColor(Process $process): int
@@ -139,5 +150,14 @@ class ParallelProcessesApplication extends SingleCommandApplication
         }
 
         return $return;
+    }
+
+    protected function writeBufferedLines(OutputInterface $output): self
+    {
+        if ($output instanceof BufferedOutput) {
+            $output->writeBufferedLines();
+        }
+
+        return $this;
     }
 }

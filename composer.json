@@ -25,6 +25,9 @@
         "symfony/console": "^5.1",
         "symfony/process": "^5.0"
     },
+    "require-dev": {
+        "symfony/var-dumper": "5.3.*"
+    },
     "config": {
         "sort-packages": true
     }

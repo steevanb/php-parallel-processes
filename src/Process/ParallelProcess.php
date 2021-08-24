@@ -12,8 +12,12 @@ class ParallelProcess
 
     protected Process $process;
 
-    public function __construct(string $name, Process $process)
+    public function __construct(Process $process, string $name = null)
     {
+        if (is_string($name) === false) {
+            // Process command line start and end with ', we remove the last one with trim()
+            $name = basename(trim($process->getCommandLine(), "'"));
+        }
         $this->name = $name;
         $this->process = $process;
     }
