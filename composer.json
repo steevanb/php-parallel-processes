@@ -1,0 +1,21 @@
+{
+    "name": "steevanb/php-parallel-process",
+    "description": "Call processes in parallel",
+    "type": "library",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Steevan BARBOYON",
+            "email": "steevan.barboyon@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Steevanb\\PhpParallelProcess\\": "src/",
+            "steevanb\\PhpTypedArray\\Bridge\\Phpstan\\": "vendor/steevanb/php-typed-array/bridge/Phpstan/src"
+        }
+    },
+    "require": {
+        "steevanb/php-typed-array": "^3.0"
+    }
+}

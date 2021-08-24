@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if [ $(which docker || false) ]; then
+    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
+    docker \
+        run \
+            -it \
+            --rm \
+            -v ${rootDir}:/app:ro \
+            --entrypoint /app/bin/ci/phpdd \
+            --workdir=/app \
+            steevanb/php-ci:latest
+else
+    phpdd src
+fi

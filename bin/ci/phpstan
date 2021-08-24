@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if [ $(which docker || false) ]; then
+    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
+    docker \
+        run \
+            -it \
+            --rm \
+            -v ${rootDir}:/app \
+            --entrypoint /app/bin/ci/phpstan \
+            --workdir=/app \
+            steevanb/php-ci:latest
+else
+    phpstan analyse -c config/ci/phpstan.neon
+fi

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly rootDir="$(realpath $(dirname $(realpath $0))/..)"
+
+if [ -f "${rootDir}/composer.lock" ]; then
+    rm "${rootDir}/composer.lock"
+fi
+
+docker \
+    run \
+        --rm \
+        --interactive \
+        --tty \
+        --volume ${rootDir}:/app \
+        --user $(id -u):$(id -g) \
+        --workdir=/app \
+        --env COMPOSER_HOME=/app/var/composer \
+        composer:2.1.3 \
+        composer $@
+
+if [ -f "${rootDir}/composer.lock" ]; then
+    rm "${rootDir}/composer.lock"
+fi
