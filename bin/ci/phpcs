@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if [ $(which docker || false) ]; then
+    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
+    docker \
+        run \
+            -it \
+            --rm \
+            -v ${rootDir}:/app:ro \
+            --entrypoint /app/bin/ci/phpcs \
+            --workdir=/app \
+            steevanb/php-ci:latest
+else
+    phpcs \
+        -p \
+        --warning-severity=0 \
+        --ignore=/vendor/,/var/ \
+        --bootstrap=config/ci/phpcs.php \
+        --standard=/composer/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
+        --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
+        .
+fi
