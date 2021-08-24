@@ -9,7 +9,7 @@ if [ $(which docker || false) ]; then
         run \
             -it \
             --rm \
-            -v ${rootDir}:/app:ro \
+            --volume ${rootDir}:/app:ro \
             --entrypoint /app/bin/ci/phpdd \
             --workdir=/app \
             steevanb/php-ci:latest

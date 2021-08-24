@@ -3,6 +3,8 @@ parameters:
     tmpDir: ../../var/ci/phpstan
     paths:
         - ../../src
+    ignoreErrors:
+        - '#no value type specified in iterable type Symfony\\Component\\Process\\Process#'
 includes:
     - /composer/vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - /composer/vendor/phpstan/phpstan-strict-rules/rules.neon
