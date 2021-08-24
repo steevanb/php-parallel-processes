@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Console;
+namespace Steevanb\ParallelProcess\Console\Application;
 
 use Steevanb\ParallelProcess\{
+    Console\Application\Theme\DefaultTheme,
+    Console\Application\Theme\ThemeInterface,
     Console\Output\BufferedOutput,
     Process\ParallelProcess,
     Process\ParallelProcessArray
@@ -14,18 +16,21 @@ use Symfony\Component\Console\{
     Output\OutputInterface,
     SingleCommandApplication
 };
-use Symfony\Component\Process\Process;
 
 class ParallelProcessesApplication extends SingleCommandApplication
 {
     protected ParallelProcessArray $parallelProcesses;
+
+    protected ThemeInterface $theme;
 
     public function __construct(string $name = null)
     {
         parent::__construct($name);
 
         $this->parallelProcesses = new ParallelProcessArray();
-        $this->setCode([$this, 'runParallelProcesses']);
+        $this
+            ->setCode([$this, 'runParallelProcesses'])
+            ->setTheme(new DefaultTheme());
     }
 
     public function addParallelProcess(ParallelProcess $process): self
@@ -33,6 +38,16 @@ class ParallelProcessesApplication extends SingleCommandApplication
         $this->parallelProcesses[] = $process;
 
         return $this;
+    }
+
+    public function setTheme(ThemeInterface $theme): void
+    {
+        $this->theme = $theme;
+    }
+
+    public function getTheme(): ThemeInterface
+    {
+        return $this->theme;
     }
 
     public function getParallelProcesses(): ParallelProcessArray
@@ -51,12 +66,17 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected function runParallelProcesses(InputInterface $input, OutputInterface $output): int
     {
-        return $this
-            ->outputProcesses($output, false)
+        $this
+            ->getTheme()
+            ->outputParallelProcessesState($output, $this->getParallelProcesses());
+
+        $this
             ->startProcesses()
-            ->waitProcessesTermination($output)
-            ->outputSummary($output)
-            ->getExitCode();
+            ->waitProcessesTermination($output);
+
+        $this->getTheme()->outputSummary($output, $this->getParallelProcesses());
+
+        return $this->getExitCode();
     }
 
     protected function startProcesses(): self
@@ -78,9 +98,13 @@ class ParallelProcessesApplication extends SingleCommandApplication
             foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
                 if ($parallelProcess->getProcess()->isTerminated()) {
                     $terminated++;
-                    $this->outputProcesses($output);
                 }
             }
+
+            $this
+                ->getTheme()
+                ->resetOutput($output, $this->getParallelProcesses())
+                ->outputParallelProcessesState($output, $this->getParallelProcesses());
 
             usleep(100000);
         }
@@ -105,76 +129,6 @@ class ParallelProcessesApplication extends SingleCommandApplication
     protected function createDefaultOutput(): OutputInterface
     {
         return new BufferedOutput();
-    }
-
-    protected function outputProcesses(OutputInterface $output, bool $rewrite = true): self
-    {
-        if ($rewrite) {
-            $this->resetOutput($output);
-        }
-
-        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            $output->writeln($this->getParallelProcessStateOutput($parallelProcess));
-        }
-        $this->writeBufferedLines($output);
-
-        return $this;
-    }
-
-    protected function outputSummary(OutputInterface $output): self
-    {
-        $this->resetOutput($output);
-
-        /** @var ParallelProcess $parallelProcess */
-        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            $output->writeln($this->getParallelProcessStateOutput($parallelProcess));
-
-            if ($parallelProcess->getProcess()->isSuccessful() === false) {
-                $outputs = explode(
-                    "\n",
-                    $parallelProcess->getProcess()->getOutput()
-                        . "\n"
-                        . $parallelProcess->getProcess()->getErrorOutput()
-                );
-                foreach ($outputs as $line) {
-                    $output->writeln('    ' . $line);
-                }
-            }
-        }
-        $this->writeBufferedLines($output);
-
-        return $this;
-    }
-
-    protected function resetOutput(OutputInterface $output): self
-    {
-        $output->write("\e[" . count($this->getParallelProcesses()) . "A\e[K");
-
-        return $this;
-    }
-
-    protected function getParallelProcessStateOutput(ParallelProcess $parallelProcess): string
-    {
-        return
-            "\e[" .
-            $this->getProcessStateColor($parallelProcess->getProcess())
-            . "m > \e[0m "
-            . $parallelProcess->getName();
-    }
-
-    protected function getProcessStateColor(Process $process): int
-    {
-        if ($process->getStatus() === Process::STATUS_READY || $process->isRunning()) {
-            $return = 45;
-        } elseif ($process->isTerminated() && $process->isSuccessful()) {
-            $return = 42;
-        } elseif ($process->isTerminated() && $process->isSuccessful() === false) {
-            $return = 41;
-        } else {
-            throw new \Exception('Unknown process state.');
-        }
-
-        return $return;
     }
 
     protected function writeBufferedLines(OutputInterface $output): self

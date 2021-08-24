@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Steevanb\ParallelProcess\{
-    Console\ParallelProcessesApplication,
+    Console\Application\ParallelProcessesApplication,
     Process\ParallelProcess
 };
 use Symfony\Component\Process\Process;
