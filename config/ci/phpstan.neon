@@ -5,6 +5,7 @@ parameters:
         - ../../src
     ignoreErrors:
         - '#no value type specified in iterable type Symfony\\Component\\Process\\Process#'
+        - '#Method Steevanb\\ParallelProcess\\Console\\Output\\BufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
 includes:
     - /composer/vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - /composer/vendor/phpstan/phpstan-strict-rules/rules.neon

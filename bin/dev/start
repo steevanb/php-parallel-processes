@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly rootDir="$(realpath $(dirname $(realpath $0))/../..)"
+
+"${rootDir}"/bin/composer install

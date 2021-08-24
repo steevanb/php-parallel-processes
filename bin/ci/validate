@@ -4,8 +4,15 @@ set -eu
 
 readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
 
-${rootDir}/bin/ci/phpcs
-${rootDir}/bin/ci/phpdd
-${rootDir}/bin/ci/phpstan
-${rootDir}/bin/ci/composer-require-checker
-${rootDir}/bin/ci/composer-validate
+if type docker > /dev/null 2>&1; then
+    docker \
+        run \
+            -it \
+            --rm \
+            --volume "${rootDir}":/app \
+            --entrypoint /app/bin/ci/validate \
+            --workdir /app \
+            steevanb/php-ci:latest
+else
+    php "${rootDir}"/bin/ci/validate.php
+fi

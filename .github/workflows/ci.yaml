@@ -54,7 +54,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer-require-checker
+            - run: composer update
             - run: bin/ci/composer-require-checker
 
     composer-validate:

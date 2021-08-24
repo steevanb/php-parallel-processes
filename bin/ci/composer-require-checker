@@ -2,16 +2,16 @@
 
 set -eu
 
-if [ $(which docker || false) ]; then
+if type docker > /dev/null 2>&1; then
     readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
 
     docker \
         run \
             -it \
             --rm \
-            --volume ${rootDir}:/app:ro \
+            --volume "${rootDir}":/app:ro \
             --entrypoint /app/bin/ci/composer-require-checker \
-            --workdir=/app \
+            --workdir /app \
             steevanb/php-ci:latest
 else
     composer-require-checker
