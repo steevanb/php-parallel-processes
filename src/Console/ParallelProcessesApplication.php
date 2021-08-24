@@ -25,6 +25,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
         parent::__construct($name);
 
         $this->parallelProcesses = new ParallelProcessArray();
+        $this->setCode([$this, 'runParallelProcesses']);
     }
 
     public function addParallelProcess(ParallelProcess $process): self
@@ -45,36 +46,60 @@ class ParallelProcessesApplication extends SingleCommandApplication
             $output = $this->createDefaultOutput();
         }
 
-        $this->setCode(
-            function () use ($output): void {
-                $parallelProcesses = $this->getParallelProcesses();
-
-                $this->outputProcesses($output, false);
-
-                foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-                    $parallelProcess->getProcess()->start();
-                }
-
-                $terminated = 0;
-                while ($terminated !== count($parallelProcesses)) {
-                    $terminated = 0;
-
-                    /** @var ParallelProcess $parallelProcess */
-                    foreach ($parallelProcesses->toArray() as $parallelProcess) {
-                        if ($parallelProcess->getProcess()->isTerminated()) {
-                            $terminated++;
-                            $this->outputProcesses($output);
-                        }
-                    }
-
-                    usleep(100000);
-                }
-
-                $this->outputSummary($output);
-            }
-        );
-
         return parent::run($input, $output);
+    }
+
+    protected function runParallelProcesses(InputInterface $input, OutputInterface $output): int
+    {
+        return $this
+            ->outputProcesses($output, false)
+            ->startProcesses()
+            ->waitProcessesTermination($output)
+            ->outputSummary($output)
+            ->getExitCode();
+    }
+
+    protected function startProcesses(): self
+    {
+        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
+            $parallelProcess->getProcess()->start();
+        }
+
+        return $this;
+    }
+
+    protected function waitProcessesTermination(OutputInterface $output): self
+    {
+        $terminated = 0;
+        while ($terminated !== count($this->getParallelProcesses())) {
+            $terminated = 0;
+
+            /** @var ParallelProcess $parallelProcess */
+            foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
+                if ($parallelProcess->getProcess()->isTerminated()) {
+                    $terminated++;
+                    $this->outputProcesses($output);
+                }
+            }
+
+            usleep(100000);
+        }
+
+        return $this;
+    }
+
+    protected function getExitCode(): int
+    {
+        $return = static::SUCCESS;
+        /** @var ParallelProcess $parallelProcess */
+        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
+            if ($parallelProcess->getProcess()->isSuccessful() === false) {
+                $return = static::FAILURE;
+                break;
+            }
+        }
+
+        return $return;
     }
 
     protected function createDefaultOutput(): OutputInterface
