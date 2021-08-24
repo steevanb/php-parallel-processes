@@ -9,11 +9,64 @@ use Steevanb\ParallelProcess\{
     Process\ParallelProcess,
     Process\ParallelProcessArray
 };
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\{
+    Color,
+    Output\OutputInterface
+};
 use Symfony\Component\Process\Process;
 
 class DefaultTheme implements ThemeInterface
 {
+    protected Color $stateRunningColor;
+
+    protected Color $stateSuccessfulColor;
+
+    protected Color $stateErrorColor;
+
+    public function __construct()
+    {
+        $this
+            ->setStateRunningColor(new Color('white', 'magenta'))
+            ->setStateSuccessfulColor(new Color('white', 'green'))
+            ->setStateErrorColor(new Color('white', 'red'));
+    }
+
+    public function setStateRunningColor(Color $stateRunningColor): self
+    {
+        $this->stateRunningColor = $stateRunningColor;
+
+        return $this;
+    }
+
+    public function getStateRunningColor(): Color
+    {
+        return $this->stateRunningColor;
+    }
+
+    public function setStateSuccessfulColor(Color $stateSuccessfulColor): self
+    {
+        $this->stateSuccessfulColor = $stateSuccessfulColor;
+
+        return $this;
+    }
+
+    public function getStateSuccessfulColor(): Color
+    {
+        return $this->stateSuccessfulColor;
+    }
+
+    public function setStateErrorColor(Color $stateErrorColor): self
+    {
+        $this->stateErrorColor = $stateErrorColor;
+
+        return $this;
+    }
+
+    public function getStateErrorColor(): Color
+    {
+        return $this->stateErrorColor;
+    }
+
     public function resetOutput(OutputInterface $output, ParallelProcessArray $parallelProcesses): self
     {
         $output->write("\e[" . count($parallelProcesses) . "A\e[K");
@@ -62,23 +115,22 @@ class DefaultTheme implements ThemeInterface
     protected function outputParallelProcessState(OutputInterface $output, ParallelProcess $parallelProcess): self
     {
         $output->writeln(
-            "\e[" .
-            $this->getProcessStateColor($parallelProcess->getProcess())
-            . "m > \e[0m "
+            $this->getProcessStateColor($parallelProcess->getProcess())->apply(' > ')
+            . ' '
             . $parallelProcess->getName()
         );
 
         return $this;
     }
 
-    protected function getProcessStateColor(Process $process): int
+    protected function getProcessStateColor(Process $process): Color
     {
         if ($process->getStatus() === Process::STATUS_READY || $process->isRunning()) {
-            $return = 45;
+            $return = $this->getStateRunningColor();
         } elseif ($process->isTerminated() && $process->isSuccessful()) {
-            $return = 42;
+            $return = $this->getStateSuccessfulColor();
         } elseif ($process->isTerminated() && $process->isSuccessful() === false) {
-            $return = 41;
+            $return = $this->getStateErrorColor();
         } else {
             throw new \Exception('Unknown process state.');
         }

@@ -40,9 +40,11 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
-    public function setTheme(ThemeInterface $theme): void
+    public function setTheme(ThemeInterface $theme): self
     {
         $this->theme = $theme;
+
+        return $this;
     }
 
     public function getTheme(): ThemeInterface
