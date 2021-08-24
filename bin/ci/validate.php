@@ -8,14 +8,12 @@ use Steevanb\ParallelProcess\{
 };
 use Symfony\Component\Process\Process;
 
-$rootDir = dirname(__DIR__, 2);
-
-require $rootDir . '/vendor/autoload.php';
+require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 (new ParallelProcessesApplication())
-    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/composer-require-checker'], $rootDir)))
-    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/composer-validate'], $rootDir)))
-    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpcs'], $rootDir)))
-    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpdd'], $rootDir)))
-    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpstan'], $rootDir)))
+    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/composer-require-checker'])))
+    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/composer-validate'])))
+    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpcs'])))
+    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpdd'])))
+    ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpstan'])))
     ->run();
