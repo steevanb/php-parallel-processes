@@ -8,6 +8,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: bin/ci/phpcs
+
     phpstan:
         runs-on: ubuntu-latest
         container:
@@ -23,6 +24,7 @@ jobs:
                     restore-keys: composer-${{ hashFiles('composer.json') }}
             - run: composer update
             - run: bin/ci/phpstan
+
     phpdd:
         runs-on: ubuntu-latest
         container:
@@ -38,3 +40,27 @@ jobs:
                     restore-keys: composer-${{ hashFiles('composer.json') }}
             - run: composer update
             - run: bin/ci/phpdd
+
+    composer-require-checker:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-ci:latest
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: composer-require-checker
+            - run: bin/ci/composer-require-checker
+
+    composer-validate:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-ci:latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: bin/ci/composer-validate

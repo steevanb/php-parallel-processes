@@ -9,10 +9,10 @@ if [ $(which docker || false) ]; then
         run \
             -it \
             --rm \
-            --volume ${rootDir}:/app \
-            --entrypoint /app/bin/ci/phpstan \
+            --volume ${rootDir}:/app:ro \
+            --entrypoint /app/bin/ci/composer-validate \
             --workdir=/app \
             steevanb/php-ci:latest
 else
-    phpstan analyse -c config/ci/phpstan.neon
+    composer validate
 fi
