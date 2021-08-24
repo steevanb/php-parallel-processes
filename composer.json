@@ -1,5 +1,5 @@
 {
-    "name": "steevanb/php-parallel-process",
+    "name": "steevanb/php-parallel-processes",
     "description": "Call processes in parallel",
     "type": "library",
     "license": "Apache-2.0",
