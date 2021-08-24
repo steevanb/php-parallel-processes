@@ -1,1 +1,3 @@
-# php-parallel-process
+# php-parallel-processes
+
+Work in progress ;)
