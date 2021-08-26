@@ -16,5 +16,5 @@ if type docker > /dev/null 2>&1; then
             --env COMPOSER_HOME=/app/var/composer \
             steevanb/php-ci:latest
 else
-    composer validate
+    composer validate --ansi
 fi

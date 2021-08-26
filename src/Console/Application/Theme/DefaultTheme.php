@@ -93,7 +93,7 @@ class DefaultTheme implements ThemeInterface
         /** @var Process $process */
         foreach ($processes->toArray() as $process) {
             $this
-                ->outputProcessState($output, $process)
+                ->outputProcessState($output, $process, true)
                 ->outputProcessSummary($output, $process);
         }
 
@@ -156,20 +156,44 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputProcessState(OutputInterface $output, Process $process): self
+    protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): self
     {
-        $state =
-            $this->getProcessStateColor($process)->apply(' > ')
-            . ' '
-            . $process->getName();
+        $state = $this->getProcessStateColor($process)->apply(' > ') . ' ';
 
+        $title = $process->getName();
         if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE && $process->isStarted()) {
-            $state .= ' (' . $process->getExecutionTime() . 'ms)';
+            $title .= ' (' . $process->getExecutionTime() . 'ms)';
+        }
+
+        if ($isSummary && $this->processWillHaveOutput($output, $process)) {
+            $state .= $this->getProcessStateColor($process)->apply(
+                ' ' . $title . str_repeat(' ', 79 - strlen($title))
+            );
+        } else {
+            $state .= $title;
         }
 
         $output->writeln($state);
 
         return $this;
+    }
+
+    protected function processWillHaveOutput(OutputInterface $output, Process $process): bool
+    {
+        return
+            (
+                $process->isSuccessful()
+                && (
+                    $process->getStandardOutputVerbosity() <= $output->getVerbosity()
+                    || $process->getErrorOutputVerbosity() <= $output->getVerbosity()
+                )
+            ) || (
+                $process->isSuccessful() === false
+                && (
+                    $process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()
+                    || $process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()
+                )
+            );
     }
 
     protected function getProcessStateColor(Process $process): Color

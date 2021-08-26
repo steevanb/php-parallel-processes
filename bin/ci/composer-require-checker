@@ -14,5 +14,5 @@ if type docker > /dev/null 2>&1; then
             --workdir /app \
             steevanb/php-ci:latest
 else
-    composer-require-checker
+    composer-require-checker --ansi
 fi
