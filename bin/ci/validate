@@ -8,6 +8,7 @@ if type docker > /dev/null 2>&1; then
     docker \
         run \
             -it \
+            --tty \
             --rm \
             --volume "${rootDir}":/app \
             --user $(id -u):$(id -g) \
