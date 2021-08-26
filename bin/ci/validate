@@ -13,6 +13,7 @@ if type docker > /dev/null 2>&1; then
             --user $(id -u):$(id -g) \
             --entrypoint /app/bin/ci/validate \
             --workdir /app \
+            --env COMPOSER_HOME=/app/var/composer \
             steevanb/php-ci:latest \
             "${@}"
 else

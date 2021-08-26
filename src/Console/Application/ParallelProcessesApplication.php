@@ -8,8 +8,8 @@ use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
     Console\Application\Theme\ThemeInterface,
     Console\Output\BufferedOutput,
-    Process\ParallelProcess,
-    Process\ParallelProcessArray
+    Process\Process,
+    Process\ProcessArray
 };
 use Symfony\Component\Console\{
     Input\InputInterface,
@@ -19,7 +19,7 @@ use Symfony\Component\Console\{
 
 class ParallelProcessesApplication extends SingleCommandApplication
 {
-    protected ParallelProcessArray $parallelProcesses;
+    protected ProcessArray $processes;
 
     protected ThemeInterface $theme;
 
@@ -27,17 +27,22 @@ class ParallelProcessesApplication extends SingleCommandApplication
     {
         parent::__construct($name);
 
-        $this->parallelProcesses = new ParallelProcessArray();
+        $this->processes = new ProcessArray();
         $this
-            ->setCode([$this, 'runParallelProcesses'])
+            ->setCode([$this, 'runProcessesInParallel'])
             ->setTheme(new DefaultTheme());
     }
 
-    public function addParallelProcess(ParallelProcess $process): self
+    public function addProcess(Process $process): self
     {
-        $this->parallelProcesses[] = $process;
+        $this->processes[] = $process;
 
         return $this;
+    }
+
+    public function getProcesses(): ProcessArray
+    {
+        return $this->processes;
     }
 
     public function setTheme(ThemeInterface $theme): self
@@ -52,11 +57,6 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this->theme;
     }
 
-    public function getParallelProcesses(): ParallelProcessArray
-    {
-        return $this->parallelProcesses;
-    }
-
     public function run(InputInterface $input = null, OutputInterface $output = null): int
     {
         if ($output instanceof OutputInterface === false) {
@@ -66,25 +66,25 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return parent::run($input, $output);
     }
 
-    protected function runParallelProcesses(InputInterface $input, OutputInterface $output): int
+    protected function runProcessesInParallel(InputInterface $input, OutputInterface $output): int
     {
         $this
             ->getTheme()
-            ->outputParallelProcessesState($output, $this->getParallelProcesses());
+            ->outputProcessesState($output, $this->getProcesses());
 
         $this
             ->startProcesses()
             ->waitProcessesTermination($output);
 
-        $this->getTheme()->outputSummary($output, $this->getParallelProcesses());
+        $this->getTheme()->outputSummary($output, $this->getProcesses());
 
         return $this->getExitCode();
     }
 
     protected function startProcesses(): self
     {
-        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            $parallelProcess->getProcess()->start();
+        foreach ($this->getProcesses()->toArray() as $process) {
+            $process->start();
         }
 
         return $this;
@@ -93,22 +93,22 @@ class ParallelProcessesApplication extends SingleCommandApplication
     protected function waitProcessesTermination(OutputInterface $output): self
     {
         $terminated = 0;
-        while ($terminated !== count($this->getParallelProcesses())) {
+        while ($terminated !== count($this->getProcesses())) {
             $terminated = 0;
 
-            /** @var ParallelProcess $parallelProcess */
-            foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-                if ($parallelProcess->getProcess()->isTerminated()) {
+            /** @var Process $process */
+            foreach ($this->getProcesses()->toArray() as $process) {
+                if ($process->isTerminated()) {
                     $terminated++;
                 }
             }
 
             $this
                 ->getTheme()
-                ->resetOutput($output, $this->getParallelProcesses())
-                ->outputParallelProcessesState($output, $this->getParallelProcesses());
+                ->resetOutput($output, $this->getProcesses())
+                ->outputProcessesState($output, $this->getProcesses());
 
-            usleep(100000);
+            usleep(10000);
         }
 
         return $this;
@@ -117,9 +117,9 @@ class ParallelProcessesApplication extends SingleCommandApplication
     protected function getExitCode(): int
     {
         $return = static::SUCCESS;
-        /** @var ParallelProcess $parallelProcess */
-        foreach ($this->getParallelProcesses()->toArray() as $parallelProcess) {
-            if ($parallelProcess->getProcess()->isSuccessful() === false) {
+        /** @var Process $process */
+        foreach ($this->getProcesses()->toArray() as $process) {
+            if ($process->isSuccessful() === false) {
                 $return = static::FAILURE;
                 break;
             }
