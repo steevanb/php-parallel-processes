@@ -2,9 +2,9 @@
 
 set -eu
 
-readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
-
 if type docker > /dev/null 2>&1; then
+    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
     docker \
         run \
             -it \
@@ -12,11 +12,9 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app \
             --user $(id -u):$(id -g) \
-            --entrypoint bin/ci/validate \
+            --entrypoint bin/ci/phpunit-php-7-4 \
             --workdir /app \
-            --env COMPOSER_HOME=/app/var/composer \
-            steevanb/php-ci:latest \
-            "${@}"
+            steevanb/php-parappel-process-php-7.4:latest
 else
-    php "${rootDir}"/bin/ci/validate.php "${@}"
+    vendor/bin/phpunit --configuration config/ci/phpunit.xml
 fi

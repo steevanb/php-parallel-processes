@@ -20,7 +20,7 @@ if type docker > /dev/null 2>&1; then
             --volume "${rootDir}":/app:ro \
             --volume "${rootDir}"/var/ci/phpcs:/app/var/ci/phpcs \
             --user $(id -u):$(id -g) \
-            --entrypoint /app/bin/ci/phpcs \
+            --entrypoint bin/ci/phpcs \
             --workdir /app \
             steevanb/php-ci:latest
 else

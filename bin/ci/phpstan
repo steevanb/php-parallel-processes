@@ -11,7 +11,7 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app \
             --user $(id -u):$(id -g) \
-            --entrypoint /app/bin/ci/phpstan \
+            --entrypoint bin/ci/phpstan \
             --workdir /app \
             steevanb/php-ci:latest
 else
