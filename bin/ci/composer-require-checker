@@ -10,7 +10,7 @@ if type docker > /dev/null 2>&1; then
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
-            --entrypoint /app/bin/ci/composer-require-checker \
+            --entrypoint bin/ci/composer-require-checker \
             --workdir /app \
             steevanb/php-ci:latest
 else

@@ -64,3 +64,19 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: bin/ci/composer-validate
+
+    phpunit-php-7-4:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:phpunit-php-7.4
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: composer update
+            - run: bin/ci/phpunit-php-7-4

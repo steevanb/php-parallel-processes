@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+set -eu
+
+readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+
+"${rootDir}"/bin/ci/phpunit-php-7-4
