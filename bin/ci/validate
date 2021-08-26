@@ -12,7 +12,8 @@ if type docker > /dev/null 2>&1; then
             --volume "${rootDir}":/app \
             --entrypoint /app/bin/ci/validate \
             --workdir /app \
-            steevanb/php-ci:latest
+            steevanb/php-ci:latest \
+            "${@}"
 else
-    php "${rootDir}"/bin/ci/validate.php
+    php "${rootDir}"/bin/ci/validate.php "${@}"
 fi
