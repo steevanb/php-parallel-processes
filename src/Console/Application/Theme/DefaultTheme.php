@@ -6,15 +6,14 @@ namespace Steevanb\ParallelProcess\Console\Application\Theme;
 
 use Steevanb\ParallelProcess\{
     Console\Output\BufferedOutput,
-    Process\ParallelProcess,
-    Process\ParallelProcessArray
+    Process\Process,
+    Process\ProcessArray
 };
 use Symfony\Component\Console\{
     Color,
     Output\OutputInterface
 };
 use steevanb\PhpTypedArray\ScalarArray\StringArray;
-use Symfony\Component\Process\Process;
 
 class DefaultTheme implements ThemeInterface
 {
@@ -68,18 +67,18 @@ class DefaultTheme implements ThemeInterface
         return $this->stateErrorColor;
     }
 
-    public function resetOutput(OutputInterface $output, ParallelProcessArray $parallelProcesses): self
+    public function resetOutput(OutputInterface $output, ProcessArray $processes): self
     {
-        $output->write("\e[" . count($parallelProcesses) . "A\e[K");
+        $output->write("\e[" . count($processes) . "A\e[K");
 
         return $this;
     }
 
-    public function outputParallelProcessesState(OutputInterface $output, ParallelProcessArray $parallelProcesses): self
+    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self
     {
-        /** @var ParallelProcess $parallelProcess */
-        foreach ($parallelProcesses->toArray() as $parallelProcess) {
-            $this->outputParallelProcessState($output, $parallelProcess);
+        /** @var Process $process */
+        foreach ($processes->toArray() as $process) {
+            $this->outputProcessState($output, $process);
         }
 
         $this->writeBufferedLines($output);
@@ -87,15 +86,15 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputSummary(OutputInterface $output, ParallelProcessArray $parallelProcesses): self
+    public function outputSummary(OutputInterface $output, ProcessArray $processes): self
     {
-        $this->resetOutput($output, $parallelProcesses);
+        $this->resetOutput($output, $processes);
 
-        /** @var ParallelProcess $parallelProcess */
-        foreach ($parallelProcesses->toArray() as $parallelProcess) {
+        /** @var Process $process */
+        foreach ($processes->toArray() as $process) {
             $this
-                ->outputParallelProcessState($output, $parallelProcess)
-                ->outputParallelProcessSummary($output, $parallelProcess);
+                ->outputProcessState($output, $process)
+                ->outputProcessSummary($output, $process);
         }
 
         $this->writeBufferedLines($output);
@@ -103,23 +102,23 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputParallelProcessSummary(OutputInterface $output, ParallelProcess $parallelProcess): self
+    protected function outputProcessSummary(OutputInterface $output, Process $process): self
     {
         $lines = new StringArray();
 
-        if ($parallelProcess->getProcess()->isSuccessful()) {
-            if ($parallelProcess->getStandardOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($parallelProcess->getProcess()->getErrorOutput(), $lines);
+        if ($process->isSuccessful()) {
+            if ($process->getStandardOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($process->getErrorOutput(), $lines);
             }
-            if ($parallelProcess->getErrorOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($parallelProcess->getProcess()->getOutput(), $lines);
+            if ($process->getErrorOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($process->getOutput(), $lines);
             }
         } else {
-            if ($parallelProcess->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($parallelProcess->getProcess()->getOutput(), $lines);
+            if ($process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($process->getOutput(), $lines);
             }
-            if ($parallelProcess->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($parallelProcess->getProcess()->getErrorOutput(), $lines);
+            if ($process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($process->getErrorOutput(), $lines);
             }
         }
 
@@ -157,13 +156,18 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputParallelProcessState(OutputInterface $output, ParallelProcess $parallelProcess): self
+    protected function outputProcessState(OutputInterface $output, Process $process): self
     {
-        $output->writeln(
-            $this->getProcessStateColor($parallelProcess->getProcess())->apply(' > ')
+        $state =
+            $this->getProcessStateColor($process)->apply(' > ')
             . ' '
-            . $parallelProcess->getName()
-        );
+            . $process->getName();
+
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE && $process->isStarted()) {
+            $state .= ' (' . $process->getExecutionTime() . 'ms)';
+        }
+
+        $output->writeln($state);
 
         return $this;
     }

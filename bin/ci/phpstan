@@ -15,5 +15,5 @@ if type docker > /dev/null 2>&1; then
             --workdir /app \
             steevanb/php-ci:latest
 else
-    phpstan analyse -c config/ci/phpstan.neon
+    phpstan analyse --ansi -c config/ci/phpstan.neon
 fi

@@ -6,14 +6,14 @@ namespace Steevanb\ParallelProcess\Process;
 
 use steevanb\PhpTypedArray\ObjectArray\ObjectArray;
 
-class ParallelProcessArray extends ObjectArray
+class ProcessArray extends ObjectArray
 {
     public function __construct(iterable $values = [])
     {
-        parent::__construct($values, ParallelProcess::class);
+        parent::__construct($values, Process::class);
     }
 
-    public function current(): ?ParallelProcess
+    public function current(): ?Process
     {
         return parent::current();
     }
