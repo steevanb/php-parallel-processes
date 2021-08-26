@@ -23,6 +23,9 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected ThemeInterface $theme;
 
+    /** Refresh time in microseconds */
+    protected int $refreshInterval = 10000;
+
     public function __construct(string $name = null)
     {
         parent::__construct($name);
@@ -55,6 +58,20 @@ class ParallelProcessesApplication extends SingleCommandApplication
     public function getTheme(): ThemeInterface
     {
         return $this->theme;
+    }
+
+    /** Set refresh interval in milliseconds */
+    public function setRefreshInterval(int $refreshInterval): self
+    {
+        $this->refreshInterval = $refreshInterval;
+
+        return $this;
+    }
+
+    /** Get refresh interval in milliseconds */
+    public function getRefreshInterval(): int
+    {
+        return $this->refreshInterval;
     }
 
     public function run(InputInterface $input = null, OutputInterface $output = null): int
@@ -108,7 +125,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
                 ->resetOutput($output, $this->getProcesses())
                 ->outputProcessesState($output, $this->getProcesses());
 
-            usleep(10000);
+            usleep($this->getRefreshInterval());
         }
 
         return $this;
