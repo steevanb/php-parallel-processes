@@ -23,6 +23,8 @@ class DefaultTheme implements ThemeInterface
 
     protected Color $stateErrorColor;
 
+    protected int $executionTimeVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+
     public function __construct()
     {
         $this
@@ -65,6 +67,18 @@ class DefaultTheme implements ThemeInterface
     public function getStateErrorColor(): Color
     {
         return $this->stateErrorColor;
+    }
+
+    public function setExecutionTimeVerbosity(int $executionTimeVerbosity): self
+    {
+        $this->executionTimeVerbosity = $executionTimeVerbosity;
+
+        return $this;
+    }
+
+    public function getExecutionTimeVerbosity(): int
+    {
+        return $this->executionTimeVerbosity;
     }
 
     public function resetOutput(OutputInterface $output, ProcessArray $processes): self
@@ -161,7 +175,7 @@ class DefaultTheme implements ThemeInterface
         $state = $this->getProcessStateColor($process)->apply(' > ') . ' ';
 
         $title = $process->getName();
-        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE && $process->isStarted()) {
+        if ($output->getVerbosity() >= $this->getExecutionTimeVerbosity() && $process->isStarted()) {
             $title .= ' (' . $process->getExecutionTime() . 'ms)';
         }
 
