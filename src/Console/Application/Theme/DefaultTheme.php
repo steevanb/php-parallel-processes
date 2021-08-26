@@ -13,6 +13,7 @@ use Symfony\Component\Console\{
     Color,
     Output\OutputInterface
 };
+use steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Process\Process;
 
 class DefaultTheme implements ThemeInterface
@@ -92,22 +93,66 @@ class DefaultTheme implements ThemeInterface
 
         /** @var ParallelProcess $parallelProcess */
         foreach ($parallelProcesses->toArray() as $parallelProcess) {
-            $this->outputParallelProcessState($output, $parallelProcess);
-
-            if ($parallelProcess->getProcess()->isSuccessful() === false) {
-                $outputs = explode(
-                    "\n",
-                    $parallelProcess->getProcess()->getOutput()
-                    . "\n"
-                    . $parallelProcess->getProcess()->getErrorOutput()
-                );
-                foreach ($outputs as $line) {
-                    $output->writeln('    ' . $line);
-                }
-            }
+            $this
+                ->outputParallelProcessState($output, $parallelProcess)
+                ->outputParallelProcessSummary($output, $parallelProcess);
         }
 
         $this->writeBufferedLines($output);
+
+        return $this;
+    }
+
+    protected function outputParallelProcessSummary(OutputInterface $output, ParallelProcess $parallelProcess): self
+    {
+        $lines = new StringArray();
+
+        if ($parallelProcess->getProcess()->isSuccessful()) {
+            if ($parallelProcess->getStandardOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($parallelProcess->getProcess()->getErrorOutput(), $lines);
+            }
+            if ($parallelProcess->getErrorOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($parallelProcess->getProcess()->getOutput(), $lines);
+            }
+        } else {
+            if ($parallelProcess->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($parallelProcess->getProcess()->getOutput(), $lines);
+            }
+            if ($parallelProcess->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput($parallelProcess->getProcess()->getErrorOutput(), $lines);
+            }
+        }
+
+        $this->removeLastEmptyLines($lines);
+
+        $output->writeln($lines);
+
+        return $this;
+    }
+
+    protected function mergeProcessOutput(string $processOutput, StringArray $lines): self
+    {
+        $lines->merge(
+            new StringArray(
+                array_map(
+                    fn(string $line): string => '    ' . $line,
+                    explode("\n", $processOutput)
+                )
+            )
+        );
+
+        return $this;
+    }
+
+    protected function removeLastEmptyLines(StringArray $lines): self
+    {
+        while (
+            $lines->count() >= 1
+            && is_string($lines[$lines->count() - 1])
+            && trim($lines[$lines->count() - 1]) === ''
+        ) {
+            unset($lines[$lines->count() - 1]);
+        }
 
         return $this;
     }

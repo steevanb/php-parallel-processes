@@ -6,6 +6,7 @@ use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
     Process\ParallelProcess
 };
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Process\Process;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
@@ -16,4 +17,4 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
     ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpcs'])))
     ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpdd'])))
     ->addParallelProcess(new ParallelProcess(new Process(['bin/ci/phpstan'])))
-    ->run();
+    ->run(new ArgvInput($argv));

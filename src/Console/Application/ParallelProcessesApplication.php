@@ -132,13 +132,4 @@ class ParallelProcessesApplication extends SingleCommandApplication
     {
         return new BufferedOutput();
     }
-
-    protected function writeBufferedLines(OutputInterface $output): self
-    {
-        if ($output instanceof BufferedOutput) {
-            $output->writeBufferedLines();
-        }
-
-        return $this;
-    }
 }
