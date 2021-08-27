@@ -20,13 +20,23 @@ class DefaultTheme implements ThemeInterface
 {
     protected Color $stateReadyColor;
 
+    protected string $stateReadyIcon = '>';
+
     protected Color $stateCanceledColor;
+
+    protected string $stateCanceledIcon = '*';
 
     protected Color $stateRunningColor;
 
+    protected string $stateRunningIcon = '▶';
+
     protected Color $stateSuccessfulColor;
 
+    protected string $stateSuccessfulIcon = '✓';
+
     protected Color $stateErrorColor;
+
+    protected string $stateErrorIcon = '✘';
 
     protected int $executionTimeVerbosity = OutputInterface::VERBOSITY_VERBOSE;
 
@@ -34,7 +44,7 @@ class DefaultTheme implements ThemeInterface
     {
         $this
             ->setStateReadyColor(new Color('white', 'magenta'))
-            ->setStateCanceledColor(new Color('white', 'yellow'))
+            ->setStateCanceledColor(new Color('black', 'yellow'))
             ->setStateRunningColor(new Color('white', 'blue'))
             ->setStateSuccessfulColor(new Color('white', 'green'))
             ->setStateErrorColor(new Color('white', 'red'));
@@ -52,6 +62,18 @@ class DefaultTheme implements ThemeInterface
         return $this->stateReadyColor;
     }
 
+    public function setStateReadyIcon(string $stateReadyIcon): self
+    {
+        $this->stateReadyIcon = $stateReadyIcon;
+
+        return $this;
+    }
+
+    public function getStateReadyIcon(): string
+    {
+        return $this->stateReadyIcon;
+    }
+
     public function setStateCanceledColor(Color $stateCanceledColor): self
     {
         $this->stateCanceledColor = $stateCanceledColor;
@@ -62,6 +84,18 @@ class DefaultTheme implements ThemeInterface
     public function getStateCanceledColor(): Color
     {
         return $this->stateCanceledColor;
+    }
+
+    public function setStateCanceledIcon(string $stateCanceledIcon): self
+    {
+        $this->stateCanceledIcon = $stateCanceledIcon;
+
+        return $this;
+    }
+
+    public function getStateCanceledIcon(): string
+    {
+        return $this->stateCanceledIcon;
     }
 
     public function setStateRunningColor(Color $stateRunningColor): self
@@ -76,6 +110,18 @@ class DefaultTheme implements ThemeInterface
         return $this->stateRunningColor;
     }
 
+    public function setStateRunningIcon(string $stateRunningIcon): self
+    {
+        $this->stateRunningIcon = $stateRunningIcon;
+
+        return $this;
+    }
+
+    public function getStateRunningIcon(): string
+    {
+        return $this->stateRunningIcon;
+    }
+
     public function setStateSuccessfulColor(Color $stateSuccessfulColor): self
     {
         $this->stateSuccessfulColor = $stateSuccessfulColor;
@@ -88,6 +134,18 @@ class DefaultTheme implements ThemeInterface
         return $this->stateSuccessfulColor;
     }
 
+    public function setStateSuccessfulIcon(string $stateSuccessfulIcon): self
+    {
+        $this->stateSuccessfulIcon = $stateSuccessfulIcon;
+
+        return $this;
+    }
+
+    public function getStateSuccessfulIcon(): string
+    {
+        return $this->stateSuccessfulIcon;
+    }
+
     public function setStateErrorColor(Color $stateErrorColor): self
     {
         $this->stateErrorColor = $stateErrorColor;
@@ -98,6 +156,18 @@ class DefaultTheme implements ThemeInterface
     public function getStateErrorColor(): Color
     {
         return $this->stateErrorColor;
+    }
+
+    public function setStateErrorIcon(string $stateErrorIcon): self
+    {
+        $this->stateErrorIcon = $stateErrorIcon;
+
+        return $this;
+    }
+
+    public function getStateErrorIcon(): string
+    {
+        return $this->stateErrorIcon;
     }
 
     public function setExecutionTimeVerbosity(int $executionTimeVerbosity): self
@@ -209,7 +279,7 @@ class DefaultTheme implements ThemeInterface
 
     protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): self
     {
-        $state = $this->getProcessStateColor($process)->apply(' > ') . ' ';
+        $state = $this->getProcessStateColor($process)->apply(' ' . $this->getProcessStateIcon($process) . ' ') . ' ';
 
         $title = $process->getName();
         if ($output->getVerbosity() >= $this->getExecutionTimeVerbosity() && $process->isStarted()) {
@@ -264,6 +334,25 @@ class DefaultTheme implements ThemeInterface
             $return = $this->getStateSuccessfulColor();
         } elseif ($process->isTerminated() && $process->isSuccessful() === false) {
             $return = $this->getStateErrorColor();
+        } else {
+            throw new \Exception('Unknown process state.');
+        }
+
+        return $return;
+    }
+
+    protected function getProcessStateIcon(Process $process): string
+    {
+        if ($process->isCanceled()) {
+            $return = $this->getStateCanceledIcon();
+        } elseif ($process->getStatus() === Process::STATUS_READY) {
+            $return = $this->getStateReadyIcon();
+        } elseif ($process->isRunning()) {
+            $return = $this->getStateRunningIcon();
+        } elseif ($process->isTerminated() && $process->isSuccessful()) {
+            $return = $this->getStateSuccessfulIcon();
+        } elseif ($process->isTerminated() && $process->isSuccessful() === false) {
+            $return = $this->getStateErrorIcon();
         } else {
             throw new \Exception('Unknown process state.');
         }
