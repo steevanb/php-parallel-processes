@@ -100,11 +100,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected function startProcesses(): self
     {
-        foreach ($this->getProcesses()->toArray() as $process) {
-            $process->start();
-        }
-
-        return $this;
+        return $this->startReadyProcesses();
     }
 
     protected function waitProcessesTermination(OutputInterface $output): self
@@ -113,12 +109,15 @@ class ParallelProcessesApplication extends SingleCommandApplication
         while ($terminated !== count($this->getProcesses())) {
             $terminated = 0;
 
-            /** @var Process $process */
             foreach ($this->getProcesses()->toArray() as $process) {
-                if ($process->isTerminated()) {
+                if ($process->isCanceled() || $process->isTerminated()) {
                     $terminated++;
                 }
             }
+
+            $this
+                ->startReadyProcesses()
+                ->defineCanceledProcesses();
 
             $this
                 ->getTheme()
@@ -131,10 +130,31 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
+    protected function defineCanceledProcesses(): self
+    {
+        foreach ($this->getProcesses()->getReady()->toArray() as $process) {
+            if ($process->getStartCondition()->isCanceled()) {
+                $process->setCanceled();
+            }
+        }
+
+        return $this;
+    }
+
+    protected function startReadyProcesses(): self
+    {
+        foreach ($this->getProcesses()->getReady()->toArray() as $readyProcess) {
+            if ($readyProcess->isCanceled() === false && $readyProcess->getStartCondition()->canBeStarted()) {
+                $readyProcess->start();
+            }
+        }
+
+        return $this;
+    }
+
     protected function getExitCode(): int
     {
         $return = static::SUCCESS;
-        /** @var Process $process */
         foreach ($this->getProcesses()->toArray() as $process) {
             if ($process->isSuccessful() === false) {
                 $return = static::FAILURE;
