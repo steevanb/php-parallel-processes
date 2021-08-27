@@ -68,7 +68,7 @@ jobs:
     phpunit-php-7-4:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:phpunit-php-7.4
+            image: steevanb/php-parallel-process:phpunit
         steps:
             - uses: actions/checkout@v2
             -
@@ -84,7 +84,7 @@ jobs:
     phpunit-php-8-0:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:phpunit-php-8.0
+            image: steevanb/php-parallel-process:phpunit
         steps:
             - uses: actions/checkout@v2
             -

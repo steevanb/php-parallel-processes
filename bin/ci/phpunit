@@ -4,5 +4,18 @@ set -eu
 
 readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
 
-"${rootDir}"/bin/ci/phpunit-php-7-4
-"${rootDir}"/bin/ci/phpunit-php-8-0
+if type docker > /dev/null 2>&1; then
+    docker \
+        run \
+            -it \
+            --tty \
+            --rm \
+            --volume "${rootDir}":/app \
+            --user $(id -u):$(id -g) \
+            --entrypoint bin/ci/phpunit \
+            --workdir /app \
+            steevanb/php-parallel-process:phpunit \
+            "${@}"
+else
+    php8.0 "${rootDir}"/bin/ci/phpunit.php "${@}"
+fi
