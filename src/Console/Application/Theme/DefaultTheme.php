@@ -6,6 +6,7 @@ namespace Steevanb\ParallelProcess\Console\Application\Theme;
 
 use Steevanb\ParallelProcess\{
     Console\Output\BufferedOutput,
+    Exception\ParallelProcessException,
     Process\Process,
     Process\ProcessArray
 };
@@ -17,6 +18,10 @@ use steevanb\PhpTypedArray\ScalarArray\StringArray;
 
 class DefaultTheme implements ThemeInterface
 {
+    protected Color $stateReadyColor;
+
+    protected Color $stateCanceledColor;
+
     protected Color $stateRunningColor;
 
     protected Color $stateSuccessfulColor;
@@ -28,9 +33,35 @@ class DefaultTheme implements ThemeInterface
     public function __construct()
     {
         $this
-            ->setStateRunningColor(new Color('white', 'magenta'))
+            ->setStateReadyColor(new Color('white', 'magenta'))
+            ->setStateCanceledColor(new Color('white', 'yellow'))
+            ->setStateRunningColor(new Color('white', 'blue'))
             ->setStateSuccessfulColor(new Color('white', 'green'))
             ->setStateErrorColor(new Color('white', 'red'));
+    }
+
+    public function setStateReadyColor(Color $stateReadyColor): self
+    {
+        $this->stateReadyColor = $stateReadyColor;
+
+        return $this;
+    }
+
+    public function getStateReadyColor(): Color
+    {
+        return $this->stateReadyColor;
+    }
+
+    public function setStateCanceledColor(Color $stateCanceledColor): self
+    {
+        $this->stateCanceledColor = $stateCanceledColor;
+
+        return $this;
+    }
+
+    public function getStateCanceledColor(): Color
+    {
+        return $this->stateCanceledColor;
     }
 
     public function setStateRunningColor(Color $stateRunningColor): self
@@ -90,7 +121,6 @@ class DefaultTheme implements ThemeInterface
 
     public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self
     {
-        /** @var Process $process */
         foreach ($processes->toArray() as $process) {
             $this->outputProcessState($output, $process);
         }
@@ -104,7 +134,6 @@ class DefaultTheme implements ThemeInterface
     {
         $this->resetOutput($output, $processes);
 
-        /** @var Process $process */
         foreach ($processes->toArray() as $process) {
             $this
                 ->outputProcessState($output, $process, true)
@@ -120,20 +149,28 @@ class DefaultTheme implements ThemeInterface
     {
         $lines = new StringArray();
 
-        if ($process->isSuccessful()) {
-            if ($process->getStandardOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($process->getErrorOutput(), $lines);
+        if ($process->isTerminated()) {
+            if ($process->isSuccessful()) {
+                if ($process->getStandardOutputVerbosity() <= $output->getVerbosity()) {
+                    $this->mergeProcessOutput($process->getErrorOutput(), $lines);
+                }
+                if ($process->getErrorOutputVerbosity() <= $output->getVerbosity()) {
+                    $this->mergeProcessOutput($process->getOutput(), $lines);
+                }
+            } else {
+                if ($process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
+                    $this->mergeProcessOutput($process->getOutput(), $lines);
+                }
+                if ($process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
+                    $this->mergeProcessOutput($process->getErrorOutput(), $lines);
+                }
             }
-            if ($process->getErrorOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($process->getOutput(), $lines);
+        } elseif ($process->isCanceled()) {
+            if ($process->getCanceledOutputVerbosity() <= $output->getVerbosity()) {
+                $this->mergeProcessOutput('Process has not beend started due to start conditions.', $lines);
             }
         } else {
-            if ($process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($process->getOutput(), $lines);
-            }
-            if ($process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($process->getErrorOutput(), $lines);
-            }
+            throw new ParallelProcessException('Unknown process state.');
         }
 
         $this->removeLastEmptyLines($lines);
@@ -196,13 +233,18 @@ class DefaultTheme implements ThemeInterface
     {
         return
             (
-                $process->isSuccessful()
+                $process->isCanceled()
+                && $process->getCanceledOutputVerbosity() <= $output->getVerbosity()
+            ) || (
+                $process->isTerminated()
+                && $process->isSuccessful()
                 && (
                     $process->getStandardOutputVerbosity() <= $output->getVerbosity()
                     || $process->getErrorOutputVerbosity() <= $output->getVerbosity()
                 )
             ) || (
-                $process->isSuccessful() === false
+                $process->isTerminated()
+                && $process->isSuccessful() === false
                 && (
                     $process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()
                     || $process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()
@@ -212,7 +254,11 @@ class DefaultTheme implements ThemeInterface
 
     protected function getProcessStateColor(Process $process): Color
     {
-        if ($process->getStatus() === Process::STATUS_READY || $process->isRunning()) {
+        if ($process->isCanceled()) {
+            $return = $this->getStateCanceledColor();
+        } elseif ($process->getStatus() === Process::STATUS_READY) {
+            $return = $this->getStateReadyColor();
+        } elseif ($process->isRunning()) {
             $return = $this->getStateRunningColor();
         } elseif ($process->isTerminated() && $process->isSuccessful()) {
             $return = $this->getStateSuccessfulColor();

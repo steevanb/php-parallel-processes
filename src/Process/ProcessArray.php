@@ -17,4 +17,23 @@ class ProcessArray extends ObjectArray
     {
         return parent::current();
     }
+
+    /** @return array<Process> */
+    public function toArray(): array
+    {
+        return parent::toArray();
+    }
+
+    public function getReady(): ProcessArray
+    {
+        $return = new ProcessArray();
+
+        foreach ($this->toArray() as $process) {
+            if ($process->getStatus() === Process::STATUS_READY) {
+                $return[] = $process;
+            }
+        }
+
+        return $return;
+    }
 }

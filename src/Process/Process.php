@@ -16,11 +16,17 @@ class Process extends SymfonyProcess
 
     protected int $errorOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
 
+    protected int $canceledOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+
     protected int $failureStandardOutputVerbosity = OutputInterface::VERBOSITY_NORMAL;
 
     protected int $failureErrorOutputVerbosity = OutputInterface::VERBOSITY_NORMAL;
 
     protected ?int $executionTime = null;
+
+    protected StartCondition $startCondition;
+
+    protected bool $canceled = false;
 
     /**
      * @param array<string> $command
@@ -36,6 +42,14 @@ class Process extends SymfonyProcess
         parent::__construct($command, $cwd, $env, $input, $timeout);
 
         $this->name = basename(trim($command[0], "'"));
+        $this->startCondition = new StartCondition();
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getName(): string
@@ -91,6 +105,18 @@ class Process extends SymfonyProcess
         return $this->failureErrorOutputVerbosity;
     }
 
+    public function setCanceledOutputVerbosity(int $canceledOutputVerbosity): self
+    {
+        $this->canceledOutputVerbosity = $canceledOutputVerbosity;
+
+        return $this;
+    }
+
+    public function getCanceledOutputVerbosity(): int
+    {
+        return $this->canceledOutputVerbosity;
+    }
+
     public function getExecutionTime(): int
     {
         if (is_int($this->executionTime) === false) {
@@ -98,6 +124,23 @@ class Process extends SymfonyProcess
         }
 
         return $this->executionTime;
+    }
+
+    public function getStartCondition(): StartCondition
+    {
+        return $this->startCondition;
+    }
+
+    public function setCanceled(bool $canceled = true): self
+    {
+        $this->canceled = $canceled;
+
+        return $this;
+    }
+
+    public function isCanceled(): bool
+    {
+        return $this->canceled;
     }
 
     /** @param array<string> $env */
