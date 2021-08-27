@@ -155,8 +155,17 @@ class ParallelProcessesApplication extends SingleCommandApplication
     protected function getExitCode(): int
     {
         $return = static::SUCCESS;
+
         foreach ($this->getProcesses()->toArray() as $process) {
-            if ($process->isSuccessful() === false) {
+            if (
+                (
+                    $process->isCanceled()
+                    && $process->isCanceledAsError()
+                ) || (
+                    $process->isTerminated()
+                    && $process->isSuccessful() === false
+                )
+            ) {
                 $return = static::FAILURE;
                 break;
             }

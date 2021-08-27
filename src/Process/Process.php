@@ -28,6 +28,8 @@ class Process extends SymfonyProcess
 
     protected bool $canceled = false;
 
+    protected bool $canceledAsError = true;
+
     /**
      * @param array<string> $command
      * @param array<string>|null $env
@@ -141,6 +143,18 @@ class Process extends SymfonyProcess
     public function isCanceled(): bool
     {
         return $this->canceled;
+    }
+
+    public function setCanceledAsError(bool $canceledAsError = true): self
+    {
+        $this->canceledAsError = $canceledAsError;
+
+        return $this;
+    }
+
+    public function isCanceledAsError(): bool
+    {
+        return $this->canceledAsError;
     }
 
     /** @param array<string> $env */
