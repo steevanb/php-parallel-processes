@@ -12,9 +12,9 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app \
             --user $(id -u):$(id -g) \
-            --entrypoint bin/ci/phpunit-php-7-4 \
+            --entrypoint bin/ci/phpunit-php-8-0 \
             --workdir /app \
-            steevanb/php-parallel-process:phpunit-php-7.4
+            steevanb/php-parallel-process:phpunit-php-8.0
 else
     vendor/bin/phpunit --configuration config/ci/phpunit.xml
 fi

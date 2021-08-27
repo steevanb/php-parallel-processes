@@ -40,6 +40,7 @@ for param in "$@"; do
 done
 
 buildDockerImage "7-4" "steevanb/php-parallel-process:phpunit-php-7.4"
+buildDockerImage "8-0" "steevanb/php-parallel-process:phpunit-php-8.0"
 
 if [ ${push} == true ]; then
     echo "Login to dockerhub."
@@ -47,4 +48,5 @@ if [ ${push} == true ]; then
     docker login --username=steevanb
 
     pushDockerImage "steevanb/php-parallel-process:phpunit-php-7.4"
+    pushDockerImage "steevanb/php-parallel-process:phpunit-php-8.0"
 fi

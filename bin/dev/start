@@ -5,3 +5,4 @@ set -eu
 readonly rootDir="$(realpath $(dirname $(realpath $0))/../..)"
 
 "${rootDir}"/bin/composer install
+"${rootDir}"/bin/ci/docker
