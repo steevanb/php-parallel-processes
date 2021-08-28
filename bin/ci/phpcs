@@ -2,7 +2,7 @@
 
 set -eu
 
-readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 createCacheDir() {
     if [ ! -d "${rootDir}"/var/ci/phpcs ]; then
@@ -20,7 +20,7 @@ if type docker > /dev/null 2>&1; then
             --volume "${rootDir}":/app:ro \
             --volume "${rootDir}"/var/ci/phpcs:/app/var/ci/phpcs \
             --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename $0)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci
 else

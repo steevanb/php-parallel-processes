@@ -3,14 +3,14 @@
 set -eu
 
 if type docker > /dev/null 2>&1; then
-    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+    readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
     docker \
         run \
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
-            --entrypoint bin/ci/"$(basename $0)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci
 else

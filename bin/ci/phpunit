@@ -2,7 +2,7 @@
 
 set -eu
 
-readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 if type docker > /dev/null 2>&1; then
     docker \
@@ -12,7 +12,7 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app \
             --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename $0)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci \
             "${@}"
