@@ -4,7 +4,7 @@ jobs:
     phpcs:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-ci:latest
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             - run: bin/ci/phpcs
@@ -12,7 +12,7 @@ jobs:
     phpstan:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-ci:latest
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             -
@@ -22,13 +22,13 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer update
+            - run: bin/composer update
             - run: bin/ci/phpstan
 
     phpdd:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-ci:latest
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             -
@@ -38,13 +38,13 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer update
+            - run: bin/composer update
             - run: bin/ci/phpdd
 
     composer-require-checker:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-ci:latest
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             -
@@ -54,21 +54,21 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer update
+            - run: bin/composer update
             - run: bin/ci/composer-require-checker
 
     composer-validate:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-ci:latest
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             - run: bin/ci/composer-validate
 
-    phpunit-php-7-4:
+    phpunit-php-7-4-symfony-5-0:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:phpunit
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             -
@@ -78,13 +78,13 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer update
-            - run: bin/ci/phpunit-php-7-4
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-7-4-symfony-5-0
 
-    phpunit-php-8-0:
+    phpunit-php-7-4-symfony-5-1:
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:phpunit
+            image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
             -
@@ -94,5 +94,101 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: composer update
-            - run: bin/ci/phpunit-php-8-0
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-7-4-symfony-5-1
+
+    phpunit-php-7-4-symfony-5-2:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-7-4-symfony-5-2
+
+    phpunit-php-7-4-symfony-5-3:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-7-4-symfony-5-3
+
+    phpunit-php-8-0-symfony-5-0:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-8-0-symfony-5-0
+
+    phpunit-php-8-0-symfony-5-1:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-8-0-symfony-5-1
+
+    phpunit-php-8-0-symfony-5-2:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-8-0-symfony-5-2
+
+    phpunit-php-8-0-symfony-5-3:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/composer update
+            - run: bin/ci/phpunit-php-8-0-symfony-5-3

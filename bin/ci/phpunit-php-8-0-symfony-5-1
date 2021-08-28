@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+set -eu
+
+readonly ROOT_DIR=$(realpath $(dirname $(realpath $0))/../..)
+
+if ! type docker > /dev/null 2>&1; then
+    readonly PHP_BIN="php8.0"
+    readonly COMPOSER_HOME_SYMFONY="${COMPOSER_HOME_SYMFONY_5_1}"
+fi
+
+. "${ROOT_DIR}"/bin/ci/phpunit-php.common.sh

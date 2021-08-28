@@ -1,25 +1,30 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -eu
 
 readonly rootDir="$(realpath $(dirname $(realpath $0))/..)"
 
-if [ -f "${rootDir}/composer.lock" ]; then
-    rm "${rootDir}/composer.lock"
-fi
+removeComposerLock() {
+    if [ -f "${rootDir}/composer.lock" ]; then
+        rm "${rootDir}/composer.lock"
+    fi
+}
 
-docker \
-    run \
-        --rm \
-        --interactive \
-        --tty \
-        --volume "${rootDir}":/app \
-        --user $(id -u):$(id -g) \
-        --workdir /app \
-        --env COMPOSER_HOME=/app/var/composer \
-        composer:2.1.6 \
-        composer $@
-
-if [ -f "${rootDir}/composer.lock" ]; then
-    rm "${rootDir}/composer.lock"
+if type docker > /dev/null 2>&1; then
+    docker \
+        run \
+            --rm \
+            --interactive \
+            --tty \
+            --volume "${rootDir}":/app \
+            --user "$(id -u)":"$(id -g)" \
+            --entrypoint bin/"$(basename $0)" \
+            --workdir /app \
+            --env COMPOSER_HOME=/app/var/composer \
+            steevanb/php-parallel-process:ci \
+            "${@}"
+else
+    removeComposerLock
+    composer "${@}"
+    removeComposerLock
 fi

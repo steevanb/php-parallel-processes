@@ -16,7 +16,7 @@ function buildDockerImage() {
     DOCKER_BUILDKIT=1 \
         docker \
             build \
-                "${rootDir}"/docker/phpunit \
+                "${rootDir}"/docker/ci \
                 --tag="${dockerImageName}" \
                 ${refreshArguments}
 }
@@ -38,12 +38,12 @@ for param in "$@"; do
     fi
 done
 
-buildDockerImage "steevanb/php-parallel-process:phpunit"
+buildDockerImage "steevanb/php-parallel-process:ci"
 
 if [ ${push} == true ]; then
     echo "Login to dockerhub."
     docker logout
     docker login --username=steevanb
 
-    pushDockerImage "steevanb/php-parallel-process:phpunit"
+    pushDockerImage "steevanb/php-parallel-process:ci"
 fi

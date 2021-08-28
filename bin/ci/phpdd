@@ -10,9 +10,9 @@ if type docker > /dev/null 2>&1; then
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
-            --entrypoint bin/ci/phpdd \
+            --entrypoint bin/ci/"$(basename $0)" \
             --workdir /app \
-            steevanb/php-ci:latest
+            steevanb/php-parallel-process:ci
 else
     phpdd --ansi src
 fi
