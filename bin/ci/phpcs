@@ -19,10 +19,10 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app:ro \
             --volume "${rootDir}"/var/ci/phpcs:/app/var/ci/phpcs \
-            --user $(id -u):$(id -g) \
-            --entrypoint bin/ci/phpcs \
+            --user "$(id -u)":"$(id -g)" \
+            --entrypoint bin/ci/"$(basename $0)" \
             --workdir /app \
-            steevanb/php-ci:latest
+            steevanb/php-parallel-process:ci
 else
     createCacheDir
 
@@ -31,7 +31,7 @@ else
         --warning-severity=0 \
         --ignore=/vendor/,/var/ \
         --bootstrap=config/ci/phpcs.php \
-        --standard=/composer/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
+        --standard="${COMPOSER_HOME}"/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
         --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
         --cache=var/ci/phpcs/cache \
         .

@@ -10,11 +10,11 @@ if type docker > /dev/null 2>&1; then
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
-            --user $(id -u):$(id -g) \
-            --entrypoint bin/ci/composer-validate \
+            --user "$(id -u)":"$(id -g)" \
+            --entrypoint bin/ci/"$(basename $0)" \
             --workdir /app \
             --env COMPOSER_HOME=/app/var/composer \
-            steevanb/php-ci:latest
+            steevanb/php-parallel-process:ci
 else
     composer validate --ansi
 fi
