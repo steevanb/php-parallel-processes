@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+set -eu
+
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+
+if type docker > /dev/null 2>&1; then
+    docker \
+        run \
+            -it \
+            --tty \
+            --rm \
+            --volume "${ROOT_DIR}":/app \
+            --user "$(id -u)":"$(id -g)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
+            --workdir /app \
+            steevanb/php-parallel-process:ci
+else
+    set +e
+    XDEBUG_MODE=coverage \
+        php8.0 \
+            vendor/bin/phpunit \
+                --bootstrap "${COMPOSER_HOME_SYMFONY_5_3}"/vendor/autoload.php \
+                --coverage-xml var/ci/phpunit/coverage/xml \
+                --configuration config/ci/phpunit.xml \
+                > /dev/null
+    set -e
+
+    percent=$(php8.0 bin/ci/phpunit-coverage-percent.php)
+    wget -O - https://img.shields.io/badge/coverage-"${percent}"%25-success.png 2>/dev/null
+fi

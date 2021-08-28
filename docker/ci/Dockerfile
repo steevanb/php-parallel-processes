@@ -24,6 +24,10 @@ RUN \
         php8.0-mbstring \
         # For Composer
         curl zip php8.0-curl php8.0-zip \
+        # For coverage \
+        php8.0-xdebug \
+        # For bin/ci/phpunit-coverage-badge \
+        wget \
     && composer global require \
         phpstan/phpstan:0.12.* \
         phpstan/phpstan-deprecation-rules:0.12.* \

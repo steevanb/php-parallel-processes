@@ -1,0 +1,45 @@
+name: "Release"
+
+on:
+    push:
+        tags:
+            - "*"
+
+jobs:
+    build:
+        name: Create release
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/ci/env
+            -
+                name: Generate coverage badge
+                run: bin/ci/phpunit-coverage-badge > var/coverage.png
+            -
+                name: Create release
+                id: create_release
+                uses: actions/create-release@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    tag_name: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
+            -
+                name: Upload coverage.png
+                uses: actions/upload-release-asset@v1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                with:
+                    upload_url: ${{ steps.create_release.outputs.upload_url }}
+                    asset_path: var/coverage.png
+                    asset_name: coverage.png
+                    asset_content_type: image/png
