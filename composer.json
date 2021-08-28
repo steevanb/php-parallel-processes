@@ -27,6 +27,7 @@
         "symfony/process": "^5.0"
     },
     "require-dev": {
+        "ext-simplexml": "*",
         "phpunit/phpunit": "9.5.*",
         "symfony/var-dumper": "5.3.*"
     },

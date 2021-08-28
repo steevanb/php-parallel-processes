@@ -22,7 +22,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpstan
 
     phpdd:
@@ -38,7 +38,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpdd
 
     composer-require-checker:
@@ -54,7 +54,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/composer-require-checker
 
     composer-validate:
@@ -78,7 +78,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-7-4-symfony-5-0
 
     phpunit-php-7-4-symfony-5-1:
@@ -94,7 +94,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-7-4-symfony-5-1
 
     phpunit-php-7-4-symfony-5-2:
@@ -110,7 +110,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-7-4-symfony-5-2
 
     phpunit-php-7-4-symfony-5-3:
@@ -126,7 +126,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-7-4-symfony-5-3
 
     phpunit-php-8-0-symfony-5-0:
@@ -142,7 +142,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-8-0-symfony-5-0
 
     phpunit-php-8-0-symfony-5-1:
@@ -158,7 +158,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-8-0-symfony-5-1
 
     phpunit-php-8-0-symfony-5-2:
@@ -174,7 +174,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-8-0-symfony-5-2
 
     phpunit-php-8-0-symfony-5-3:
@@ -190,7 +190,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/composer update
+            - run: bin/ci/env
             - run: bin/ci/phpunit-php-8-0-symfony-5-3
 
     shellcheck:

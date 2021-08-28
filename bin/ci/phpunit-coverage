@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+set -eu
+
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+readonly HOST_ROOT_DIR_PATH="${ROOT_DIR}"/var/ci/host_root_dir.env
+
+if type docker > /dev/null 2>&1; then
+    echo "HOST_ROOT_DIR=${ROOT_DIR}" > "${HOST_ROOT_DIR_PATH}"
+
+    docker \
+        run \
+            -it \
+            --tty \
+            --rm \
+            --volume "${ROOT_DIR}":/app \
+            --user "$(id -u)":"$(id -g)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
+            --workdir /app \
+            steevanb/php-parallel-process:ci
+else
+    set +e
+    XDEBUG_MODE=coverage \
+        php8.0 \
+            vendor/bin/phpunit \
+                --bootstrap "${COMPOSER_HOME_SYMFONY_5_3}"/vendor/autoload.php \
+                --coverage-html var/ci/phpunit/coverage/html \
+                --configuration config/ci/phpunit.xml
+    set -e
+
+    . "${HOST_ROOT_DIR_PATH}"
+    printf "Open \e[33mfile://${HOST_ROOT_DIR}/var/ci/phpunit/coverage/html/index.html\e[0m in your browser to see code coverage results.\n"
+    rm "${HOST_ROOT_DIR_PATH}"
+fi
