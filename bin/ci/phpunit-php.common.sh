@@ -10,7 +10,7 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${ROOT_DIR}":/app \
             --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename $0)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci
 else

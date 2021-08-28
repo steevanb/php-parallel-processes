@@ -2,12 +2,12 @@
 
 set -eu
 
-readonly rootDir=$(realpath "$(dirname "$(realpath "$0")")/../..")
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 function buildDockerImage() {
     local dockerImageName="${1}"
 
-    if [ ${refresh} == true ]; then
+    if [ "${refresh}" == true ]; then
         local refreshArguments="--no-cache --pull"
     else
         local refreshArguments=
@@ -30,7 +30,7 @@ function pushDockerImage() {
 
 refresh=false
 push=false
-for param in "$@"; do
+for param in "${@}"; do
     if [ "${param}" == "--refresh" ]; then
         refresh=true
     elif [ "${param}" == "--push" ]; then
@@ -40,7 +40,7 @@ done
 
 buildDockerImage "steevanb/php-parallel-process:ci"
 
-if [ ${push} == true ]; then
+if [ "${push}" == true ]; then
     echo "Login to dockerhub."
     docker logout
     docker login --username=steevanb

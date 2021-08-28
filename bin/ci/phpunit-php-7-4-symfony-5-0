@@ -2,7 +2,7 @@
 
 set -eu
 
-readonly ROOT_DIR=$(realpath $(dirname $(realpath $0))/../..)
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 if ! type docker > /dev/null 2>&1; then
     readonly PHP_BIN="php7.4"

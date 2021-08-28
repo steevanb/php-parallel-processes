@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+set -eu
+
+if type docker > /dev/null 2>&1; then
+    readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+
+    docker \
+        run \
+            -it \
+            --rm \
+            --volume "${rootDir}":/app:ro \
+            --entrypoint /app/bin/ci/"$(basename "${0}")" \
+            --workdir /app \
+            steevanb/php-parallel-process:ci
+else
+    readonly binaries=(
+        bin/ci/composer-require-checker
+        bin/ci/composer-validate
+        bin/ci/docker
+        bin/ci/phpcs
+        bin/ci/phpdd
+        bin/ci/phpstan
+        bin/ci/phpunit
+        bin/ci/phpunit-php.common.sh
+        bin/ci/phpunit-php-7-4-symfony-5-0
+        bin/ci/phpunit-php-7-4-symfony-5-1
+        bin/ci/phpunit-php-7-4-symfony-5-2
+        bin/ci/phpunit-php-7-4-symfony-5-3
+        bin/ci/phpunit-php-8-0-symfony-5-0
+        bin/ci/phpunit-php-8-0-symfony-5-1
+        bin/ci/phpunit-php-8-0-symfony-5-2
+        bin/ci/phpunit-php-8-0-symfony-5-3
+        bin/ci/shellcheck
+        bin/ci/validate
+        bin/dev/start
+        bin/composer
+    )
+
+    exitCode=0
+    for binary in "${binaries[@]}"; do
+        set +e
+        # SC1090: Can't follow non-constant source. Use a directive to specify location.
+        # SC2034: COMPOSER_HOME_SYMFONY appears unused. Verify use (or export if used externally).
+        # SC2181: Check exit code directly with e.g. 'if mycmd;', not indirectly with $?.
+        shellcheck --color=always --exclude SC1090,SC2034,SC2181 "${binary}"
+        if [ ${?} != 0 ]; then
+            exitCode=1
+        fi
+        set -e
+    done
+
+    if [ "${exitCode}" == 0 ]; then
+        echo -e "\e[42m All files contains valid syntax. \e[0m"
+    fi
+    exit ${exitCode}
+fi

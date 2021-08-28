@@ -192,3 +192,11 @@ jobs:
                     restore-keys: composer-${{ hashFiles('composer.json') }}
             - run: bin/composer update
             - run: bin/ci/phpunit-php-8-0-symfony-5-3
+
+    shellcheck:
+        runs-on: ubuntu-latest
+        container:
+            image: steevanb/php-parallel-process:ci
+        steps:
+            - uses: actions/checkout@v2
+            - run: bin/ci/shellcheck

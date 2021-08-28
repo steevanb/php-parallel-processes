@@ -3,7 +3,7 @@
 set -eu
 
 if type docker > /dev/null 2>&1; then
-    readonly rootDir=$(realpath $(dirname $(realpath $0))/../..)
+    readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
     docker \
         run \
@@ -11,7 +11,7 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${rootDir}":/app:ro \
             --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename $0)" \
+            --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             --env COMPOSER_HOME=/app/var/composer \
             steevanb/php-parallel-process:ci
