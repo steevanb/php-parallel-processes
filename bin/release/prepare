@@ -4,12 +4,12 @@ set -eu
 
 readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 readonly version="${1}"
-readonly gitBranch="release-${version}"
-readonly logFilePath="${rootDir}/var/ci/prepare-release.log"
+readonly logFilePath="${rootDir}/var/ci"
+readonly logFilename="${logFilePath}/prepare-release.log"
 
 function onError() {
-    if [ -f "${logFilePath}" ]; then
-        cat "${logFilePath}"
+    if [ -f "${logFilename}" ]; then
+        cat "${logFilename}"
     fi
 
     echo -e "\e[41m Error. \e[0m"
@@ -18,8 +18,12 @@ function onError() {
 trap onError ERR
 
 function init-log() {
-    if [ -f "${logFilePath}" ]; then
-        rm "${logFilePath}"
+    if [ ! -d "${logFilePath}" ]; then
+        mkdir -p "${logFilePath}"
+    fi
+
+    if [ -f "${logFilename}" ]; then
+        rm "${logFilename}"
     fi
 }
 
@@ -42,36 +46,5 @@ function edit-readme() {
     sed -i "3s/.*/${codeLinesBadge}/" "${rootDir}"/README.md
 }
 
-function git-release-branch() {
-    trap onError ERR
-
-    readonly currentGitBranch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' -e 's/(//g' -e 's/)//g')
-
-    if [ "${currentGitBranch}" != "master" ]; then
-        echo -e "\e[41m Current branch is \"${currentGitBranch}\" but it shoud be \"master\". \e[0m"
-        exit 1
-    fi
-
-    echo "Update master"
-    git fetch >> "${logFilePath}" 2>&1
-    git rebase -p origin/master >> "${logFilePath}" 2>&1
-
-    echo "Create branch \"${gitBranch}\""
-    git checkout -b "${gitBranch}" >> "${logFilePath}" 2>&1
-}
-
-function create-pull-request() {
-    trap onError ERR
-
-    echo "Create pull request"
-    git add . >> "${logFilePath}" 2>&1
-    git commit -m "Release ${version}" >> "${logFilePath}" 2>&1
-    git push origin "${gitBranch}" >> "${logFilePath}" 2>&1
-
-    echo " > Go to https://github.com/steevanb/php-parallel-processes/pull/new/${gitBranch}."
-}
-
 init-log
-git-release-branch
 edit-readme
-create-pull-request
