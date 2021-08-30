@@ -5,7 +5,7 @@ set -eu
 readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 readonly version="${1}"
 readonly gitBranch="release-${version}"
-readonly logFilePath="${rootDir}/var/ci/release.log"
+readonly logFilePath="${rootDir}/var/ci/prepare-release.log"
 
 function onError() {
     if [ -f "${logFilePath}" ]; then
