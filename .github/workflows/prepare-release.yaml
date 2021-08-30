@@ -16,3 +16,12 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: bin/ci/prepare-release "${{ github.event.inputs.version }}"
+            -
+                name: Create PR
+                uses: peter-evans/create-pull-request@v3
+                with:
+                    title: Prepare release ${{ github.event.inputs.version }}
+                    commit-message: Prepare release ${{ github.event.inputs.version }}
+                    branch: release-foo
+                    delete-branch: true
+                    body: ''

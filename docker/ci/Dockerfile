@@ -3,10 +3,10 @@ FROM ubuntu:20.04
 COPY --from=composer:2.1.6 /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_HOME=/composer
-ENV COMPOSER_HOME_SYMFONY_5_0="/composer/symfony-5-0"
-ENV COMPOSER_HOME_SYMFONY_5_1="/composer/symfony-5-1"
-ENV COMPOSER_HOME_SYMFONY_5_2="/composer/symfony-5-2"
-ENV COMPOSER_HOME_SYMFONY_5_3="/composer/symfony-5-3"
+ENV COMPOSER_HOME_SYMFONY_5_0=/composer/symfony-5-0
+ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
+ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
+ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
 
 RUN \
     apt-get update \
@@ -17,6 +17,7 @@ RUN \
         bash \
         cloc \
         jq \
+        git \
         shellcheck \
         php7.4-cli \
         php7.4-dom \
@@ -30,6 +31,8 @@ RUN \
         php8.0-xdebug \
         # For bin/ci/phpunit-coverage-badge \
         wget \
+
+    # Install CI tools
     && composer global require \
         phpstan/phpstan:0.12.* \
         phpstan/phpstan-deprecation-rules:0.12.* \
@@ -43,16 +46,27 @@ RUN \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan /usr/local/bin/phpstan \
-    && COMPOSER_HOME=/composer/symfony-5-0 \
+
+    # Install Symfony components
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
         composer global require symfony/console:5.2.* symfony/process:5.0.* \
-    && COMPOSER_HOME=/composer/symfony-5-1 \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
         composer global require symfony/console:5.2.* symfony/process:5.1.* \
-    && COMPOSER_HOME=/composer/symfony-5-2 \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_2} \
         composer global require symfony/console:5.2.* symfony/process:5.2.* \
-    && COMPOSER_HOME=/composer/symfony-5-3 \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
         composer global require symfony/console:5.3.* symfony/process:5.3.* \
+
+    # Purge
     && apt-get purge -y software-properties-common \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
     && rm -rf /tmp/*
+
+RUN \
+    cd /tmp \
+    && wget https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_linux_amd64.deb
+RUN apt-get install -y gdebi-core
+RUN gdebi -n /tmp/gh_2.0.0_linux_amd64.deb
+RUN apt-get purge -y gdebi-core
