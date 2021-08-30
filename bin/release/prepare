@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+readonly version="${1}"
+readonly logFilePath="${rootDir}/var/release"
+readonly logFilename="${logFilePath}/prepare.log"
+
+function onError() {
+    if [ -f "${logFilename}" ]; then
+        cat "${logFilename}"
+    fi
+
+    echo -e "\e[41m Error. \e[0m"
+}
+
+trap onError ERR
+
+function init-log() {
+    if [ ! -d "${logFilePath}" ]; then
+        mkdir -p "${logFilePath}"
+    fi
+
+    if [ -f "${logFilename}" ]; then
+        rm "${logFilename}"
+    fi
+}
+
+function edit-readme() {
+    trap onError ERR
+
+    echo "Edit README.md"
+
+    readonly releaseBadge="[![version](https:\/\/img.shields.io\/badge\/version-${version}-success.svg)](https:\/\/github.com\/steevanb\/php-typed-array\/tree\/${version})"
+    sed -i "1s/.*/${releaseBadge}/" "${rootDir}"/README.md
+
+    readonly coverageBadge="![Code coverage](https:\/\/github.com\/steevanb\/php-parallel-processes\/releases\/download\/${version}\/coverage.png)"
+    sed -i "6s/.*/${coverageBadge}/" "${rootDir}"/README.md
+
+    readonly scrutinizerBadge="[![Scrutinizer](https:\/\/scrutinizer-ci.com\/g\/steevanb\/php-parallel-processes\/badges\/quality-score.png?t=${version})](https:\/\/scrutinizer-ci.com\/g\/steevanb\/php-parallel-processes)"
+    sed -i "7s/.*/${scrutinizerBadge}/" "${rootDir}"/README.md
+
+    readonly codeLines=$("${rootDir}"/bin/release/code-lines)
+    readonly codeLinesBadge="![Lines](https:\/\/img.shields.io\/badge\/code%20lines-${codeLines}-success.svg)"
+    sed -i "3s/.*/${codeLinesBadge}/" "${rootDir}"/README.md
+}
+
+init-log
+edit-readme
