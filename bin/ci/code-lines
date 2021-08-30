@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -eu
+
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+
+if type docker > /dev/null 2>&1; then
+    docker \
+        run \
+            -it \
+            --rm \
+            --volume "${rootDir}":/app:ro \
+            --entrypoint bin/ci/"$(basename "${0}")" \
+            --workdir /app \
+            steevanb/php-parallel-process:ci
+else
+    readonly lines=$(cloc \
+        --exclude-dir=var,vendor \
+        --json \
+        . | jq -r '.SUM'
+    )
+
+    readonly blankLines=$(echo "${lines}" | jq -r '.blank')
+    readonly commentLines=$(echo "${lines}" | jq -r '.comment')
+    readonly codeLines=$(echo "${lines}" | jq -r '.code')
+
+    echo -n $(("${blankLines}" + "${commentLines}" + "${codeLines}"))
+fi
