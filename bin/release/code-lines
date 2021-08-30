@@ -10,9 +10,9 @@ if type docker > /dev/null 2>&1; then
             -it \
             --rm \
             --volume "${rootDir}":/app:ro \
-            --entrypoint bin/ci/"$(basename "${0}")" \
+            --entrypoint bin/release/"$(basename "${0}")" \
             --workdir /app \
-            steevanb/php-parallel-process:ci
+            steevanb/php-parallel-process:release
 else
     readonly lines=$(cloc \
         --exclude-dir=var,vendor \

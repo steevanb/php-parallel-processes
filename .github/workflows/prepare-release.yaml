@@ -12,7 +12,16 @@ jobs:
         name: Prepare release
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:ci
+            image: steevanb/php-parallel-process:release
         steps:
             - uses: actions/checkout@v2
-            - run: bin/ci/prepare-release "${{ github.event.inputs.version }}"
+            - run: bin/release/prepare "${{ github.event.inputs.version }}"
+            -
+                name: Create PR
+                uses: peter-evans/create-pull-request@v3
+                with:
+                    title: Prepare release ${{ github.event.inputs.version }}
+                    commit-message: Prepare release ${{ github.event.inputs.version }}
+                    branch: release-${{ github.event.inputs.version }}
+                    delete-branch: true
+                    body: ''
