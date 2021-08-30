@@ -15,4 +15,4 @@ jobs:
             image: steevanb/php-parallel-process:ci
         steps:
             - uses: actions/checkout@v2
-            - run: bin/ci/prepare-release
+            - run: bin/ci/prepare-release "${{ github.event.inputs.version }}"
