@@ -10,7 +10,7 @@ jobs:
         name: Create release
         runs-on: ubuntu-latest
         container:
-            image: steevanb/php-parallel-process:ci
+            image: steevanb/php-parallel-process:release
         steps:
             - uses: actions/checkout@v2
             -

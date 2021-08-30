@@ -12,20 +12,20 @@ if type docker > /dev/null 2>&1; then
             --rm \
             --volume "${ROOT_DIR}":/app \
             --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename "${0}")" \
+            --entrypoint bin/release/"$(basename "${0}")" \
             --workdir /app \
-            steevanb/php-parallel-process:ci
+            steevanb/php-parallel-process:release
 else
     set +e
     XDEBUG_MODE=coverage \
-        php8.0 \
+        php \
             vendor/bin/phpunit \
                 --bootstrap "${COMPOSER_HOME_SYMFONY_5_3}"/vendor/autoload.php \
-                --coverage-xml var/ci/phpunit/coverage/xml \
+                --coverage-xml var/release/phpunit/coverage/xml \
                 --configuration config/ci/phpunit.xml \
-                > /dev/null
+                1>/dev/null \
+                2>&1
     set -e
 
-    percent=$(php8.0 bin/ci/phpunit-coverage-percent.php)
-    wget -O - https://img.shields.io/badge/coverage-"${percent}"%25-success.png 2>/dev/null
+    php bin/release/phpunit-coverage-percent.php
 fi
