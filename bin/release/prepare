@@ -47,6 +47,7 @@ function edit-coverage() {
     echo "Calculate coverage"
 
     readonly coveragePercent="$(${rootDir}/bin/release/phpunit-coverage)"
+    echo "Coverage: ${coveragePercent}%"
     readonly coverageBadge="![Coverage](https:\/\/img.shields.io\/badge\/coverage-${coveragePercent}%-success.svg)"
     sed -i "6s/.*/${coverageBadge}/" "${rootDir}"/README.md
 }

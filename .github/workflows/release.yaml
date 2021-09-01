@@ -1,13 +1,15 @@
-name: "Release"
+name: Release
 
 on:
-    push:
-        tags:
-            - "*"
+    workflow_dispatch:
+        inputs:
+            version:
+                description: Version
+                required: true
 
 jobs:
     build:
-        name: Create release
+        name: Release
         runs-on: ubuntu-latest
         container:
             image: steevanb/php-parallel-process:release
@@ -20,26 +22,31 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/ci/env
+            - run: bin/release/env
+            - run: bin/release/prepare "${{ github.event.inputs.version }}"
             -
-                name: Generate coverage badge
-                run: bin/ci/phpunit-coverage-badge > var/coverage.png
+                id: create-pull-request
+                name: Create pull request
+                uses: peter-evans/create-pull-request@v3
+                with:
+                    title: Release ${{ github.event.inputs.version }}
+                    commit-message: Release ${{ github.event.inputs.version }}
+                    branch: release-${{ github.event.inputs.version }}
+                    labels: Release
+                    delete-branch: true
+            -
+                name: Merge pull request
+                uses: juliangruber/merge-pull-request-action@v1
+                with:
+                    github-token: ${{ secrets.GITHUB_TOKEN }}
+                    number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
+                    method: rebase
             -
                 name: Create release
-                id: create_release
                 uses: actions/create-release@v1
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 with:
-                    tag_name: ${{ github.ref }}
-                    release_name: ${{ github.ref }}
-            -
-                name: Upload coverage.png
-                uses: actions/upload-release-asset@v1
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                with:
-                    upload_url: ${{ steps.create_release.outputs.upload_url }}
-                    asset_path: var/coverage.png
-                    asset_name: coverage.png
-                    asset_content_type: image/png
+                    tag_name: ${{ github.event.inputs.version }}
+                    release_name: ${{ github.event.inputs.version }}
+                    body: "[Changelog](changelog.md)"
