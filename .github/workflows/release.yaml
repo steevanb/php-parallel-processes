@@ -20,10 +20,7 @@ jobs:
                     path: vendor
                     key: composer-${{ hashFiles('composer.json') }}
                     restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/ci/env
-            -
-                name: Generate coverage badge
-                run: bin/ci/phpunit-coverage-badge > var/coverage.png
+            - run: bin/release/env
             -
                 name: Create release
                 id: create_release
@@ -33,13 +30,4 @@ jobs:
                 with:
                     tag_name: ${{ github.ref }}
                     release_name: ${{ github.ref }}
-            -
-                name: Upload coverage.png
-                uses: actions/upload-release-asset@v1
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                with:
-                    upload_url: ${{ steps.create_release.outputs.upload_url }}
-                    asset_path: var/coverage.png
-                    asset_name: coverage.png
-                    asset_content_type: image/png
+                    body: "[Changelog](changelog.md)"
