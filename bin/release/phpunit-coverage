@@ -22,9 +22,7 @@ else
             vendor/bin/phpunit \
                 --bootstrap "${COMPOSER_HOME_SYMFONY_5_3}"/vendor/autoload.php \
                 --coverage-xml var/release/phpunit/coverage/xml \
-                --configuration config/ci/phpunit.xml \
-                1>/dev/null \
-                2>&1
+                --configuration config/ci/phpunit.xml
     set -e
 
     php bin/release/phpunit-coverage-percent.php
