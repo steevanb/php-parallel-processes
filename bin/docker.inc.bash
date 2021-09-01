@@ -40,9 +40,5 @@ done
 buildDockerImage "${DOCKER_IMAGE_NAME}" "${DOCKER_FILE_PATH}"
 
 if [ "${push}" == true ]; then
-    echo "Login to dockerhub."
-    docker logout
-    docker login --username=steevanb
-
     pushDockerImage "${DOCKER_IMAGE_NAME}"
 fi
