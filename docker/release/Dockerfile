@@ -11,9 +11,14 @@ RUN \
         jq \
         git \
 
-    # Install Symfony components
+    # Install xdebug \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install xdebug-3.0.4 \
+    && docker-php-ext-enable xdebug \
+    && apk del .build-deps \
+
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
-        composer global require symfony/console:5.3.* symfony/process:5.3.*
-RUN \
+        composer global require symfony/console:5.3.* symfony/process:5.3.* \
+
     # Purge
-    rm -rf /tmp/*
+    && rm -rf /tmp/*

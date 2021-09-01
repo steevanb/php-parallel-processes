@@ -15,6 +15,7 @@ jobs:
             image: steevanb/php-parallel-process:release
         steps:
             - uses: actions/checkout@v2
+            - run: bin/release/env
             - run: bin/release/prepare "${{ github.event.inputs.version }}"
             -
                 name: Create PR
@@ -23,5 +24,3 @@ jobs:
                     title: Prepare release ${{ github.event.inputs.version }}
                     commit-message: Prepare release ${{ github.event.inputs.version }}
                     branch: release-${{ github.event.inputs.version }}
-                    delete-branch: true
-                    body: ''
