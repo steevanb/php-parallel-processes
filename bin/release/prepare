@@ -32,11 +32,8 @@ function edit-readme() {
 
     echo "Edit README.md"
 
-    readonly releaseBadge="[![version](https:\/\/img.shields.io\/badge\/version-${version}-success.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${version})"
+    readonly releaseBadge="[![Version](https:\/\/img.shields.io\/badge\/version-${version}-success.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${version})"
     sed -i "1s/.*/${releaseBadge}/" "${rootDir}"/README.md
-
-    readonly scrutinizerBadge="[![Scrutinizer](https:\/\/scrutinizer-ci.com\/g\/steevanb\/php-parallel-processes\/badges\/quality-score.png?t=${version})](https:\/\/scrutinizer-ci.com\/g\/steevanb\/php-parallel-processes)"
-    sed -i "7s/.*/${scrutinizerBadge}/" "${rootDir}"/README.md
 
     readonly codeLines=$("${rootDir}"/bin/release/code-lines)
     readonly codeLinesBadge="![Lines](https:\/\/img.shields.io\/badge\/code%20lines-${codeLines}-success.svg)"
