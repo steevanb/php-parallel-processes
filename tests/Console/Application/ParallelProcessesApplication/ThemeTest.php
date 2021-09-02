@@ -10,7 +10,7 @@ use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme
 };
 
-class ThemeTest extends TestCase
+final class ThemeTest extends TestCase
 {
     public function testSetTheme(): void
     {

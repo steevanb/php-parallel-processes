@@ -10,7 +10,7 @@ use Steevanb\ParallelProcess\{
     Process\Process
 };
 
-class ProcessTest extends TestCase
+final class ProcessTest extends TestCase
 {
     public function testAddProcess(): void
     {
