@@ -45,6 +45,7 @@ jobs:
                 name: Create release
                 uses: softprops/action-gh-release@v1
                 with:
+                    tag_name: ${{ github.event.inputs.version }}
                     release_name: ${{ github.event.inputs.version }}
                     body: "[Changelog](changelog.md)"
                     target_commitish: master
