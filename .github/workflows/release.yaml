@@ -41,14 +41,10 @@ jobs:
                     github-token: ${{ secrets.RELEASE_TOKEN }}
                     number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
                     method: rebase
-            # Don't create release too fast after merging, otherwise release will be on previous commit
-            - run: sleep 5
             -
                 name: Create release
-                uses: actions/create-release@v1
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                uses: softprops/action-gh-release@v1
                 with:
-                    tag_name: ${{ github.event.inputs.version }}
                     release_name: ${{ github.event.inputs.version }}
                     body: "[Changelog](changelog.md)"
+                    target_commitish: master
