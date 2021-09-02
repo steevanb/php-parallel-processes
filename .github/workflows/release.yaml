@@ -41,6 +41,8 @@ jobs:
                     github-token: ${{ secrets.RELEASE_TOKEN }}
                     number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
                     method: rebase
+            # Don't create release too fast after merging, otherwise release will be on previous commit
+            - run: sleep 1
             -
                 name: Create release
                 uses: actions/create-release@v1
