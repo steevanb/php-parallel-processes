@@ -3,7 +3,7 @@
 ![Lines](https://img.shields.io/badge/code%20lines-2487-success.svg)
 ![Total Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/steevanb/php-parallel-processes/CI)
-![Coverage](https://img.shields.io/badge/coverage-14%-success.svg)
+![Coverage](https://img.shields.io/badge/coverage--%25-success.svg)
 [![Scrutinizer](https://scrutinizer-ci.com/g/steevanb/php-parallel-processes/badges/quality-score.png?t=0.0.0)](https://scrutinizer-ci.com/g/steevanb/php-parallel-processes)
 
 # php-parallel-process
