@@ -65,22 +65,6 @@ jobs:
             - uses: actions/checkout@v2
             - run: bin/ci/composer-validate
 
-    phpunit-php-7-4-symfony-5-0:
-        runs-on: ubuntu-latest
-        container:
-            image: steevanb/php-parallel-process:ci
-        steps:
-            - uses: actions/checkout@v2
-            -
-                name: Composer cache
-                uses: actions/cache@v2
-                with:
-                    path: vendor
-                    key: composer-${{ hashFiles('composer.json') }}
-                    restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/ci/env
-            - run: bin/ci/phpunit-php-7-4-symfony-5-0
-
     phpunit-php-7-4-symfony-5-1:
         runs-on: ubuntu-latest
         container:
@@ -128,22 +112,6 @@ jobs:
                     restore-keys: composer-${{ hashFiles('composer.json') }}
             - run: bin/ci/env
             - run: bin/ci/phpunit-php-7-4-symfony-5-3
-
-    phpunit-php-8-0-symfony-5-0:
-        runs-on: ubuntu-latest
-        container:
-            image: steevanb/php-parallel-process:ci
-        steps:
-            - uses: actions/checkout@v2
-            -
-                name: Composer cache
-                uses: actions/cache@v2
-                with:
-                    path: vendor
-                    key: composer-${{ hashFiles('composer.json') }}
-                    restore-keys: composer-${{ hashFiles('composer.json') }}
-            - run: bin/ci/env
-            - run: bin/ci/phpunit-php-8-0-symfony-5-0
 
     phpunit-php-8-0-symfony-5-1:
         runs-on: ubuntu-latest
