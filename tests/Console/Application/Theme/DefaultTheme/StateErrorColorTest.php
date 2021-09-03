@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Color;
 
-final class StateReadyCanceledTest extends TestCase
+final class StateErrorColorTest extends TestCase
 {
     public function testDefaultValue(): void
     {
         $theme = new DefaultTheme();
 
-        static::assertInstanceOf(Color::class, $theme->getStateCanceledColor());
+        static::assertInstanceOf(Color::class, $theme->getStateErrorColor());
     }
 
     public function testSetter(): void
@@ -24,8 +24,8 @@ final class StateReadyCanceledTest extends TestCase
         static::assertSame(
             $color,
             (new DefaultTheme())
-                ->setStateCanceledColor($color)
-                ->getStateCanceledColor()
+                ->setStateErrorColor($color)
+                ->getStateErrorColor()
         );
     }
 }

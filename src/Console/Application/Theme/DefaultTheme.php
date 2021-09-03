@@ -184,7 +184,7 @@ class DefaultTheme implements ThemeInterface
 
     public function resetOutput(OutputInterface $output, ProcessArray $processes): self
     {
-        $output->write("\e[" . count($processes) . "A\e[K");
+        $output->write("\e[" . $processes->count() . "A\e[K");
 
         return $this;
     }
