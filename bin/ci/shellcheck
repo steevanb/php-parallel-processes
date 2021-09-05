@@ -23,6 +23,7 @@ readonly binaries=(
     bin/ci/composer-validate
     bin/ci/docker
     bin/ci/env
+    bin/ci/infection
     bin/ci/phpcs
     bin/ci/phpdd
     bin/ci/phpstan
