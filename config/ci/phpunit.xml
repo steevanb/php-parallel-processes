@@ -8,7 +8,7 @@
         </testsuite>
     </testsuites>
     <coverage
-        cacheDirectory="../../var/ci/phpunit/coverage/cache"
+        cacheDirectory="/app/var/ci/phpunit/coverage/cache"
         processUncoveredFiles="true"
     >
         <include>

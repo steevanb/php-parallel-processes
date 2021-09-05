@@ -187,9 +187,7 @@ class Process extends SymfonyProcess
     {
         $reflection = new \ReflectionProperty(SymfonyProcess::class, 'status');
         $reflection->setAccessible(true);
-        $return = $reflection->getValue($this);
-        $reflection->setAccessible(false);
 
-        return $return;
+        return $reflection->getValue($this);
     }
 }

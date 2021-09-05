@@ -37,11 +37,13 @@ RUN \
         wapmorgan/php-deprecation-detector:2.0.* \
         steevanb/php-code-sniffs:4.2.* \
         insolita/unused-scanner:2.3.* \
+        infection/infection:0.24.* \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan /usr/local/bin/phpstan \
     && ln -s ${COMPOSER_HOME}/vendor/bin/unused_scanner /usr/local/bin/unused-scanner \
+    && ln -s ${COMPOSER_HOME}/vendor/bin/infection /usr/local/bin/infection \
 
     # Install Symfony components
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
