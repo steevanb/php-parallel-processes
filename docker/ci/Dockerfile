@@ -14,6 +14,8 @@ RUN \
     && LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php \
     && apt-get install -y \
         bash \
+        # For GitHub Actions actions/checkout
+        git \
         shellcheck \
         php7.4-cli \
         php7.4-dom \
