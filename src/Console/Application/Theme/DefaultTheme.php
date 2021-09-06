@@ -202,8 +202,6 @@ class DefaultTheme implements ThemeInterface
 
     public function outputSummary(OutputInterface $output, ProcessArray $processes): self
     {
-        $this->resetOutput($output, $processes);
-
         foreach ($processes->toArray() as $process) {
             $this
                 ->outputProcessState($output, $process, true)
@@ -245,7 +243,9 @@ class DefaultTheme implements ThemeInterface
 
         $this->removeLastEmptyLines($lines);
 
-        $output->writeln($lines);
+        if ($lines->count() > 0) {
+            $output->writeln($lines);
+        }
 
         return $this;
     }
