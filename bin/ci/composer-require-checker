@@ -2,17 +2,20 @@
 
 set -eu
 
-if type docker > /dev/null 2>&1; then
-    readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${rootDir}/bin/common.inc.sh"
 
+if ! ${IS_IN_DOCKER}; then
     docker \
         run \
-            -it \
             --rm \
+            --tty \
+            ${DOCKER_INTERACTIVE_PARAMETER} \
             --volume "${rootDir}":/app:ro \
             --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci
-else
-    composer-require-checker --ansi
+    exit 0
 fi
+
+composer-require-checker --ansi

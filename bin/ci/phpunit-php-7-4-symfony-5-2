@@ -3,8 +3,9 @@
 set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${ROOT_DIR}"/bin/common.inc.sh
 
-if ! type docker > /dev/null 2>&1; then
+if ${IS_IN_DOCKER}; then
     readonly PHP_BIN="php7.4"
     readonly COMPOSER_HOME_SYMFONY="${COMPOSER_HOME_SYMFONY_5_2}"
 fi

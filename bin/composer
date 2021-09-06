@@ -3,6 +3,7 @@
 set -eu
 
 readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/..")"
+. "${rootDir}/bin/common.inc.sh"
 
 removeComposerLock() {
     if [ -f "${rootDir}/composer.lock" ]; then
@@ -10,12 +11,12 @@ removeComposerLock() {
     fi
 }
 
-if type docker > /dev/null 2>&1; then
+if ! ${IS_IN_DOCKER}; then
     docker \
         run \
             --rm \
-            --interactive \
             --tty \
+            ${DOCKER_INTERACTIVE_PARAMETER} \
             --volume "${rootDir}":/app \
             --user "$(id -u)":"$(id -g)" \
             --entrypoint bin/"$(basename "${0}")" \
@@ -23,8 +24,9 @@ if type docker > /dev/null 2>&1; then
             --env COMPOSER_HOME=/app/var/composer \
             steevanb/php-parallel-process:ci \
             "${@}"
-else
-    removeComposerLock
-    composer "${@}"
-    removeComposerLock
+    exit 0
 fi
+
+removeComposerLock
+composer "${@}"
+removeComposerLock
