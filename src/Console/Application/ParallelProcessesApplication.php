@@ -93,7 +93,10 @@ class ParallelProcessesApplication extends SingleCommandApplication
             ->startProcesses()
             ->waitProcessesTermination($output);
 
-        $this->getTheme()->outputSummary($output, $this->getProcesses());
+        $this
+            ->getTheme()
+            ->resetOutput($output, $this->getProcesses())
+            ->outputSummary($output, $this->getProcesses());
 
         return $this->getExitCode();
     }
