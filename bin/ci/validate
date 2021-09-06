@@ -3,19 +3,21 @@
 set -eu
 
 readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${rootDir}/bin/common.inc.sh"
 
-if type docker > /dev/null 2>&1; then
+if ! ${IS_IN_DOCKER}; then
     docker \
         run \
-            -it \
-            --tty \
             --rm \
+            --tty \
+            ${DOCKER_INTERACTIVE_PARAMETER} \
             --volume "${rootDir}":/app \
             --user "$(id -u)":"$(id -g)" \
             --entrypoint bin/ci/"$(basename "${0}")" \
             --workdir /app \
             steevanb/php-parallel-process:ci \
             "${@}"
-else
-    php "${rootDir}"/bin/ci/validate.php "${@}"
+    exit 0
 fi
+
+php "${rootDir}"/bin/ci/validate.php "${@}"

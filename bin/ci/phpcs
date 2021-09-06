@@ -3,6 +3,7 @@
 set -eu
 
 readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${rootDir}/bin/common.inc.sh"
 
 createCacheDir() {
     if [ ! -d "${rootDir}"/var/ci/phpcs ]; then
@@ -10,13 +11,13 @@ createCacheDir() {
     fi
 }
 
-if type docker > /dev/null 2>&1; then
+if ! ${IS_IN_DOCKER}; then
     createCacheDir
 
     docker \
         run \
-            -it \
-            --rm \
+            --tty \
+            ${DOCKER_INTERACTIVE_PARAMETER} \
             --volume "${rootDir}":/app:ro \
             --volume "${rootDir}"/var/ci/phpcs:/app/var/ci/phpcs \
             --user "$(id -u)":"$(id -g)" \
@@ -24,17 +25,18 @@ if type docker > /dev/null 2>&1; then
             --workdir /app \
             steevanb/php-parallel-process:ci \
             "${@}"
-else
-    createCacheDir
-
-    phpcs \
-        -p \
-        --warning-severity=0 \
-        --ignore=/vendor/,/var/ \
-        --bootstrap=config/ci/phpcs.php \
-        --standard="${COMPOSER_HOME}"/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
-        --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
-        --cache=var/ci/phpcs/cache \
-        . \
-        "${@}"
+    exit 0
 fi
+
+createCacheDir
+
+phpcs \
+    -p \
+    --warning-severity=0 \
+    --ignore=/vendor/,/var/ \
+    --bootstrap=config/ci/phpcs.php \
+    --standard="${COMPOSER_HOME}"/vendor/steevanb/php-code-sniffs/src/Steevanb/ruleset.xml \
+    --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
+    --cache=var/ci/phpcs/cache \
+    . \
+    "${@}"
