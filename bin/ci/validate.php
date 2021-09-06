@@ -16,11 +16,12 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
     ->addProcess(new Process([__DIR__ . '/phpcs']))
     ->addProcess(new Process([__DIR__ . '/phpdd']))
     ->addProcess(new Process([__DIR__ . '/phpstan']))
+    ->addProcess(new Process([__DIR__ . '/shellcheck']))
+    ->addProcess(new Process([__DIR__ . '/unused-scanner']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-1']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-2']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-3']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-1']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-2']))
     ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-3']))
-    ->addProcess(new Process([__DIR__ . '/shellcheck']))
     ->run(new ArgvInput($argv));
