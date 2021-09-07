@@ -5,7 +5,7 @@ parameters:
         - ../../src
     ignoreErrors:
         - '#no value type specified in iterable type Steevanb\\ParallelProcess\\Process\\Process#'
-        - '#Method Steevanb\\ParallelProcess\\Console\\Output\\BufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
+        - '#Method Steevanb\\ParallelProcess\\Console\\Output\\ConsoleBufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
         - '#Parameter \#2 \$env \(array\<string\>\) of method Steevanb\\ParallelProcess\\Process\\Process\:\:start\(\) should be contravariant with parameter \$env \(array\) of method Symfony\\Component\\Process\\Process\:\:start\(\)#'
 includes:
     - /composer/vendor/phpstan/phpstan-deprecation-rules/rules.neon

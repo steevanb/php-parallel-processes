@@ -7,7 +7,7 @@ namespace Steevanb\ParallelProcess\Console\Application;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
     Console\Application\Theme\ThemeInterface,
-    Console\Output\BufferedOutput,
+    Console\Output\ConsoleBufferedOutput,
     Process\Process,
     Process\ProcessArray
 };
@@ -179,6 +179,6 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected function createDefaultOutput(): OutputInterface
     {
-        return new BufferedOutput();
+        return new ConsoleBufferedOutput();
     }
 }
