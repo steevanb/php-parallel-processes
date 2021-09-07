@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Console\Application\Theme;
 
 use Steevanb\ParallelProcess\{
-    Console\Output\BufferedOutput,
+    Console\Output\ConsoleBufferedOutput,
     Exception\ParallelProcessException,
     Process\Process,
     Process\ProcessArray
@@ -362,7 +362,7 @@ class DefaultTheme implements ThemeInterface
 
     protected function writeBufferedLines(OutputInterface $output): self
     {
-        if ($output instanceof BufferedOutput) {
+        if ($output instanceof ConsoleBufferedOutput) {
             $output->writeBufferedLines();
         }
 

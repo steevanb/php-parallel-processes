@@ -10,7 +10,7 @@ use Symfony\Component\Console\{
     Output\OutputInterface
 };
 
-class TestOutput implements OutputInterface
+final class TestOutput implements OutputInterface
 {
     protected string $outputed = '';
 
