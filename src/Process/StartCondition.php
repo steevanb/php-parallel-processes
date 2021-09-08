@@ -14,14 +14,16 @@ class StartCondition
 
     public function __construct()
     {
-        $this->processesTerminated = new ProcessArray();
-        $this->processesSuccessful = new ProcessArray();
-        $this->processesFailed = new ProcessArray();
+        $this->processesTerminated = (new ProcessArray())->setReadOnly();
+        $this->processesSuccessful = (new ProcessArray())->setReadOnly();
+        $this->processesFailed = (new ProcessArray())->setReadOnly();
     }
 
     public function addProcessTerminated(Process $process): self
     {
+        $this->processesTerminated->setReadOnly(false);
         $this->processesTerminated[] = $process;
+        $this->processesTerminated->setReadOnly(true);
 
         return $this;
     }
@@ -33,7 +35,9 @@ class StartCondition
 
     public function addProcessSuccessful(Process $process): self
     {
+        $this->processesSuccessful->setReadOnly(false);
         $this->processesSuccessful[] = $process;
+        $this->processesSuccessful->setReadOnly(true);
 
         return $this;
     }
@@ -45,7 +49,9 @@ class StartCondition
 
     public function addProcessFailed(Process $process): self
     {
+        $this->processesFailed->setReadOnly(false);
         $this->processesFailed[] = $process;
+        $this->processesFailed->setReadOnly(true);
 
         return $this;
     }
