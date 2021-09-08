@@ -23,6 +23,7 @@ else
     readonly blankLines=$(echo "${lines}" | jq -r '.blank')
     readonly commentLines=$(echo "${lines}" | jq -r '.comment')
     readonly codeLines=$(echo "${lines}" | jq -r '.code')
+    readonly totalLines=$(("${blankLines}" + "${commentLines}" + "${codeLines}"))
 
-    echo -n $(("${blankLines}" + "${commentLines}" + "${codeLines}"))
+    php -r "echo number_format('${totalLines}');"
 fi
