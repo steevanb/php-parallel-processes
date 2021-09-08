@@ -7,11 +7,14 @@ namespace Steevanb\ParallelProcess\Tests\Process\StartCondition;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Process\Process,
-    Process\StartCondition
+    Process\StartCondition,
+    Tests\CreateLsProcessTrait
 };
 
 final class IsCanceledTest extends TestCase
 {
+    use CreateLsProcessTrait;
+
     public function testIsCanceled(): void
     {
         $startCondition = new StartCondition();
@@ -22,7 +25,7 @@ final class IsCanceledTest extends TestCase
     public function testHaveOneNotStartedNotSuccessful(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
 
         static::assertFalse($process->isSuccessful());
@@ -32,7 +35,7 @@ final class IsCanceledTest extends TestCase
     public function testHaveOneSuccessful(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessSuccessful($process);
 
@@ -75,7 +78,7 @@ final class IsCanceledTest extends TestCase
     public function testHaveOneNotFailed(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessFailed($process);
 

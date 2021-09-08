@@ -43,7 +43,7 @@ class Process extends SymfonyProcess
     ) {
         parent::__construct($command, $cwd, $env, $input, $timeout);
 
-        $this->name = basename(trim($command[0], "'"));
+        $this->setName(basename($command[0]));
         $this->startCondition = new StartCondition();
     }
 
@@ -122,7 +122,7 @@ class Process extends SymfonyProcess
     public function getExecutionTime(): int
     {
         if (is_int($this->executionTime) === false) {
-            throw new ParallelProcessException('Process must be started before calling "(' . __FUNCTION__ . ')".');
+            throw new ParallelProcessException('Process must be started before calling "' . __FUNCTION__ . '()".');
         }
 
         return $this->executionTime;
@@ -163,15 +163,6 @@ class Process extends SymfonyProcess
         parent::start($callback, $env);
 
         $this->executionTime = 0;
-    }
-
-    public function wait(callable $callback = null): int
-    {
-        $return = parent::wait($callback);
-
-        $this->executionTime = (int) ((microtime(true) - $this->getStartTime()) * 1000);
-
-        return $return;
     }
 
     protected function updateStatus(bool $blocking): void

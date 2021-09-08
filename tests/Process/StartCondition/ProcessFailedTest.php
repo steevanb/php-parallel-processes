@@ -6,16 +6,18 @@ namespace Steevanb\ParallelProcess\Tests\Process\StartCondition;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Process\Process,
-    Process\StartCondition
+    Process\StartCondition,
+    Tests\CreateLsProcessTrait
 };
 
 final class ProcessFailedTest extends TestCase
 {
+    use CreateLsProcessTrait;
+
     public function testAdd(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
 
         static::assertTrue($startCondition->getProcessesFailed()->isReadOnly());
         $startCondition->addProcessFailed($process);
