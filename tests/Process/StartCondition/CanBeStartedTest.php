@@ -7,11 +7,14 @@ namespace Steevanb\ParallelProcess\Tests\Process\StartCondition;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Process\Process,
-    Process\StartCondition
+    Process\StartCondition,
+    Tests\CreateLsProcessTrait
 };
 
 final class CanBeStartedTest extends TestCase
 {
+    use CreateLsProcessTrait;
+
     public function testCanBeStarted(): void
     {
         $startCondition = new StartCondition();
@@ -22,7 +25,7 @@ final class CanBeStartedTest extends TestCase
     public function testHaveOneNotTerminated(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $startCondition->addProcessTerminated($process);
 
         static::assertFalse($process->isTerminated());
@@ -32,7 +35,7 @@ final class CanBeStartedTest extends TestCase
     public function testHaveOneTerminated(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $process->run();
         $startCondition->addProcessTerminated($process);
 
@@ -43,7 +46,7 @@ final class CanBeStartedTest extends TestCase
     public function testHaveOneNotSuccessful(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
 
         static::assertFalse($process->isTerminated());
@@ -53,7 +56,7 @@ final class CanBeStartedTest extends TestCase
     public function testHaveOneSuccessful(): void
     {
         $startCondition = new StartCondition();
-        $process = new Process(['ls']);
+        $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessSuccessful($process);
 

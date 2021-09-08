@@ -6,16 +6,18 @@ namespace Steevanb\ParallelProcess\Tests\Process\ProcessArray;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Process\Process,
-    Process\ProcessArray
+    Process\ProcessArray,
+    Tests\CreateLsProcessTrait
 };
 
 final class GetReadyTest extends TestCase
 {
+    use CreateLsProcessTrait;
+
     public function testReady(): void
     {
-        $process1 = new Process(['ls']);
-        $process2 = new Process(['pwd']);
+        $process1 = $this->createLsProcess();
+        $process2 = $this->createLsProcess();
         $processes = new ProcessArray([$process1, $process2]);
 
         $process2->run();

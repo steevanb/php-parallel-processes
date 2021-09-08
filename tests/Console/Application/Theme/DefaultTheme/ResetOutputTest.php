@@ -9,12 +9,15 @@ use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
     Process\Process,
     Process\ProcessArray,
-    Tests\Console\Output\TestOutput
+    Tests\Console\Output\TestOutput,
+    Tests\CreateLsProcessTrait
 };
 use Symfony\Component\Process\Exception\LogicException;
 
 final class ResetOutputTest extends TestCase
 {
+    use CreateLsProcessTrait;
+
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
@@ -32,16 +35,16 @@ final class ResetOutputTest extends TestCase
 
         (new DefaultTheme())->resetOutput(
             new TestOutput(),
-            new ProcessArray(new Process(['ls']))
+            new ProcessArray($this->createLsProcess())
         );
     }
 
     public function testStarted(): void
     {
-        $process1 = new Process(['ls']);
+        $process1 = $this->createLsProcess();
         $process1->start();
 
-        $process2 = new Process(['ls']);
+        $process2 = $this->createLsProcess();
         $process2->start();
 
         $processes = new ProcessArray([$process1, $process2]);

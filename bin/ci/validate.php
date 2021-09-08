@@ -13,7 +13,6 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
 (new ParallelProcessesApplication())
     ->addProcess(new Process([__DIR__ . '/composer-require-checker']))
     ->addProcess(new Process([__DIR__ . '/composer-validate']))
-    ->addProcess(new Process([__DIR__ . '/infection']))
     ->addProcess(new Process([__DIR__ . '/phpcs']))
     ->addProcess(new Process([__DIR__ . '/phpdd']))
     ->addProcess(new Process([__DIR__ . '/phpstan']))
