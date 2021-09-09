@@ -171,12 +171,14 @@ class ParallelProcessesApplication extends SingleCommandApplication
         foreach ($this->getProcesses()->toArray() as $process) {
             if (
                 (
-                    $process->isCanceled()
-                    && $process->isCanceledAsError()
-                ) || (
-                    $process->isTerminated()
-                    && $process->isSuccessful() === false
-                )
+                    (
+                        $process->isCanceled()
+                        && $process->isCanceledAsError()
+                    ) || (
+                        $process->isTerminated()
+                        && $process->isSuccessful() === false
+                    )
+                ) && $process->isSpreadErrorToApplicationExitCode()
             ) {
                 $return = static::FAILURE;
                 break;

@@ -31,5 +31,6 @@ final class ConstructTest extends TestCase
         static::assertSame(32, $process->getFailureErrorOutputVerbosity());
         static::assertFalse($process->isCanceled());
         static::assertTrue($process->isCanceledAsError());
+        static::assertTrue($process->isSpreadErrorToApplicationExitCode());
     }
 }
