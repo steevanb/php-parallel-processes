@@ -8,6 +8,6 @@ parameters:
         - '#Method Steevanb\\ParallelProcess\\Console\\Output\\ConsoleBufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
         - '#Parameter \#2 \$env \(array\<string\>\) of method Steevanb\\ParallelProcess\\Process\\Process\:\:start\(\) should be contravariant with parameter \$env \(array\) of method Symfony\\Component\\Process\\Process\:\:start\(\)#'
 includes:
-    - /composer/vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - /composer/vendor/phpstan/phpstan-strict-rules/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-strict-rules/rules.neon
     - ../../vendor/steevanb/php-typed-array/bridge/Phpstan/rules.neon

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Steevanb\ParallelProcess\Console\Output;
 
-use Steevanb\ParallelProcess\Exception\ParallelProcessException;
 use steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\{
     Formatter\OutputFormatterInterface,
@@ -13,9 +12,9 @@ use Symfony\Component\Console\{
 };
 
 /**
- * Use this implementation of OutputInterface to avoid clipping of ConsoleOutput when multiple lines are written
+ * Use this implementation of OutputInterface to avoid clipping of ConsoleOutput when multiple lines are written.
  * Every calls to write() or writeln() are not written but stored.
- * Then you need to manually call writeBufferedLines() to effectively write lines
+ * Then you need to manually call writeBufferedLines() to effectively write lines.
  */
 class ConsoleBufferedOutput extends ConsoleOutput
 {

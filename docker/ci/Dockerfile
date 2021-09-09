@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 COPY --from=composer:2.1.6 /usr/bin/composer /usr/local/bin/composer
 
-ENV COMPOSER_HOME=/composer
+ENV COMPOSER_HOME=/composer/common
+ENV COMPOSER_HOME_SYMFONY_5_0=/composer/symfony-5-0
 ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
 ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
 ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
@@ -45,13 +46,15 @@ RUN \
     && ln -s ${COMPOSER_HOME}/vendor/bin/unused_scanner /usr/local/bin/unused-scanner \
     && ln -s ${COMPOSER_HOME}/vendor/bin/infection /usr/local/bin/infection \
 
-    # Install Symfony components
+    # Install Symfony components \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
+        composer global require symfony/process:5.0.* symfony/console:5.2.*  \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
-        composer global require symfony/console:5.2.* symfony/process:5.1.* \
+        composer global require symfony/process:5.1.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_2} \
-        composer global require symfony/console:5.2.* symfony/process:5.2.* \
+        composer global require symfony/process:5.2.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
-        composer global require symfony/console:5.3.* symfony/process:5.3.* \
+        composer global require symfony/process:5.3.* symfony/console:5.3.* \
 
     # Purge
     && apt-get purge -y software-properties-common \
