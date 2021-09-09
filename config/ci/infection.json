@@ -9,8 +9,7 @@
     },
     "tmpDir": "../../var/ci/infection",
     "logs": {
-        "text": "php://stdout"
-    },
-    "minMsi": 100,
-    "minCoveredMsi": 100
+        "text": "php://stdout",
+        "json": "var/ci/infection/logs.json"
+    }
 }

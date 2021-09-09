@@ -17,7 +17,7 @@ function onError() {
 
 trap onError ERR
 
-function init-log() {
+function initLog() {
     if [ ! -d "${logFilePath}" ]; then
         mkdir -p "${logFilePath}"
     fi
@@ -27,28 +27,51 @@ function init-log() {
     fi
 }
 
-function edit-readme() {
+function editReadme() {
     trap onError ERR
 
     echo "Edit README.md"
 
-    readonly releaseBadge="[![Version](https:\/\/img.shields.io\/badge\/version-${version}-success.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${version})"
+    local releaseBadge="[![Version](https:\/\/img.shields.io\/badge\/version-${version}-blueviolet.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${version})"
     sed -i "1s/.*/${releaseBadge}/" "${rootDir}"/README.md
 
-    readonly codeLines=$("${rootDir}"/bin/release/code-lines)
-    readonly codeLinesBadge="![Lines](https:\/\/img.shields.io\/badge\/code%20lines-${codeLines}-success.svg)"
+    local codeLines=
+    codeLines=$("${rootDir}"/bin/release/code-lines)
+    local codeLinesBadge="![Lines](https:\/\/img.shields.io\/badge\/code%20lines-${codeLines}-blue.svg)"
     sed -i "3s/.*/${codeLinesBadge}/" "${rootDir}"/README.md
 }
 
-function edit-coverage() {
+function editCoverage() {
     echo "Calculate coverage"
 
-    readonly coveragePercent="$(${rootDir}/bin/release/phpunit-coverage)"
+    local coveragePercent=
+    coveragePercent="$(${rootDir}/bin/release/phpunit-coverage)"
     echo "Coverage: ${coveragePercent}%"
-    readonly coverageBadge="![Coverage](https:\/\/img.shields.io\/badge\/coverage-${coveragePercent}%25-success.svg)"
-    sed -i "6s/.*/${coverageBadge}/" "${rootDir}"/README.md
+
+    local badge="![Coverage](https:\/\/img.shields.io\/badge\/coverage-${coveragePercent}%25-success.svg)"
+    sed -i "6s/.*/${badge}/" "${rootDir}"/README.md
 }
 
-init-log
-edit-readme
-edit-coverage
+function editInfection() {
+    echo "Calculate Infection MSI"
+
+    local logsPath="${rootDir}"/var/ci/infection/logs.json
+    if [ -f "${logsPath}" ]; then
+        rm "${logsPath}"
+    fi
+
+    "${rootDir}"/bin/ci/infection > /dev/null
+
+    local infectionMsiPercent=
+    infectionMsiPercent=$(jq -r ".stats.msi" < "${logsPath}")
+    infectionMsiPercent=$(printf "%.0f" "${infectionMsiPercent}")
+    echo "Infection MSI: ${infectionMsiPercent}%"
+
+    local badge="![Infection](https:\/\/img.shields.io\/badge\/infection-${infectionMsiPercent}%25-success.svg)"
+    sed -i "7s/.*/${badge}/" "${rootDir}"/README.md
+}
+
+initLog
+editReadme
+editCoverage
+editInfection
