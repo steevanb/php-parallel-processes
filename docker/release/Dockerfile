@@ -2,6 +2,7 @@ FROM php:8.0.10-cli-alpine3.14
 
 COPY --from=composer:2.1.6 /usr/bin/composer /usr/local/bin/composer
 
+ENV COMPOSER_HOME=/composer/common
 ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
 
 RUN \
@@ -17,6 +18,11 @@ RUN \
     && docker-php-ext-enable xdebug \
     && apk del .build-deps \
 
+    # Install infection
+    && composer global require infection/infection:0.24.* \
+    && ln -s ${COMPOSER_HOME}/vendor/bin/infection /usr/local/bin/infection \
+
+    # Install symfony components for coverage
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
         composer global require symfony/console:5.3.* symfony/process:5.3.* \
 
