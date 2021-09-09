@@ -165,18 +165,31 @@ class Process extends SymfonyProcess
         $this->executionTime = 0;
     }
 
+    public function getStartTime(): float
+    {
+        // Before symfony/process 5.1, getStartTime() does not exist but $this->starttime already exists and is private
+        try {
+            $return = parent::getStartTime();
+        } catch (\Throwable $exception) {
+            $return = $this->getParentPrivatePropertyValue('starttime');
+        }
+
+        return $return;
+    }
+
     protected function updateStatus(bool $blocking): void
     {
-        if ($this->isStarted() && $this->getPrivateStatusPropertyValue() !== static::STATUS_TERMINATED) {
+        if ($this->isStarted() && $this->getParentPrivatePropertyValue('status') !== static::STATUS_TERMINATED) {
             $this->executionTime = (int) ((microtime(true) - $this->getStartTime()) * 1000);
         }
 
         parent::updateStatus($blocking);
     }
 
-    protected function getPrivateStatusPropertyValue(): string
+    /** @return mixed */
+    protected function getParentPrivatePropertyValue(string $property)
     {
-        $reflection = new \ReflectionProperty(SymfonyProcess::class, 'status');
+        $reflection = new \ReflectionProperty(SymfonyProcess::class, $property);
         $reflection->setAccessible(true);
 
         return $reflection->getValue($this);

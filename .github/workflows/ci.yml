@@ -51,7 +51,7 @@ jobs:
         strategy:
             matrix:
                 php: [php-7-4, php-8-0]
-                symfony: [symfony-5-1, symfony-5-2, symfony-5-3]
+                symfony: [symfony-5-0, symfony-5-1, symfony-5-2, symfony-5-3]
         steps:
             - uses: actions/checkout@v2
             - uses: ./.github/actions/ci-env

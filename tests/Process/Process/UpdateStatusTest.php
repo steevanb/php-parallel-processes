@@ -43,7 +43,7 @@ final class UpdateStatusTest extends TestCase
         $process->mustRun();
 
         static::assertNull($reflection->getClosure($process)->call($process, false));
-        static::assertGreaterThanOrEqual(1, $process->getExecutionTime());
+        static::assertGreaterThanOrEqual(0, $process->getExecutionTime());
     }
 
     private function createReflection(Process $process): \ReflectionMethod
