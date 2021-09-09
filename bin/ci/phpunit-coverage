@@ -23,6 +23,7 @@ if ! ${IS_IN_DOCKER}; then
     exit 0
 fi
 
+echo "PHP 8.0 - Symfony 5.3"
 set +e
 XDEBUG_MODE=coverage \
     php8.0 \

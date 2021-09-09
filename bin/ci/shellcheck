@@ -29,13 +29,6 @@ readonly binaries=(
     bin/ci/phpstan
     bin/ci/phpunit
     bin/ci/phpunit-coverage
-    bin/ci/phpunit-php.common.sh
-    bin/ci/phpunit-php-7-4-symfony-5-1
-    bin/ci/phpunit-php-7-4-symfony-5-2
-    bin/ci/phpunit-php-7-4-symfony-5-3
-    bin/ci/phpunit-php-8-0-symfony-5-1
-    bin/ci/phpunit-php-8-0-symfony-5-2
-    bin/ci/phpunit-php-8-0-symfony-5-3
     bin/ci/shellcheck
     bin/ci/unused-scanner
     bin/ci/validate

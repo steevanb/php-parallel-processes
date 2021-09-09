@@ -6,17 +6,25 @@ use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
     Process\Process
 };
+use steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\Input\ArgvInput;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
+require __DIR__ . '/phpunit.inc.php';
+
+$phpVersion = null;
+$symfonyVersion = null;
+$applicationArgv = new StringArray();
+foreach ($argv as $arg) {
+    if (substr($arg, 0, 6) === '--php=') {
+        $phpVersion = substr($arg, 6);
+    } elseif (substr($arg, 0, 10) === '--symfony=') {
+        $symfonyVersion = substr($arg, 10);
+    } else {
+        $applicationArgv[] = $arg;
+    }
+}
 
 (new ParallelProcessesApplication())
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-0']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-1']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-2']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-7-4-symfony-5-3']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-0']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-1']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-2']))
-    ->addProcess(new Process([__DIR__ . '/phpunit-php-8-0-symfony-5-3']))
-    ->run(new ArgvInput($argv));
+    ->addProcesses(createPhpunitProcesses($phpVersion, $symfonyVersion))
+    ->run(new ArgvInput($applicationArgv->toArray()));
