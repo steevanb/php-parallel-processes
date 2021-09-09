@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -eu
 
@@ -20,4 +20,27 @@ if ! ${IS_IN_DOCKER}; then
     exit 0
 fi
 
-php8.0 "${rootDir}"/bin/ci/phpunit.php "${@}"
+phpVersion=
+symfonyVersion=
+phpunitParameters=
+for arg in "${@}"; do
+    if [ "${arg:0:6}" == "--php=" ]; then
+        phpVersion="${arg:6}"
+    elif [ "${arg:0:10}" == "--symfony=" ]; then
+        symfonyVersion="${arg:10}"
+    else
+        phpunitParameters="${phpunitParameters} ${arg}"
+    fi
+done
+
+if [ "${phpVersion}" == "" ] || [ "${symfonyVersion}" == "" ]; then
+    php8.0 "${rootDir}"/bin/ci/phpunit.php "${@}"
+else
+    echo "PHP ${phpVersion} - Symfony ${symfonyVersion}"
+
+    "php${phpVersion}" \
+        vendor/bin/phpunit \
+            --bootstrap "${COMPOSER_HOME_SYMFONY_5_0}"/vendor/autoload.php \
+            --configuration config/ci/phpunit.xml \
+            ${phpunitParameters}
+fi

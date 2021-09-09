@@ -12,7 +12,7 @@ use Steevanb\ParallelProcess\{
 
 final class ConstructTest extends TestCase
 {
-    public function testDefaultValues23(): void
+    public function testDefaultValues(): void
     {
         $process = new Process(['ls'], 'bar');
 

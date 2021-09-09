@@ -43,6 +43,15 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
+    public function addProcesses(ProcessArray $processes): self
+    {
+        foreach ($processes->toArray() as $process) {
+            $this->addProcess($process);
+        }
+
+        return $this;
+    }
+
     public function getProcesses(): ProcessArray
     {
         return $this->processes;
