@@ -30,6 +30,8 @@ class Process extends SymfonyProcess
 
     protected bool $canceledAsError = true;
 
+    protected bool $spreadErrorToApplicationExitCode = true;
+
     /**
      * @param array<string> $command
      * @param array<string>|null $env
@@ -155,6 +157,18 @@ class Process extends SymfonyProcess
     public function isCanceledAsError(): bool
     {
         return $this->canceledAsError;
+    }
+
+    public function setSpreadErrorToApplicationExitCode(bool $spreadErrorToApplicationExitCode = true): self
+    {
+        $this->spreadErrorToApplicationExitCode = $spreadErrorToApplicationExitCode;
+
+        return $this;
+    }
+
+    public function isSpreadErrorToApplicationExitCode(): bool
+    {
+        return $this->spreadErrorToApplicationExitCode;
     }
 
     /** @param array<string> $env */
