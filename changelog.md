@@ -1,5 +1,7 @@
 ### master
 
+### [0.2.0](../../compare/0.1.0...0.2.0) - 2021-09-11
+
 - Rework binaries
 - Update `composer require` documentation in `README.md` in GitHub Actions workflow `Release`
 
