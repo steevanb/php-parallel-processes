@@ -11,8 +11,6 @@ jobs:
     build:
         name: Release
         runs-on: ubuntu-latest
-        container:
-            image: steevanb/php-parallel-processes:release
         steps:
             - uses: actions/checkout@v2
             -
