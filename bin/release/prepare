@@ -72,10 +72,10 @@ function updateInfectionBadge() {
         rm "${logsPath}"
     fi
 
-    "${rootDir}"/bin/release/infection
+    "${rootDir}"/bin/release/infection > /dev/null
 
     if [ ! -f "${logsPath}" ]; then
-        echo "Unable to find infestion logs.json."
+        echo "Unable to find infection logs.json."
         ls -lah "${rootDir}"/var
         ls -lah "${rootDir}"/var/release
         ls -lah "${rootDir}"/var/release/infection

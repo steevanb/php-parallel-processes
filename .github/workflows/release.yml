@@ -11,8 +11,6 @@ jobs:
     build:
         name: Release
         runs-on: ubuntu-latest
-        container:
-            image: steevanb/php-parallel-processes:release
         steps:
             - uses: actions/checkout@v2
             -
@@ -34,16 +32,16 @@ jobs:
                     branch: release-${{ github.event.inputs.version }}
                     labels: Release
                     delete-branch: true
-            -
-                name: Merge pull request
-                uses: juliangruber/merge-pull-request-action@v1
-                with:
-                    github-token: ${{ secrets.RELEASE_TOKEN }}
-                    number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
-                    method: rebase
-            -
-                name: Create release
-                uses: softprops/action-gh-release@v1
-                with:
-                    tag_name: ${{ github.event.inputs.version }}
-                    body: "[Changelog](changelog.md)"
+#            -
+#                name: Merge pull request
+#                uses: juliangruber/merge-pull-request-action@v1
+#                with:
+#                    github-token: ${{ secrets.RELEASE_TOKEN }}
+#                    number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
+#                    method: rebase
+#            -
+#                name: Create release
+#                uses: softprops/action-gh-release@v1
+#                with:
+#                    tag_name: ${{ github.event.inputs.version }}
+#                    body: "[Changelog](changelog.md)"
