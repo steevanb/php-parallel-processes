@@ -9,3 +9,9 @@
 # php-parallel-process
 
 Work in progress ;)
+
+# Installation
+
+```
+composer require steevanb/php-parallel-processes ^0.1
+```

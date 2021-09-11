@@ -6,4 +6,11 @@ readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 . "${ROOT_DIR}"/bin/common.inc.sh
 . "${ROOT_DIR}"/bin/dockerise.inc.bash
 
-unused-scanner "${ROOT_DIR}"/config/ci/unused-scanner.php
+
+XDEBUG_MODE=coverage \
+    infection \
+        --configuration=config/ci/infection.json \
+        --threads=10 \
+        --only-covered \
+        --ansi \
+        "${@}"

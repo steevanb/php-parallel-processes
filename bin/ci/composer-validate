@@ -2,22 +2,8 @@
 
 set -eu
 
-readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
-. "${rootDir}/bin/common.inc.sh"
-
-if ! ${IS_IN_DOCKER}; then
-    docker \
-        run \
-            --rm \
-            --tty \
-            ${DOCKER_INTERACTIVE_PARAMETER} \
-            --volume "${rootDir}":/app \
-            --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/ci/"$(basename "${0}")" \
-            --workdir /app \
-            --env COMPOSER_HOME=/app/var/composer \
-            steevanb/php-parallel-process:ci
-    exit 0
-fi
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${ROOT_DIR}"/bin/common.inc.sh
+. "${ROOT_DIR}"/bin/dockerise.inc.bash
 
 composer validate --ansi --strict

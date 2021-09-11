@@ -2,28 +2,21 @@
 
 set -eu
 
-readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+. "${ROOT_DIR}"/bin/common.inc.sh
+BIN_DIR=bin/release \
+    DOCKER_IMAGE_NAME="${RELEASE_DOCKER_IMAGE_NAME}" \
+    . "${ROOT_DIR}"/bin/dockerise.inc.bash
 
-if type docker > /dev/null 2>&1; then
-    docker \
-        run \
-            -it \
-            --rm \
-            --volume "${rootDir}":/app:ro \
-            --entrypoint bin/release/"$(basename "${0}")" \
-            --workdir /app \
-            steevanb/php-parallel-process:release
-else
-    readonly lines=$(cloc \
-        --exclude-dir=var,vendor \
-        --json \
-        . | jq -r '.SUM'
-    )
+readonly lines=$(cloc \
+    --exclude-dir=var,vendor \
+    --json \
+    . | jq -r '.SUM'
+)
 
-    readonly blankLines=$(echo "${lines}" | jq -r '.blank')
-    readonly commentLines=$(echo "${lines}" | jq -r '.comment')
-    readonly codeLines=$(echo "${lines}" | jq -r '.code')
-    readonly totalLines=$(("${blankLines}" + "${commentLines}" + "${codeLines}"))
+readonly blankLines=$(echo "${lines}" | jq -r '.blank')
+readonly commentLines=$(echo "${lines}" | jq -r '.comment')
+readonly codeLines=$(echo "${lines}" | jq -r '.code')
+readonly totalLines=$(("${blankLines}" + "${commentLines}" + "${codeLines}"))
 
-    php -r "echo number_format('${totalLines}');"
-fi
+php -r "echo number_format('${totalLines}');"
