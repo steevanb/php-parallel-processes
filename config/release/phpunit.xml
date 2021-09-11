@@ -1,5 +1,5 @@
 <phpunit
-    cacheResultFile="../../var/ci/phpunit/.phpunit.result.cache"
+    cacheResultFile="../../var/release/phpunit/.phpunit.result.cache"
     colors="true"
 >
     <testsuites>
@@ -8,7 +8,7 @@
         </testsuite>
     </testsuites>
     <coverage
-        cacheDirectory="/app/var/ci/phpunit/coverage/cache"
+        cacheDirectory="/app/var/release/phpunit/coverage/cache"
         processUncoveredFiles="true"
     >
         <include>
