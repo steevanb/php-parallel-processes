@@ -72,7 +72,15 @@ function updateInfectionBadge() {
         rm "${logsPath}"
     fi
 
-    "${rootDir}"/bin/release/infection > /dev/null
+    "${rootDir}"/bin/release/infection
+
+    if [ ! -f "${logsPath}" ]; then
+        echo "Unable to find infestion logs.json."
+        ls -lah "${rootDir}"/var
+        ls -lah "${rootDir}"/var/release
+        ls -lah "${rootDir}"/var/release/infection
+        exit 1
+    fi
 
     local infectionMsiPercent=
     infectionMsiPercent=$(jq -r ".stats.msi" < "${logsPath}")

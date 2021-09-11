@@ -9,7 +9,6 @@
     },
     "tmpDir": "../../var/ci/infection",
     "logs": {
-        "text": "php://stdout",
-        "json": "var/ci/infection/logs.json"
+        "text": "php://stdout"
     }
 }
