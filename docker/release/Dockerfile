@@ -28,3 +28,5 @@ RUN \
 
     # Purge
     && rm -rf /tmp/*
+
+WORKDIR /app

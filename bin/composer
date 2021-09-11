@@ -2,30 +2,15 @@
 
 set -eu
 
-readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/..")"
-. "${rootDir}/bin/common.inc.sh"
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
+. "${ROOT_DIR}"/bin/common.inc.sh
+BIN_DIR=bin COMPOSER_HOME=/app/var/composer . "${ROOT_DIR}"/bin/dockerise.inc.bash
 
 removeComposerLock() {
-    if [ -f "${rootDir}/composer.lock" ]; then
-        rm "${rootDir}/composer.lock"
+    if [ -f "${ROOT_DIR}"/composer.lock ]; then
+        rm "${ROOT_DIR}"/composer.lock
     fi
 }
-
-if ! ${IS_IN_DOCKER}; then
-    docker \
-        run \
-            --rm \
-            --tty \
-            ${DOCKER_INTERACTIVE_PARAMETER} \
-            --volume "${rootDir}":/app \
-            --user "$(id -u)":"$(id -g)" \
-            --entrypoint bin/"$(basename "${0}")" \
-            --workdir /app \
-            --env COMPOSER_HOME=/app/var/composer \
-            steevanb/php-parallel-process:ci \
-            "${@}"
-    exit 0
-fi
 
 removeComposerLock
 composer "${@}"

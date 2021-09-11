@@ -15,9 +15,12 @@ function buildDockerImage() {
     DOCKER_BUILDKIT=1 \
         docker \
             build \
-                "${dockerFilePath}" \
+                --file "${dockerFilePath}" \
                 --tag="${dockerImageName}" \
-                ${refreshArguments}
+                --build-arg DOCKER_UID="$(id -u)" \
+                --build-arg DOCKER_GID="$(id -g)" \
+                ${refreshArguments} \
+                "${ROOT_DIR}"
 }
 
 function pushDockerImage() {
