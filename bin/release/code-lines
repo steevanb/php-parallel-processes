@@ -9,7 +9,7 @@ BIN_DIR=bin/release \
     . "${ROOT_DIR}"/bin/dockerise.inc.bash
 
 readonly lines=$(cloc \
-    --exclude-dir=var,vendor \
+    --exclude-dir=.idea,var,vendor \
     --json \
     . | jq -r '.SUM'
 )
