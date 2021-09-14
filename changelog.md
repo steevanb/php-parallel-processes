@@ -1,5 +1,7 @@
 ### master
 
+- Fix `bin/release/code-lines` who find code lines in `.idea` (directory of PhpStorm)
+
 ### [0.2.0](../../compare/0.1.0...0.2.0) - 2021-09-11
 
 - Rework binaries
