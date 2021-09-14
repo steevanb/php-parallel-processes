@@ -7,8 +7,5 @@
     "mutators": {
         "@default": true
     },
-    "tmpDir": "../../var/ci/infection",
-    "logs": {
-        "text": "php://stdout"
-    }
+    "tmpDir": "../../var/ci/infection"
 }

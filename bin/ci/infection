@@ -9,8 +9,9 @@ readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 XDEBUG_MODE=coverage \
     infection \
-        --configuration=config/release/infection.json \
+        --configuration=config/ci/infection.json \
         --threads=10 \
         --only-covered \
+        --show-mutations \
         --ansi \
         "${@}"
