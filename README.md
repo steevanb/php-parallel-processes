@@ -6,7 +6,7 @@
 ![Coverage](https://img.shields.io/badge/coverage-75%25-success.svg)
 ![Infection](https://img.shields.io/badge/infection-80%25-success.svg)
 
-# php-parallel-process
+# php-parallel-processes
 
 Work in progress ;)
 
