@@ -59,7 +59,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
             if ($type === OutputInterface::OUTPUT_NORMAL) {
                 $message = $this->getFormatter()->format($message);
             } elseif ($type === OutputInterface::OUTPUT_PLAIN) {
-                $message = strip_tags($this->getFormatter()->format($message));
+                $message = strip_tags($this->getFormatter()->format($message) ?? '');
             }
 
             // Difference with original write() is here

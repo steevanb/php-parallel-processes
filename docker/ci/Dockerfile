@@ -23,7 +23,7 @@ RUN \
         php8.0-dom \
         php8.0-mbstring \
         # For Composer
-        curl zip php8.0-curl php8.0-zip \
+        curl zip php7.4-curl php7.4-zip \
         # For coverage \
         php8.0-xdebug \
 
