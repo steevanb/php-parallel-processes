@@ -38,6 +38,7 @@ RUN \
         wapmorgan/php-deprecation-detector:2.0.* \
         steevanb/php-code-sniffs:4.2.* \
         insolita/unused-scanner:2.3.* \
+        ergebnis/composer-normalize:2.18.* \
         infection/infection:0.24.* \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \

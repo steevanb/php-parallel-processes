@@ -21,6 +21,12 @@ jobs:
             - uses: ./.github/actions/ci-env
             - run: bin/ci/phpdd
 
+    composer-normalize:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: bin/ci/composer-normalize
+
     composer-require-checker:
         runs-on: ubuntu-latest
         steps:

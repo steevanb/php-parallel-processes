@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 (new ParallelProcessesApplication())
+    ->addProcess(new Process([__DIR__ . '/composer-normalize']))
     ->addProcess(new Process([__DIR__ . '/composer-require-checker']))
     ->addProcess(new Process([__DIR__ . '/composer-validate']))
     ->addProcess(new Process([__DIR__ . '/phpcs']))
