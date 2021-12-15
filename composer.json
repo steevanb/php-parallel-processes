@@ -1,14 +1,25 @@
 {
     "name": "steevanb/php-parallel-processes",
     "description": "Call processes in parallel",
-    "type": "library",
     "license": "Apache-2.0",
+    "type": "library",
     "authors": [
         {
             "name": "Steevan BARBOYON",
             "email": "steevan.barboyon@gmail.com"
         }
     ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "steevanb/php-typed-array": "^3.2",
+        "symfony/console": "^5.2",
+        "symfony/process": "^5.0"
+    },
+    "require-dev": {
+        "ext-simplexml": "*",
+        "phpunit/phpunit": "9.5.*",
+        "symfony/var-dumper": "5.3.*"
+    },
     "autoload": {
         "psr-4": {
             "Steevanb\\ParallelProcess\\": "src/"
@@ -19,17 +30,6 @@
             "steevanb\\PhpTypedArray\\Bridge\\Phpstan\\": "vendor/steevanb/php-typed-array/bridge/Phpstan/src",
             "Steevanb\\ParallelProcess\\Tests\\": "tests/"
         }
-    },
-    "require": {
-        "php": "^7.4||^8.0",
-        "steevanb/php-typed-array": "^3.2",
-        "symfony/console": "^5.2",
-        "symfony/process": "^5.0"
-    },
-    "require-dev": {
-        "ext-simplexml": "*",
-        "phpunit/phpunit": "9.5.*",
-        "symfony/var-dumper": "5.3.*"
     },
     "config": {
         "sort-packages": true
