@@ -16,7 +16,7 @@ function buildDockerImage() {
         docker \
             build \
                 --file "${dockerFilePath}" \
-                --tag="${dockerImageName}" \
+                --tag "${dockerImageName}" \
                 --build-arg DOCKER_UID="$(id -u)" \
                 --build-arg DOCKER_GID="$(id -g)" \
                 ${refreshArguments} \

@@ -15,3 +15,8 @@ Work in progress ;)
 ```
 composer require steevanb/php-parallel-processes ^0.2
 ```
+
+# Usage with Docker
+
+If you don't want to install it as dependency, you can use the official Docker image: 
+[steevanb/php-parallel-processes:parallel-process-x.y.z](https://hub.docker.com/r/steevanb/php-parallel-processes/tags?page=1&name=parallel-process).
