@@ -3,7 +3,7 @@
 set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
-. "${ROOT_DIR}"/bin/common.inc.sh
+. "${ROOT_DIR}"/bin/common.inc.bash
 . "${ROOT_DIR}"/bin/dockerise.inc.bash
 
 readonly binaries=(
@@ -25,7 +25,7 @@ readonly binaries=(
     bin/release/env
     bin/release/phpunit-coverage
     bin/release/prepare
-    bin/common.inc.sh
+    bin/common.inc.bash
     bin/composer
     bin/docker-build.inc.bash
     bin/dockerise.inc.bash
