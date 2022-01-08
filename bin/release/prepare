@@ -75,7 +75,7 @@ function updateInfectionBadge() {
     "${rootDir}"/bin/release/infection > /dev/null
 
     if [ ! -f "${logsPath}" ]; then
-        echo "Unable to find infection logs.json."
+        echo -e "\e[41mUnable to find infection logs.json.\e[0m"
         ls -lah "${rootDir}"/var
         ls -lah "${rootDir}"/var/release
         ls -lah "${rootDir}"/var/release/infection
