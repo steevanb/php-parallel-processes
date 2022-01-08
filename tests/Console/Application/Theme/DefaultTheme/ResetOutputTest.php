@@ -26,7 +26,7 @@ final class ResetOutputTest extends TestCase
             new ProcessArray()
         );
 
-        static::assertSame("\e[0A\e[K", $output->getOutputed());
+        static::assertSame('', $output->getOutputed());
     }
 
     public function testNotStarted(): void
@@ -53,6 +53,6 @@ final class ResetOutputTest extends TestCase
 
         (new DefaultTheme())->resetOutput($output, $processes);
 
-        static::assertSame("\e[2A\e[K", $output->getOutputed());
+        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
     }
 }
