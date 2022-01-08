@@ -26,6 +26,9 @@ RUN \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
         composer global require symfony/console:5.3.* symfony/process:5.3.* \
 
+    # Add symlink to make bin/composer works, do it better one day ;) \
+    && ln -s /usr/local/bin/php /usr/bin/php7.4 \
+
     # Purge
     && rm -rf /tmp/*
 
