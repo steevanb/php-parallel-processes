@@ -1,5 +1,7 @@
 ### master
 
+### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
+
 - Fix `bin/release/code-lines` who find code lines in `.idea` (directory of PhpStorm)
 - Fix output who was not fully rewritten sometimes
 
