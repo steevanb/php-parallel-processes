@@ -9,6 +9,6 @@ ENV COMPOSER_GLOBAL_AUTOLOAD_FILE_NAME=/composer/vendor/autoload.php
 RUN \
     apt-get update \
     && apt-get install -y bash unzip \
-    && composer global require steevanb/php-parallel-processes:0.2.0 \
+    && composer global require steevanb/php-parallel-processes:0.2.1 \
     && apt-get autoremove \
     && apt-get clean
