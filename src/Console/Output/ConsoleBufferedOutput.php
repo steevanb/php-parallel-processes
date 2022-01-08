@@ -13,7 +13,7 @@ use Symfony\Component\Console\{
 
 /**
  * Use this implementation of OutputInterface to avoid clipping of ConsoleOutput when multiple lines are written.
- * Every calls to write() or writeln() are not written but stored.
+ * Every call to write() or writeln() are not written but stored.
  * Then you need to manually call writeBufferedLines() to effectively write lines.
  */
 class ConsoleBufferedOutput extends ConsoleOutput
