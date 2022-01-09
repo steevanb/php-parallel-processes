@@ -45,3 +45,8 @@ jobs:
                 with:
                     tag_name: ${{ github.event.inputs.version }}
                     body: "[Changelog](changelog.md)"
+            -
+                name: Build and push Docker image parallel-processes-${{ github.event.inputs.version }}
+                uses: ./.github/actions/build-docker-image-parallel-processes
+                with:
+                    DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}

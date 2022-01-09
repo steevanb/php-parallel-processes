@@ -9,5 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login --username steevanb --password-stdin
-            - run: bin/parallel-processes/docker --push
+            -
+                uses: ./.github/actions/build-docker-image-parallel-processes
+                with:
+                    DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
