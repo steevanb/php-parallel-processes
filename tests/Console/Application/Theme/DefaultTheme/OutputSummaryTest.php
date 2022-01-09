@@ -7,12 +7,11 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
-    Process\Process,
+    Exception\ParallelProcessException,
     Process\ProcessArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
-use Symfony\Component\Process\Exception\LogicException;
 
 final class OutputSummaryTest extends TestCase
 {
@@ -31,11 +30,13 @@ final class OutputSummaryTest extends TestCase
 
     public function testNotStarted(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(ParallelProcessException::class);
+        $this->expectExceptionMessage('Unknown process state.');
+        $this->expectExceptionCode(0);
 
         (new DefaultTheme())->outputSummary(
             new TestOutput(),
-            new ProcessArray($this->createLsProcess())
+            new ProcessArray([$this->createLsProcess()])
         );
     }
 

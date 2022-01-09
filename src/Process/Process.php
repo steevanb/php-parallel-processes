@@ -171,7 +171,7 @@ class Process extends SymfonyProcess
         return $this->spreadErrorToApplicationExitCode;
     }
 
-    /** @param array<string> $env */
+    /** @param array<mixed> $env */
     public function start(callable $callback = null, array $env = []): void
     {
         parent::start($callback, $env);

@@ -7,12 +7,10 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
-    Process\Process,
     Process\ProcessArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
-use Symfony\Component\Process\Exception\LogicException;
 
 final class ResetOutputTest extends TestCase
 {
@@ -31,11 +29,9 @@ final class ResetOutputTest extends TestCase
 
     public function testNotStarted(): void
     {
-        $this->expectException(LogicException::class);
-
         (new DefaultTheme())->resetOutput(
             new TestOutput(),
-            new ProcessArray($this->createLsProcess())
+            new ProcessArray([$this->createLsProcess()])
         );
     }
 

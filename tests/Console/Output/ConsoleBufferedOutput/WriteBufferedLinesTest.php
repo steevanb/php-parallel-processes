@@ -17,7 +17,7 @@ final class WriteBufferedLinesTest extends TestCase
             ->getMock();
 
         $output
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('doWrite')
             ->with('foo', false);
 

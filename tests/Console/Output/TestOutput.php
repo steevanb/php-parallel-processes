@@ -30,12 +30,13 @@ final class TestOutput implements OutputInterface
     {
         if (is_string($messages)) {
             $this->outputed .= $messages;
+        /** @phpstan-ignore-next-line Call to function is_iterable() with iterable will always evaluate to true. */
         } elseif (is_iterable($messages)) {
             foreach ($messages as $message) {
                 $this->outputed .= $message;
             }
         } else {
-            throw new \Exception('Unknown $messages type.');
+            throw new \Exception('Unknown type for $messages.');
         }
 
         if ($newline) {

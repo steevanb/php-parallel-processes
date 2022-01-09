@@ -12,6 +12,8 @@ ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
 ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
 ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
 
+ENV PHPSTAN_BIN_PATH=/usr/local/bin/phpstan
+
 COPY docker/ci/global.composer.json ${COMPOSER_HOME}/composer.json
 
 RUN \
@@ -34,12 +36,14 @@ RUN \
         php8.0-xdebug \
 
     # Install CI tools
-    && composer global require \
-        phpstan/phpstan:0.12.* \
-        phpstan/phpstan-deprecation-rules:0.12.* \
-        phpstan/phpstan-phpunit:0.12.* \
-        phpstan/phpstan-strict-rules:0.12.* \
-        phpstan/phpstan-symfony:0.12.* \
+    && php7.4 /usr/local/bin/composer global require \
+        phpstan/phpstan:1.2.* \
+        phpstan/phpstan-deprecation-rules:1.0.* \
+        phpstan/phpstan-strict-rules:1.1. \
+        phpstan/phpstan-phpunit:1.0.* \
+        phpstan/phpstan-symfony:1.0.* \
+        spaze/phpstan-disallowed-calls:2.2.* \
+        ergebnis/phpstan-rules:1.0.* \
         maglnet/composer-require-checker:3.3.* \
         wapmorgan/php-deprecation-detector:2.0.* \
         steevanb/php-code-sniffs:4.2.* \
@@ -49,7 +53,7 @@ RUN \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
-    && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan /usr/local/bin/phpstan \
+    && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan ${PHPSTAN_BIN_PATH} \
     && ln -s ${COMPOSER_HOME}/vendor/bin/unused_scanner /usr/local/bin/unused-scanner \
     && ln -s ${COMPOSER_HOME}/vendor/bin/infection /usr/local/bin/infection \
 
@@ -59,7 +63,7 @@ RUN \
 
     # Install Symfony components \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
-        composer global require symfony/process:5.0.* symfony/console:5.2.*  \
+        composer global require symfony/process:5.0.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
         composer global require symfony/process:5.1.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_2} \

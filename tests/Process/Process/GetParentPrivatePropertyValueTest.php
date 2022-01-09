@@ -7,12 +7,14 @@ namespace Steevanb\ParallelProcess\Tests\Process\Process;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Process\Process,
-    Tests\CreateLsProcessTrait
+    Tests\CreateLsProcessTrait,
+    Tests\GetReflectionClosureTrait
 };
 
 final class GetParentPrivatePropertyValueTest extends TestCase
 {
     use CreateLsProcessTrait;
+    use GetReflectionClosureTrait;
 
     public function testVisibility(): void
     {
@@ -25,7 +27,7 @@ final class GetParentPrivatePropertyValueTest extends TestCase
         $reflection = $this->createReflection($process);
         $reflection->setAccessible(true);
 
-        static::assertSame('ready', $reflection->getClosure($process)->call($process, 'status'));
+        static::assertSame('ready', $this->getReflectionClosure($reflection, $process)->call($process, 'status'));
     }
 
     public function testStarttime(): void
@@ -37,7 +39,7 @@ final class GetParentPrivatePropertyValueTest extends TestCase
 
         static::assertLessThanOrEqual(
             microtime(true),
-            $reflection->getClosure($process)->call($process, 'starttime')
+            $this->getReflectionClosure($reflection, $process)->call($process, 'starttime')
         );
     }
 
