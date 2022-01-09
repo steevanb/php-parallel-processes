@@ -5,6 +5,7 @@
 - Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:release`
 - Create configurations for Docker images name
 - Create configuration for repository version
+- Create configuration for Composer version
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 

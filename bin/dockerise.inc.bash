@@ -9,21 +9,13 @@ else
 fi
 
 if ! ${isInDocker}; then
-    set +e
-    tty -s && isInteractiveShell=true || isInteractiveShell=false
-    set -e
-
-    if ${isInteractiveShell}; then
-        interactiveParameter="--interactive"
-    else
-        interactiveParameter=
-    fi
+    source "${ROOT_DIR}"/bin/docker-interactive-parameter.inc.bash
 
     docker \
         run \
             --rm \
             --tty \
-            ${interactiveParameter} \
+            ${DOCKER_INTERACTIVE_PARAMETER} \
             --volume "${ROOT_DIR}":/app \
             --user "$(id -u)":"$(id -g)" \
             --entrypoint "${BIN_DIR}"/"$(basename "${0}")" \

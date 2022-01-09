@@ -20,6 +20,7 @@ function buildDockerImage() {
                 --tag "${dockerImageName}" \
                 --build-arg DOCKER_UID="$(id -u)" \
                 --build-arg DOCKER_GID="$(id -g)" \
+                --build-arg COMPOSER_VERSION="${COMPOSER_VERSION}" \
                 ${refreshArguments} \
                 ${dockerBuildParams} \
                 "${ROOT_DIR}"

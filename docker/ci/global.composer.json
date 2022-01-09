@@ -1,0 +1,8 @@
+{
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true
+        }
+    }
+}
