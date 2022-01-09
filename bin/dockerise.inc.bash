@@ -8,14 +8,6 @@ else
     readonly isInDocker=true
 fi
 
-if [ -z "${BIN_DIR-}" ]; then
-    BIN_DIR="bin/ci"
-fi
-
-if [ -z "${DOCKER_IMAGE_NAME-}" ]; then
-    DOCKER_IMAGE_NAME="${CI_DOCKER_IMAGE_NAME}"
-fi
-
 if ! ${isInDocker}; then
     set +e
     tty -s && isInteractiveShell=true || isInteractiveShell=false

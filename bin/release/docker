@@ -3,7 +3,8 @@
 set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
-source "${ROOT_DIR}"/bin/common.inc.bash
+
+source "${ROOT_DIR}"/config/docker/release-docker-image-name.env
 
 DOCKER_IMAGE_NAME="${RELEASE_DOCKER_IMAGE_NAME}" \
     DOCKER_FILE_PATH="${ROOT_DIR}"/docker/release/Dockerfile \

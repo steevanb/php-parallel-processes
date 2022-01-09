@@ -5,6 +5,7 @@ set -eu
 function buildDockerImage() {
     local dockerImageName="${1}"
     local dockerFilePath="${2}"
+    local dockerBuildParams="${3}"
 
     if [ "${refresh}" == true ]; then
         local refreshArguments="--no-cache --pull"
@@ -20,6 +21,7 @@ function buildDockerImage() {
                 --build-arg DOCKER_UID="$(id -u)" \
                 --build-arg DOCKER_GID="$(id -g)" \
                 ${refreshArguments} \
+                ${dockerBuildParams} \
                 "${ROOT_DIR}"
 }
 
@@ -40,7 +42,7 @@ for param in "${@}"; do
     fi
 done
 
-buildDockerImage "${DOCKER_IMAGE_NAME}" "${DOCKER_FILE_PATH}"
+buildDockerImage "${DOCKER_IMAGE_NAME}" "${DOCKER_FILE_PATH}" "${DOCKER_BUILD_PARAMS:-}"
 
 if [ "${push}" == true ]; then
     pushDockerImage "${DOCKER_IMAGE_NAME}"
