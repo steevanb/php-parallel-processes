@@ -1,0 +1,13 @@
+name: Build Docker image release
+
+on:
+    workflow_dispatch: ~
+
+jobs:
+    build:
+        name: Build Docker image release
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login --username steevanb --password-stdin
+            - run: bin/release/docker --push

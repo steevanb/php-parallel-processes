@@ -7,4 +7,4 @@ source "${ROOT_DIR}"/bin/common.inc.bash
 
 DOCKER_IMAGE_NAME="${RELEASE_DOCKER_IMAGE_NAME}" \
     DOCKER_FILE_PATH="${ROOT_DIR}"/docker/release/Dockerfile \
-    source "${ROOT_DIR}"/bin/docker-build.inc.bash
+        source "${ROOT_DIR}"/bin/docker-build.inc.bash
