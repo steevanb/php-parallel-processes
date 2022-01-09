@@ -1,0 +1,17 @@
+name: build-docker-image-parallel-processes
+description: Build Docker image parallel-processes
+
+inputs:
+    DOCKER_HUB_TOKEN:
+        description: 'hub.docker.com token'
+        required: true
+
+runs:
+    using: composite
+    steps:
+        -
+            shell: bash
+            run: echo "${{ inputs.DOCKER_HUB_TOKEN }}" | docker login --username steevanb --password-stdin
+        -
+            shell: bash
+            run: bin/parallel-processes/docker --push

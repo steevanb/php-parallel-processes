@@ -1,10 +1,12 @@
 ### master
 
-- Automatically build and push Docker image `steevanb/php-parallel-processes:ci`
+- Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:ci`
+- Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:parallel-processes-x.y.z` and automatically call it on new release
+- Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:release`
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 
-- Fix `bin/release/code-lines` who find code lines in `.idea` (directory of PhpStorm)
+- Fix `bin/release/code-lines` who find code lines in `.idea` (directory of PHPStorm)
 - Fix output who was not fully rewritten sometimes
 
 ### [0.2.0](../../compare/0.1.0...0.2.0) - 2021-09-11
