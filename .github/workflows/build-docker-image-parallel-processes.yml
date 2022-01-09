@@ -1,13 +1,13 @@
-name: Build Docker image ci
+name: Build Docker image parallel-processes
 
 on:
     workflow_dispatch: ~
 
 jobs:
     build:
-        name: Build Docker image ci
+        name: Build Docker image parallel-processes
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
             - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login --username steevanb --password-stdin
-            - run: bin/ci/docker --push
+            - run: bin/parallel-processes/docker --push
