@@ -3,6 +3,8 @@
 - Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:ci`
 - Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:parallel-processes-x.y.z` and automatically call it on new release
 - Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:release`
+- Create configurations for Docker images name
+- Create configuration for repository version
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 

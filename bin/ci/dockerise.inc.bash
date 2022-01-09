@@ -2,12 +2,8 @@
 
 set -eu
 
-readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
-
 source "${ROOT_DIR}"/config/docker/ci-docker-image-name.env
 
-BIN_DIR=bin \
+BIN_DIR=bin/ci \
     DOCKER_IMAGE_NAME="${CI_DOCKER_IMAGE_NAME}" \
         source "${ROOT_DIR}"/bin/dockerise.inc.bash
-
-php7.4 /usr/local/bin/composer "${@}"

@@ -2,7 +2,7 @@
 
 set -eu
 
-readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/..")"
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
 
-"${rootDir}"/bin/ci/docker
-"${rootDir}"/bin/composer install
+"${ROOT_DIR}"/bin/ci/docker
+"${ROOT_DIR}"/bin/composer install

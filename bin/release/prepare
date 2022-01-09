@@ -2,14 +2,14 @@
 
 set -eu
 
-readonly rootDir="$(realpath "$(dirname "$(realpath "$0")")/../..")"
-readonly version="${1}"
-readonly logFilePath="${rootDir}/var/release"
-readonly logFilename="${logFilePath}/prepare.log"
+readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
+readonly NEW_REPOSITORY_VERSION="${1}"
+readonly LOG_FILE_PATH="${ROOT_DIR}/var/release"
+readonly LOG_FILE_PATHNAME="${LOG_FILE_PATH}/prepare.log"
 
 function onError() {
-    if [ -f "${logFilename}" ]; then
-        cat "${logFilename}"
+    if [ -f "${LOG_FILE_PATHNAME}" ]; then
+        cat "${LOG_FILE_PATHNAME}"
     fi
 
     echo -e "\e[41m Error. \e[0m"
@@ -20,12 +20,12 @@ trap onError ERR
 function initLog() {
     trap onError ERR
 
-    if [ ! -d "${logFilePath}" ]; then
-        mkdir -p "${logFilePath}"
+    if [ ! -d "${LOG_FILE_PATH}" ]; then
+        mkdir -p "${LOG_FILE_PATH}"
     fi
 
-    if [ -f "${logFilename}" ]; then
-        rm "${logFilename}"
+    if [ -f "${LOG_FILE_PATHNAME}" ]; then
+        rm "${LOG_FILE_PATHNAME}"
     fi
 }
 
@@ -34,8 +34,8 @@ function updateReleaseBadge() {
 
     echo "Edit release badge in README.md"
 
-    local releaseBadge="[![Version](https:\/\/img.shields.io\/badge\/version-${version}-blueviolet.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${version})"
-    sed -i "1s/.*/${releaseBadge}/" "${rootDir}"/README.md
+    local releaseBadge="[![Version](https:\/\/img.shields.io\/badge\/version-${NEW_REPOSITORY_VERSION}-blueviolet.svg)](https:\/\/github.com\/steevanb\/php-parallel-processes\/tree\/${NEW_REPOSITORY_VERSION})"
+    sed -i "1s/.*/${releaseBadge}/" "${ROOT_DIR}"/README.md
 }
 
 function updateCodeLinesBadge() {
@@ -44,9 +44,9 @@ function updateCodeLinesBadge() {
     echo "Edit code lines badge in README.md"
 
     local codeLines=
-    codeLines=$("${rootDir}"/bin/release/code-lines)
+    codeLines=$("${ROOT_DIR}"/bin/release/code-lines)
     local codeLinesBadge="![Lines](https:\/\/img.shields.io\/badge\/code%20lines-${codeLines}-blue.svg)"
-    sed -i "3s/.*/${codeLinesBadge}/" "${rootDir}"/README.md
+    sed -i "3s/.*/${codeLinesBadge}/" "${ROOT_DIR}"/README.md
 }
 
 function updateCoverageBadge() {
@@ -54,12 +54,12 @@ function updateCoverageBadge() {
 
     echo "Calculate coverage"
     local coveragePercent=
-    coveragePercent="$(${rootDir}/bin/release/phpunit-coverage)"
+    coveragePercent="$(${ROOT_DIR}/bin/release/phpunit-coverage)"
     echo "Coverage: ${coveragePercent}%"
 
     echo "Edit coverage in README.md"
     local badge="![Coverage](https:\/\/img.shields.io\/badge\/coverage-${coveragePercent}%25-success.svg)"
-    sed -i "6s/.*/${badge}/" "${rootDir}"/README.md
+    sed -i "6s/.*/${badge}/" "${ROOT_DIR}"/README.md
 }
 
 function updateInfectionBadge() {
@@ -67,18 +67,18 @@ function updateInfectionBadge() {
 
     echo "Calculate Infection MSI"
 
-    local logsPath="${rootDir}"/var/release/infection/logs.json
+    local logsPath="${ROOT_DIR}"/var/release/infection/logs.json
     if [ -f "${logsPath}" ]; then
         rm "${logsPath}"
     fi
 
-    "${rootDir}"/bin/release/infection > /dev/null
+    "${ROOT_DIR}"/bin/release/infection > /dev/null
 
     if [ ! -f "${logsPath}" ]; then
         echo -e "\e[41mUnable to find infection logs.json.\e[0m"
-        ls -lah "${rootDir}"/var
-        ls -lah "${rootDir}"/var/release
-        ls -lah "${rootDir}"/var/release/infection
+        ls -lah "${ROOT_DIR}"/var
+        ls -lah "${ROOT_DIR}"/var/release
+        ls -lah "${ROOT_DIR}"/var/release/infection
         exit 1
     fi
 
@@ -88,14 +88,14 @@ function updateInfectionBadge() {
     echo "Infection MSI: ${infectionMsiPercent}%"
 
     local badge="![Infection](https:\/\/img.shields.io\/badge\/infection-${infectionMsiPercent}%25-success.svg)"
-    sed -i "7s/.*/${badge}/" "${rootDir}"/README.md
+    sed -i "7s/.*/${badge}/" "${ROOT_DIR}"/README.md
 }
 
 function updateComposerRequire() {
     trap onError ERR
 
     echo "Edit composer require in README.md"
-    local majorMinor=${version%.*}
+    local majorMinor=${NEW_REPOSITORY_VERSION%.*}
     sed -i "s/composer require steevanb\/php-parallel-processes ^[[:digit:]]\+.[[:digit:]]\+/composer require steevanb\/php-parallel-processes ^${majorMinor}/" README.md
 }
 
@@ -103,7 +103,14 @@ function updateChangelog() {
     trap onError ERR
 
     echo "Edit changelog"
-    "${rootDir}"/bin/release/changelog "${version}"
+    "${ROOT_DIR}"/bin/release/changelog "${NEW_REPOSITORY_VERSION}"
+}
+
+function updateRepositoryVersion() {
+    trap onError ERR
+
+    echo "Edit REPOSITORY_VERSION"
+    echo "REPOSITORY_VERSION=${NEW_REPOSITORY_VERSION}" > "${ROOT_DIR}"/config/repository/version.env
 }
 
 initLog
@@ -113,3 +120,4 @@ updateCoverageBadge
 updateInfectionBadge
 updateComposerRequire
 updateChangelog
+updateRepositoryVersion
