@@ -1,0 +1,21 @@
+name: Release
+
+on:
+    workflow_dispatch: ~
+
+jobs:
+    build:
+        name: Build CI image
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            -
+                name: Composer cache
+                uses: actions/cache@v2
+                with:
+                    path: vendor
+                    key: composer-${{ hashFiles('composer.json') }}
+                    restore-keys: composer-${{ hashFiles('composer.json') }}
+            - run: bin/ci/env
+            - run: docker login --username ${{ secrets.DOCKER_HUB_TOKEN }}
+            - run: bin/ci/docker --push
