@@ -1,12 +1,27 @@
 parameters:
     level: 8
-    tmpDir: ../../var/ci/phpstan
     paths:
         - ../../src
+        - ../../tests
     ignoreErrors:
+        # I can't remove this phpstan error because of the bad typehint of Symfony
         - '#Method Steevanb\\ParallelProcess\\Console\\Output\\ConsoleBufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
-        - '#Parameter \#2 \$env \(array\<string\>\) of method Steevanb\\ParallelProcess\\Process\\Process\:\:start\(\) should be contravariant with parameter \$env \(array\) of method Symfony\\Component\\Process\\Process\:\:start\(\)#'
+        # I can't remove this phpstan error because of the bad typehint of Symfony
+        - '#Method Steevanb\\ParallelProcess\\Tests\\Console\\Output\\TestOutput::write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
+        # I can't remove this phpstan error because of the bad typehint of Symfony
+        - '#Method Steevanb\\ParallelProcess\\Tests\\Console\\Output\\TestOutput::writeln\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
 includes:
-    - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - /composer/common/vendor/phpstan/phpstan-strict-rules/rules.neon
     - ../../vendor/steevanb/php-typed-array/bridge/Phpstan/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-phpunit/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-strict-rules/rules.neon
+    - /composer/common/vendor/spaze/phpstan-disallowed-calls/extension.neon
+    - /composer/common/vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+    - /composer/common/vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
+    - /composer/common/vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
+    - /composer/common/vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
+rules:
+    - Ergebnis\PHPStan\Rules\Classes\PHPUnit\Framework\TestCaseWithSuffixRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoErrorSuppressionRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoIssetRule
+    - Ergebnis\PHPStan\Rules\Files\DeclareStrictTypesRule

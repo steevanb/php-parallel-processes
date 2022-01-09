@@ -6,6 +6,7 @@
 - Create configurations for Docker images name
 - Create configuration for repository version
 - Create configuration for Composer version
+- Rework bin/ci/shellcheck to find files to check instead of having a list
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 

@@ -8,12 +8,14 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Exception\ParallelProcessException,
     Process\Process,
-    Tests\CreateLsProcessTrait
+    Tests\CreateLsProcessTrait,
+    Tests\GetReflectionClosureTrait
 };
 
 final class UpdateStatusTest extends TestCase
 {
     use CreateLsProcessTrait;
+    use GetReflectionClosureTrait;
 
     public function testVisibility(): void
     {
@@ -28,7 +30,7 @@ final class UpdateStatusTest extends TestCase
         $reflection = $this->createReflection($process);
         $reflection->setAccessible(true);
 
-        static::assertNull($reflection->getClosure($process)->call($process, false));
+        static::assertNull($this->getReflectionClosure($reflection, $process)->call($process, false));
         $this->expectException(ParallelProcessException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Process must be started before calling "getExecutionTime()".');
@@ -42,7 +44,7 @@ final class UpdateStatusTest extends TestCase
         $reflection->setAccessible(true);
         $process->mustRun();
 
-        static::assertNull($reflection->getClosure($process)->call($process, false));
+        static::assertNull($this->getReflectionClosure($reflection, $process)->call($process, false));
         static::assertGreaterThanOrEqual(0, $process->getExecutionTime());
     }
 
