@@ -5,6 +5,7 @@ set -eu
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
 
 source "${ROOT_DIR}"/config/version/composer-version.env
+source "${ROOT_DIR}"/bin/docker-ids-parameters.inc.bash
 source "${ROOT_DIR}"/bin/docker-interactive-parameter.inc.bash
 
 docker \
@@ -12,8 +13,9 @@ docker \
         --rm \
         --tty \
         ${DOCKER_INTERACTIVE_PARAMETER} \
-        --volume "${ROOT_DIR}":/app \
-        --user "$(id -u)":"$(id -g)" \
-        --env COMPOSER_CACHE_DIR=/app/var/composer \
+        --volume "${ROOT_DIR}":"${ROOT_DIR}" \
+        --user "${DOCKER_UID}":"${DOCKER_GID}" \
+        --env COMPOSER_CACHE_DIR="${ROOT_DIR}"/var/composer \
+        --workdir "${ROOT_DIR}" \
         composer:"${COMPOSER_VERSION}" \
         "${@}"
