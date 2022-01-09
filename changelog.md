@@ -7,6 +7,8 @@
 - Create configuration for repository version
 - Create configuration for Composer version
 - Rework bin/ci/shellcheck to find files to check instead of having a list
+- Update phpstan, add some plugins and run it for PHP 7.4 and 8.0
+- Use parallel-processes in `bin/start`
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 
