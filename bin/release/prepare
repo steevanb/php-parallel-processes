@@ -110,7 +110,7 @@ function updateRepositoryVersion() {
     trap onError ERR
 
     echo "Edit REPOSITORY_VERSION"
-    echo "REPOSITORY_VERSION=${NEW_REPOSITORY_VERSION}" > "${ROOT_DIR}"/config/repository/version.env
+    echo "REPOSITORY_VERSION=${NEW_REPOSITORY_VERSION}" > "${ROOT_DIR}"/config/version/repository-version.env
 }
 
 initLog

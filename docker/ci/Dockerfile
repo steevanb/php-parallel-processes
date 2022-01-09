@@ -1,12 +1,18 @@
+ARG COMPOSER_VERSION
+
+FROM composer:${COMPOSER_VERSION} as composer
+
 FROM ubuntu:20.04
 
-COPY --from=composer:2.1.6 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_HOME=/composer/common
 ENV COMPOSER_HOME_SYMFONY_5_0=/composer/symfony-5-0
 ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
 ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
 ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
+
+COPY docker/ci/global.composer.json ${COMPOSER_HOME}/composer.json
 
 RUN \
     apt-get update \
@@ -24,7 +30,7 @@ RUN \
         php8.0-mbstring \
         # For Composer
         curl zip php7.4-curl php7.4-zip \
-        # For coverage \
+        # For coverage
         php8.0-xdebug \
 
     # Install CI tools

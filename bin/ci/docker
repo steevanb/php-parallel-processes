@@ -4,6 +4,7 @@ set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
+source "${ROOT_DIR}"/config/version/composer-version.env
 source "${ROOT_DIR}"/config/docker/ci-docker-image-name.env
 
 DOCKER_IMAGE_NAME="${CI_DOCKER_IMAGE_NAME}" \
