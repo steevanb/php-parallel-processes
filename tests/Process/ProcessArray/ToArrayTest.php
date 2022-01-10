@@ -10,6 +10,7 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\ProcessArray::toArray */
 final class ToArrayTest extends TestCase
 {
     use CreateLsProcessTrait;

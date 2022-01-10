@@ -11,6 +11,10 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\Process::__construct
+ * @covers \Steevanb\ParallelProcess\Process\Process::getExecutionTime
+ */
 final class ExecutionTimeTest extends TestCase
 {
     use CreateLsProcessTrait;

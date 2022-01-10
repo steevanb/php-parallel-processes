@@ -10,6 +10,7 @@ use Steevanb\ParallelProcess\{
     Process\StartCondition
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\Process::__construct */
 final class ConstructTest extends TestCase
 {
     public function testDefaultValues(): void
@@ -18,7 +19,7 @@ final class ConstructTest extends TestCase
 
         static::assertSame("'ls'", $process->getCommandLine());
         static::assertSame('bar', $process->getWorkingDirectory());
-        static::assertNull($process->getEnv());
+        static::assertCount(0, $process->getEnv());
         static::assertNull($process->getInput());
         static::assertSame(60.0, $process->getTimeout());
 

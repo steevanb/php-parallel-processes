@@ -10,6 +10,7 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\ProcessArray::getReady */
 final class GetReadyTest extends TestCase
 {
     use CreateLsProcessTrait;

@@ -7,6 +7,11 @@ namespace Steevanb\ParallelProcess\Tests\Console\Output\ConsoleBufferedOutput;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput::write
+ * @covers \Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput::getBufferedLines
+ * @covers \Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput::getFormatter
+ */
 final class WriteTest extends TestCase
 {
     public function testString(): void

@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Color;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::setStateReadyColor
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::getStateReadyColor
+ */
 final class StateReadyColorTest extends TestCase
 {
     public function testDefaultValue(): void

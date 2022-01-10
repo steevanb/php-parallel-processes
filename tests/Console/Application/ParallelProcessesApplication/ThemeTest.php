@@ -10,6 +10,10 @@ use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::setTheme
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::getTheme
+ */
 final class ThemeTest extends TestCase
 {
     public function testSetTheme(): void

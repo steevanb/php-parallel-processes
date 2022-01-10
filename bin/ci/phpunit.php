@@ -12,18 +12,35 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
+function getAvailableSymfonyVersions(string $phpVersion): StringArray
+{
+    $return = new StringArray();
+    foreach (new StringArray(['5.0', '5.1', '5.2', '5.3', '5.4', '6.0']) as $symfonyVersion) {
+        if (isAvailable($phpVersion, $symfonyVersion)) {
+            $return[] = $symfonyVersion;
+        }
+    }
+
+    return $return;
+}
+
+function isAvailable(string $phpVersion, string $symfonyVersion): bool
+{
+    return ($phpVersion !== '7.4' || str_starts_with($symfonyVersion, '5.'));
+}
+
 function createPhpunitProcesses(string $phpVersion = null, string $symfonyVersion = null): ProcessArray
 {
-    $phpVersions = new StringArray(is_string($phpVersion) ? [$phpVersion] : ['7.4', '8.0']);
-    $symfonyVersions = new StringArray(is_string($symfonyVersion) ? [$symfonyVersion] : ['5.0', '5.1', '5.2', '5.3']);
+    $phpVersions = new StringArray(is_string($phpVersion) ? [$phpVersion] : ['7.4', '8.0', '8.1']);
 
     $return = new ProcessArray();
     foreach ($phpVersions as $loopPhpVersion) {
+        $symfonyVersions = is_string($symfonyVersion)
+            ? [$symfonyVersion]
+            : getAvailableSymfonyVersions($loopPhpVersion)->toArray();
+
         foreach ($symfonyVersions as $loopSymfonyVersion) {
-            if (
-                in_array($loopPhpVersion, ['7.4', '8.0'])
-                && in_array($loopSymfonyVersion, ['5.0', '5.1', '5.2', '5.3'])
-            ) {
+            if (isAvailable($loopPhpVersion, $loopSymfonyVersion)) {
                 $return[] = createPhpunitProcess($loopPhpVersion, $loopSymfonyVersion);
             }
         }

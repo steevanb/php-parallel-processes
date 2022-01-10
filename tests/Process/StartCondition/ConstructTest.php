@@ -10,6 +10,7 @@ use Steevanb\ParallelProcess\{
     Process\StartCondition
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\StartCondition::__construct */
 final class ConstructTest extends TestCase
 {
     public function testDefaultValues(): void

@@ -12,6 +12,7 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::resetOutput */
 final class ResetOutputTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -29,9 +30,15 @@ final class ResetOutputTest extends TestCase
 
     public function testNotStarted(): void
     {
-        (new DefaultTheme())->resetOutput(
-            new TestOutput(),
+        $output = new TestOutput();
+        (new DefaultTheme())->outputProcessesState(
+            $output,
             new ProcessArray([$this->createLsProcess()])
+        );
+
+        static::assertSame(
+            "\e[37;45m > \e[39;49m ls\n",
+            $output->getOutputed()
         );
     }
 

@@ -7,10 +7,13 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\ParallelProcessesAp
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
-    Process\Process,
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::addProcess
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::getProcesses
+ */
 final class ProcessTest extends TestCase
 {
     use CreateLsProcessTrait;

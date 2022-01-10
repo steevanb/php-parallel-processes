@@ -11,6 +11,7 @@ use Steevanb\ParallelProcess\{
     Tests\GetReflectionClosureTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\Process::getParentPrivatePropertyValue */
 final class GetParentPrivatePropertyValueTest extends TestCase
 {
     use CreateLsProcessTrait;

@@ -11,6 +11,8 @@ ENV COMPOSER_HOME_SYMFONY_5_0=/composer/symfony-5-0
 ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
 ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
 ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
+ENV COMPOSER_HOME_SYMFONY_5_4=/composer/symfony-5-4
+ENV COMPOSER_HOME_SYMFONY_6_0=/composer/symfony-6-0
 
 ENV PHPSTAN_BIN_PATH=/usr/local/bin/phpstan
 
@@ -24,16 +26,25 @@ RUN \
     && apt-get install -y \
         bash \
         shellcheck \
+        # PHP 7.4
         php7.4-cli \
         php7.4-dom \
         php7.4-mbstring \
+        # PHP 8.0
         php8.0-cli \
         php8.0-dom \
         php8.0-mbstring \
+        # PHP 8.1
+        php8.1-cli \
+        php8.1-dom \
+        php8.1-mbstring \
         # For Composer
-        curl zip php7.4-curl php7.4-zip \
+        curl \
+        zip \
+        php7.4-curl \
+        php7.4-zip \
         # For coverage
-        php8.0-xdebug \
+        php8.1-xdebug \
 
     # Install CI tools
     && php7.4 /usr/local/bin/composer global require \
@@ -63,13 +74,17 @@ RUN \
 
     # Install Symfony components \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
-        composer global require symfony/process:5.0.* symfony/console:5.2.* \
+        php7.4 /usr/local/bin/composer global require symfony/process:5.0.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
-        composer global require symfony/process:5.1.* symfony/console:5.2.* \
+        php7.4 /usr/local/bin/composer global require symfony/process:5.1.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_2} \
-        composer global require symfony/process:5.2.* symfony/console:5.2.* \
+        php7.4 /usr/local/bin/composer global require symfony/process:5.2.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
-        composer global require symfony/process:5.3.* symfony/console:5.3.* \
+        php7.4 /usr/local/bin/composer global require symfony/process:5.3.* symfony/console:5.3.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_4} \
+        php7.4 /usr/local/bin/composer global require symfony/process:5.4.* symfony/console:5.4.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_0} \
+        php8.0 /usr/local/bin/composer global require symfony/process:6.0.* symfony/console:6.0.* \
 
     # Purge
     && apt-get purge -y software-properties-common \

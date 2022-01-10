@@ -12,6 +12,7 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::outputProcessesState */
 final class OutputProcessStateTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -29,9 +30,15 @@ final class OutputProcessStateTest extends TestCase
 
     public function testNotStarted(): void
     {
+        $output = new TestOutput();
         (new DefaultTheme())->outputProcessesState(
-            new TestOutput(),
+            $output,
             new ProcessArray([$this->createLsProcess()])
+        );
+
+        static::assertSame(
+            "\e[37;45m > \e[39;49m ls\n",
+            $output->getOutputed()
         );
     }
 

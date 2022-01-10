@@ -7,6 +7,7 @@ namespace Steevanb\ParallelProcess\Tests\Process\Process;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Tests\CreateLsProcessTrait;
 
+/** @covers \Steevanb\ParallelProcess\Process\Process::start */
 final class StartTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -16,8 +17,8 @@ final class StartTest extends TestCase
         $process = $this->createLsProcess();
         $process->start();
 
-        static::assertNull($process->getEnv());
-        // Process::updateStatus() should not be called at this moment so execution time should be 0
+        static::assertCount(0, $process->getEnv());
+        // Process::updateStatus() should not be called at this time so execution time should be 0
         static::assertGreaterThanOrEqual(0, $process->getExecutionTime());
         static::assertLessThanOrEqual(50, $process->getExecutionTime());
     }
@@ -41,6 +42,6 @@ final class StartTest extends TestCase
         $process = $this->createLsProcess();
         $process->start(null, ['foo' => 'bar']);
 
-        static::assertNull($process->getEnv());
+        static::assertCount(0, $process->getEnv());
     }
 }

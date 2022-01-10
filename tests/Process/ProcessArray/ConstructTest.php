@@ -10,6 +10,7 @@ use Steevanb\ParallelProcess\{
     Process\ProcessArray
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\ProcessArray::__construct */
 final class ConstructTest extends TestCase
 {
     public function testDefaultValues(): void

@@ -10,6 +10,10 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\Process::__construct
+ * @covers \Steevanb\ParallelProcess\Process\Process::getStartCondition
+ */
 final class StartConditionTest extends TestCase
 {
     use CreateLsProcessTrait;

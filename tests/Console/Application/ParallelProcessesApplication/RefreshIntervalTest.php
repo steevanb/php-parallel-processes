@@ -7,6 +7,10 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\ParallelProcessesAp
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::setRefreshInterval
+ * @covers \Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication::getRefreshInterval
+ */
 final class RefreshIntervalTest extends TestCase
 {
     public function testSetRefreshInterval(): void
