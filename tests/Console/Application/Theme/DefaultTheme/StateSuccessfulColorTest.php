@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Color;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::setStateSuccessfulColor
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::getStateSuccessfulColor
+ */
 final class StateSuccessfulColorTest extends TestCase
 {
     public function testDefaultValue(): void

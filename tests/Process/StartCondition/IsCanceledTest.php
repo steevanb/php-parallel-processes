@@ -11,6 +11,10 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::__construct
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::isCanceled
+ */
 final class IsCanceledTest extends TestCase
 {
     use CreateLsProcessTrait;

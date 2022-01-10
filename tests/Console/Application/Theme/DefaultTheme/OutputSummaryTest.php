@@ -13,6 +13,7 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::outputSummary */
 final class OutputSummaryTest extends TestCase
 {
     use CreateLsProcessTrait;

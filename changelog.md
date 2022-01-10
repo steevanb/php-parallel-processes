@@ -9,6 +9,8 @@
 - Rework bin/ci/shellcheck to find files to check instead of having a list
 - Update phpstan, add some plugins and run it for PHP 7.4 and 8.0
 - Use parallel-processes in `bin/start`
+- Allow `symfony/console` and `symfony/process` `^6.0`
+- Add `PHP 8.1` compatibility
 
 ### [0.2.1](../../compare/0.2.0...0.2.1) - 2022-01-08
 

@@ -1,6 +1,9 @@
+<?xml version="1.0"?>
 <phpunit
-    cacheResultFile="../../var/ci/phpunit/.phpunit.result.cache"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     colors="true"
+    forceCoversAnnotation="true"
+    failOnRisky="true"
 >
     <testsuites>
         <testsuite name="default">

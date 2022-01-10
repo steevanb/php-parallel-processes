@@ -7,6 +7,11 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::setStateCanceledIcon
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::getStateCanceledIcon
+ */
 final class StateCanceledIconTest extends TestCase
 {
     public function testDefaultValue(): void

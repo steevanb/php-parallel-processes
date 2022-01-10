@@ -34,12 +34,12 @@ class Process extends SymfonyProcess
 
     /**
      * @param array<string> $command
-     * @param array<string>|null $env
+     * @param array<string> $env
      */
     public function __construct(
         array $command,
         string $cwd = null,
-        array $env = null,
+        array $env = [],
         $input = null,
         ?float $timeout = 60
     ) {

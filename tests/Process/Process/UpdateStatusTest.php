@@ -12,6 +12,7 @@ use Steevanb\ParallelProcess\{
     Tests\GetReflectionClosureTrait
 };
 
+/** @covers \Steevanb\ParallelProcess\Process\Process::updateStatus */
 final class UpdateStatusTest extends TestCase
 {
     use CreateLsProcessTrait;

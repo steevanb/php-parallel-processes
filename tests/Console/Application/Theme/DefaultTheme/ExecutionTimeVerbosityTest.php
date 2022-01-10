@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::setExecutionTimeVerbosity
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::getExecutionTimeVerbosity
+ */
 final class ExecutionTimeVerbosityTest extends TestCase
 {
     public function testDefaultValue(): void
@@ -20,9 +25,9 @@ final class ExecutionTimeVerbosityTest extends TestCase
     public function testSetter(): void
     {
         static::assertSame(
-            OutputInterface::VERBOSITY_VERY_VERBOSE,
+            128,
             (new DefaultTheme())
-                ->setExecutionTimeVerbosity(OutputInterface::VERBOSITY_VERY_VERBOSE)
+                ->setExecutionTimeVerbosity(128)
                 ->getExecutionTimeVerbosity()
         );
     }

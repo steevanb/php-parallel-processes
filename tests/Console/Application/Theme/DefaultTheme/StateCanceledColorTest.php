@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Color;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::setStateCanceledColor
+ * @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::getStateCanceledColor
+ */
 final class StateCanceledColorTest extends TestCase
 {
     public function testDefaultValue(): void

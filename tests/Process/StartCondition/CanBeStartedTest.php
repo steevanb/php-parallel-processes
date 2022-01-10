@@ -11,6 +11,13 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::__construct
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::canBeStarted
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::addProcessTerminated
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::addProcessSuccessful
+ * @covers \Steevanb\ParallelProcess\Process\StartCondition::addProcessFailed
+ */
 final class CanBeStartedTest extends TestCase
 {
     use CreateLsProcessTrait;

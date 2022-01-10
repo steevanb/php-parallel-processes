@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme;
 use Symfony\Component\Console\Color;
 
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::__construct */
 final class ConstructTest extends TestCase
 {
     public function testDefaultValues(): void

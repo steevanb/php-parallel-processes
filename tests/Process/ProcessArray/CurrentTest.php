@@ -6,11 +6,15 @@ namespace Steevanb\ParallelProcess\Tests\Process\ProcessArray;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Process\Process,
     Process\ProcessArray,
     Tests\CreateLsProcessTrait
 };
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\ProcessArray::__construct
+ * @covers \Steevanb\ParallelProcess\Process\ProcessArray::next
+ * @covers \Steevanb\ParallelProcess\Process\ProcessArray::current
+ */
 final class CurrentTest extends TestCase
 {
     use CreateLsProcessTrait;

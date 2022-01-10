@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 
+/** @covers \Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput::__construct */
 final class ConstructTest extends TestCase
 {
     public function testDefaultValues(): void

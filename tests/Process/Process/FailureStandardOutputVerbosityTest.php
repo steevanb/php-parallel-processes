@@ -7,6 +7,11 @@ namespace Steevanb\ParallelProcess\Tests\Process\Process;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Tests\CreateLsProcessTrait;
 
+/**
+ * @covers \Steevanb\ParallelProcess\Process\Process::__construct
+ * @covers \Steevanb\ParallelProcess\Process\Process::setFailureStandardOutputVerbosity
+ * @covers \Steevanb\ParallelProcess\Process\Process::getFailureStandardOutputVerbosity
+ */
 final class FailureStandardOutputVerbosityTest extends TestCase
 {
     use CreateLsProcessTrait;
