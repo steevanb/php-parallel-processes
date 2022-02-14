@@ -1,5 +1,9 @@
 ### master
 
+- Remove `parallel-processes` in Docker image name
+- Create `-buster` and `-alpine` Docker images
+- Fix `bin/release/phpunit-coverage` cache path
+
 ### [0.5.0](../../compare/0.4.0...0.5.0) - 2022-02-14
 
 - Add `ProcessFactory::createRemoveFileProcess()`

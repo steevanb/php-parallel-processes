@@ -2,8 +2,7 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} as composer
 
-# Do not use Alpine because docker-compose will not works
-FROM php:8.1.1-cli-buster
+FROM php:8.1.2-cli-alpine3.15
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
@@ -13,13 +12,10 @@ ENV COMPOSER_GLOBAL_AUTOLOAD_FILE_NAME=/composer/vendor/autoload.php
 ARG REPOSITORY_VERSION
 
 RUN \
-    apt-get update \
-    && apt-get install -y bash unzip \
+    apk update \
+    && apk add --no-cache bash unzip \
     && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
 
     # Purge
     && rm /usr/local/bin/composer \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && apt-get autoclean \
     && rm -rf /tmp/*
