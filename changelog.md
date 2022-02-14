@@ -1,5 +1,7 @@
 ### master
 
+### [0.4.0](../../compare/0.3.0...0.4.0) - 2022-02-14
+
 - Add `ParallelProcessesApplication::hasProcess()`
 - Add `ProcessFactory`
 - Add `ProcessFactory::createRemoveDirectoryProcess()`
