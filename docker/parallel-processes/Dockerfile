@@ -17,7 +17,7 @@ RUN \
     && apt-get install -y bash unzip \
     && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
 
-    # Purge \
+    # Purge
     && rm /usr/local/bin/composer \
     && apt-get autoremove -y \
     && apt-get clean \

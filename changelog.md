@@ -1,5 +1,10 @@
 ### master
 
+- Add `ParallelProcessesApplication::hasProcess()`
+- Add `ProcessFactory`
+- Add `ProcessFactory::createRemoveDirectoryProcess()`
+- Fix PHPUnit cache file path in `bin/ci/phpunit-coverage`
+
 ### [0.3.0](../../compare/0.2.1...0.3.0) - 2022-01-10
 
 - Create GitHub Actions to build and push Docker image `steevanb/php-parallel-processes:ci`

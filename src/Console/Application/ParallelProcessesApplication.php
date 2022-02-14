@@ -52,6 +52,19 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
+    public function hasProcess(Process $process): bool
+    {
+        $return = false;
+        foreach ($this->processes->toArray() as $loopProcess) {
+            if (spl_object_id($loopProcess) === spl_object_id($process)) {
+                $return = true;
+                break;
+            }
+        }
+
+        return $return;
+    }
+
     public function getProcesses(): ProcessArray
     {
         return $this->processes;
@@ -69,7 +82,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this->theme;
     }
 
-    /** Set refresh interval in milliseconds */
+    /** Set refresh interval in microseconds */
     public function setRefreshInterval(int $refreshInterval): self
     {
         $this->refreshInterval = $refreshInterval;
@@ -77,7 +90,7 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return $this;
     }
 
-    /** Get refresh interval in milliseconds */
+    /** Get refresh interval in microseconds */
     public function getRefreshInterval(): int
     {
         return $this->refreshInterval;
