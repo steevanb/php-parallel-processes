@@ -28,8 +28,8 @@ else
 
     "php${phpVersion}" \
         vendor/bin/phpunit \
+            --bootstrap "${!composerHomeVarName}"/vendor/autoload.php \
             --configuration config/ci/phpunit.xml \
             --cache-result-file var/ci/phpunit/php-${phpVersion}/symfony-${symfonyVersion}/.phpunit.result.cache \
-            --bootstrap "${!composerHomeVarName}"/vendor/autoload.php \
             ${phpunitParameters}
 fi

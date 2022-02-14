@@ -12,8 +12,9 @@ XDEBUG_MODE=coverage \
     php8.1 \
         "${ROOT_DIR}"/vendor/bin/phpunit \
             --bootstrap "${COMPOSER_HOME_SYMFONY_6_0}"/vendor/autoload.php \
-            --coverage-html "${ROOT_DIR}"/var/ci/phpunit/coverage/html \
             --configuration "${ROOT_DIR}"/config/ci/phpunit.xml \
+            --cache-result-file var/ci/phpunit/coverage/.phpunit.result.cache \
+            --coverage-html "${ROOT_DIR}"/var/ci/phpunit/coverage/html \
             "${@}"
 set -e
 

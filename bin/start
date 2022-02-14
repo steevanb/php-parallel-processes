@@ -17,7 +17,7 @@ docker \
         --env HOST_UID="$(id -u)" \
         --env HOST_GID="$(id -g)" \
         --workdir "${ROOT_DIR}" \
-        steevanb/php-parallel-processes:parallel-processes-0.2.1 \
+        steevanb/php-parallel-processes:parallel-processes-0.3.0 \
         php \
             bin/start.php \
             "${@}"
