@@ -1,5 +1,7 @@
 ### master
 
+### [0.6.0](../../compare/0.5.0...0.6.0) - 2022-03-04
+
 - Remove `parallel-processes` in Docker image name
 - Create `-buster` and `-alpine` Docker images
 - Fix `bin/release/phpunit-coverage` cache path
