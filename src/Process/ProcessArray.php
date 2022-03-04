@@ -36,4 +36,16 @@ class ProcessArray extends ObjectArray
 
         return $return;
     }
+
+    public function countRunning(): int
+    {
+        $return = 0;
+        foreach ($this->toArray() as $process) {
+            if ($process->isRunning()) {
+                $return++;
+            }
+        }
+
+        return $return;
+    }
 }
