@@ -15,12 +15,9 @@ final class RefreshIntervalTest extends TestCase
 {
     public function testSetRefreshInterval(): void
     {
-        $application = new ParallelProcessesApplication();
+        $application = (new ParallelProcessesApplication())
+            ->setRefreshInterval(42);
 
-        static::assertSame(10000, $application->getRefreshInterval());
-
-        $application->setRefreshInterval(12);
-
-        static::assertSame(12, $application->getRefreshInterval());
+        static::assertSame(42, $application->getRefreshInterval());
     }
 }

@@ -3,6 +3,8 @@
 - Remove `parallel-processes` in Docker image name
 - Create `-buster` and `-alpine` Docker images
 - Fix `bin/release/phpunit-coverage` cache path
+- Add `ParallelProcessesApplication::setMaximumParallelProcesses()` and `getMaximumParallelProcesses()`
+- Add `ProcessArray::countRunning()`
 
 ### [0.5.0](../../compare/0.4.0...0.5.0) - 2022-02-14
 

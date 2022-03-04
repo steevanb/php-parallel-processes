@@ -23,8 +23,10 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected ThemeInterface $theme;
 
-    /** Refresh time in microseconds */
+    /** Refresh time in microseconds, 10ms by default */
     protected int $refreshInterval = 10000;
+
+    protected ?int $maximumParallelProcesses = null;
 
     public function __construct(string $name = null)
     {
@@ -94,6 +96,18 @@ class ParallelProcessesApplication extends SingleCommandApplication
     public function getRefreshInterval(): int
     {
         return $this->refreshInterval;
+    }
+
+    public function setMaximumParallelProcesses(?int $maximumParallelProcesses): self
+    {
+        $this->maximumParallelProcesses = $maximumParallelProcesses;
+
+        return $this;
+    }
+
+    public function getMaximumParallelProcesses(): ?int
+    {
+        return $this->maximumParallelProcesses;
     }
 
     public function run(InputInterface $input = null, OutputInterface $output = null): int
@@ -168,9 +182,18 @@ class ParallelProcessesApplication extends SingleCommandApplication
 
     protected function startReadyProcesses(): self
     {
-        foreach ($this->getProcesses()->getReady()->toArray() as $readyProcess) {
-            if ($readyProcess->isCanceled() === false && $readyProcess->getStartCondition()->canBeStarted()) {
-                $readyProcess->start();
+        $countRunningProcesses = $this->getProcesses()->countRunning();
+        $maximumParallelProcesses = $this->getMaximumParallelProcesses();
+
+        if (is_null($maximumParallelProcesses) || $countRunningProcesses < $maximumParallelProcesses) {
+            foreach ($this->getProcesses()->getReady()->toArray() as $readyProcess) {
+                if ($readyProcess->isCanceled() === false && $readyProcess->getStartCondition()->canBeStarted()) {
+                    $readyProcess->start();
+                }
+
+                if ($maximumParallelProcesses >= $this->getProcesses()->countRunning()) {
+                    break;
+                }
             }
         }
 
