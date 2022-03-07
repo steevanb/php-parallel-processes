@@ -37,6 +37,19 @@ class ProcessArray extends ObjectArray
         return $return;
     }
 
+    public function getStarted(): ProcessArray
+    {
+        $return = new ProcessArray();
+
+        foreach ($this->toArray() as $process) {
+            if ($process->getStatus() === Process::STATUS_STARTED) {
+                $return[] = $process;
+            }
+        }
+
+        return $return;
+    }
+
     public function countRunning(): int
     {
         $return = 0;

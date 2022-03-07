@@ -4,6 +4,7 @@ set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/..")"
 
+source "${ROOT_DIR}"/config/docker/ci-docker-image-name.env
 source "${ROOT_DIR}"/config/version/composer-version.env
 source "${ROOT_DIR}"/bin/docker-ids-parameters.inc.bash
 source "${ROOT_DIR}"/bin/docker-interactive-parameter.inc.bash
@@ -17,5 +18,6 @@ docker \
         --user "${DOCKER_UID}":"${DOCKER_GID}" \
         --env COMPOSER_CACHE_DIR="${ROOT_DIR}"/var/composer \
         --workdir "${ROOT_DIR}" \
-        composer:"${COMPOSER_VERSION}" \
-        "${@}"
+        "${CI_DOCKER_IMAGE_NAME}" \
+        composer \
+            "${@}"
