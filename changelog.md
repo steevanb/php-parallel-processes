@@ -1,5 +1,7 @@
 ### master
 
+- Fix start ready processes when maximum paralell processes is configured
+
 ### [0.6.0](../../compare/0.5.0...0.6.0) - 2022-03-04
 
 - Remove `parallel-processes` in Docker image name
