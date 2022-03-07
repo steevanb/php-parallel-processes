@@ -2,7 +2,7 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} as composer
 
-FROM php:8.0.10-cli-alpine3.14
+FROM php:8.0.16-cli-alpine3.15
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
@@ -17,6 +17,8 @@ RUN \
         cloc \
         jq \
         git \
+
+    && docker-php-ext-install pcntl \
 
     # Install xdebug
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
