@@ -14,8 +14,8 @@ ARG REPOSITORY_VERSION
 RUN \
     apt-get update \
     && apt-get install -y bash unzip \
-    && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
     && docker-php-ext-install pcntl \
+    && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
 
     # Purge
     && rm /usr/local/bin/composer \

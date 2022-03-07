@@ -14,8 +14,8 @@ ARG REPOSITORY_VERSION
 RUN \
     apk update \
     && apk add --no-cache bash unzip \
-    && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
     && docker-php-ext-install pcntl \
+    && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
 
     # Purge
     && rm /usr/local/bin/composer \
