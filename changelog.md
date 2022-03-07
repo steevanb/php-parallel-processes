@@ -1,5 +1,7 @@
 ### master
 
+- Add `pcntl` into Docker images
+
 ### [0.7.0](../../compare/0.6.0...0.7.0) - 2022-03-07
 
 - Fix start ready processes when maximum paralell processes is configured
