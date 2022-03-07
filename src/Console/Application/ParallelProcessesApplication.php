@@ -12,12 +12,13 @@ use Steevanb\ParallelProcess\{
     Process\ProcessArray
 };
 use Symfony\Component\Console\{
+    Command\SignalableCommandInterface,
     Input\InputInterface,
     Output\OutputInterface,
     SingleCommandApplication
 };
 
-class ParallelProcessesApplication extends SingleCommandApplication
+class ParallelProcessesApplication extends SingleCommandApplication implements SignalableCommandInterface
 {
     protected ProcessArray $processes;
 
@@ -27,6 +28,8 @@ class ParallelProcessesApplication extends SingleCommandApplication
     protected int $refreshInterval = 10000;
 
     protected ?int $maximumParallelProcesses = null;
+
+    protected bool $canceled = false;
 
     public function __construct(string $name = null)
     {
@@ -119,6 +122,35 @@ class ParallelProcessesApplication extends SingleCommandApplication
         return parent::run($input, $output);
     }
 
+    /** @return array<int, int> */
+    public function getSubscribedSignals(): array
+    {
+        return [SIGINT];
+    }
+
+    /** @internal */
+    public function handleSignal(int $signal): void
+    {
+        if ($signal === SIGINT) {
+            $this->canceled = true;
+
+            foreach (
+                array_merge(
+                    $this->getProcesses()->getReady()->toArray(),
+                    $this->getProcesses()->getStarted()->toArray()
+                ) as $process
+            ) {
+                $process->stop();
+                $process->setCanceled();
+            }
+        }
+    }
+
+    protected function isCanceled(): bool
+    {
+        return $this->canceled;
+    }
+
     protected function runProcessesInParallel(InputInterface $input, OutputInterface $output): int
     {
         $this
@@ -146,6 +178,10 @@ class ParallelProcessesApplication extends SingleCommandApplication
     {
         $terminated = 0;
         while ($terminated !== count($this->getProcesses())) {
+            if ($this->isCanceled()) {
+                break;
+            }
+
             $terminated = 0;
 
             foreach ($this->getProcesses()->toArray() as $process) {

@@ -12,7 +12,7 @@ use Steevanb\ParallelProcess\{
 };
 
 /** @covers \Steevanb\ParallelProcess\Process\ProcessFactory::createRemoveFileProcess */
-class CreateRemoveFileProcessTest extends TestCase
+final class CreateRemoveFileProcessTest extends TestCase
 {
     public function testFileExists(): void
     {

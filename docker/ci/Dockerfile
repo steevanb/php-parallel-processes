@@ -41,8 +41,8 @@ RUN \
         # For Composer
         curl \
         zip \
-        php7.4-curl \
-        php7.4-zip \
+        php8.1-curl \
+        php8.1-zip \
         # For coverage
         php8.1-xdebug \
 
@@ -72,7 +72,7 @@ RUN \
     # https://github.com/infection/extension-installer/issues/4
     && chmod 777 ${COMPOSER_HOME}/vendor/infection/extension-installer/src/GeneratedExtensionsConfig.php \
 
-    # Install Symfony components \
+    # Install Symfony components
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
         php7.4 /usr/local/bin/composer global require symfony/process:5.0.* symfony/console:5.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
