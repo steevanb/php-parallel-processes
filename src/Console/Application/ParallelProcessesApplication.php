@@ -227,7 +227,10 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
                     $readyProcess->start();
                 }
 
-                if ($this->getProcesses()->countRunning() >= $maximumParallelProcesses) {
+                if (
+                    is_int($maximumParallelProcesses)
+                    && $this->getProcesses()->countRunning() >= $maximumParallelProcesses
+                ) {
                     break;
                 }
             }
