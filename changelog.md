@@ -2,6 +2,8 @@
 
 - Fix `StartCondition::isCanceled()` when a previous process has been canceled
 - Add `SummaryTheme`
+- Add `--theme` option
+- Add `--refresh-interval` option
 
 ### [0.7.2](../../compare/0.7.1...0.7.2) - 2022-03-08
 
