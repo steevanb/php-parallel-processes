@@ -177,12 +177,16 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     protected function waitProcessesTermination(OutputInterface $output): self
     {
         $terminated = 0;
-        while ($terminated !== count($this->getProcesses())) {
+        while ($terminated < $this->getProcesses()->count()) {
             if ($this->isCanceled()) {
                 break;
             }
 
             $terminated = 0;
+
+            $this
+                ->startReadyProcesses()
+                ->defineCanceledProcesses();
 
             foreach ($this->getProcesses()->toArray() as $process) {
                 if ($process->isCanceled() || $process->isTerminated()) {
@@ -191,15 +195,13 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
             }
 
             $this
-                ->startReadyProcesses()
-                ->defineCanceledProcesses();
-
-            $this
                 ->getTheme()
                 ->resetOutput($output, $this->getProcesses())
                 ->outputProcessesState($output, $this->getProcesses());
 
-            usleep($this->getRefreshInterval());
+            if ($terminated < $this->getProcesses()->count()) {
+                usleep($this->getRefreshInterval());
+            }
         }
 
         return $this;

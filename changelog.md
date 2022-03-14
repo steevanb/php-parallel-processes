@@ -1,5 +1,7 @@
 ### master
 
+- Fix `StartCondition::isCanceled()` when a previous process has been canceled
+
 ### [0.7.2](../../compare/0.7.1...0.7.2) - 2022-03-08
 
 - Fix start ready processes when maximum paralell processes is not configured or value is `null`

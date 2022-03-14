@@ -106,7 +106,10 @@ class StartCondition
         $return = false;
 
         foreach ($this->getProcessesSuccessful()->toArray() as $successfulProcess) {
-            if ($successfulProcess->isTerminated() && $successfulProcess->isSuccessful() === false) {
+            if (
+                ($successfulProcess->isTerminated() && $successfulProcess->isSuccessful() === false)
+                || $successfulProcess->isCanceled()
+            ) {
                 $return = true;
                 break;
             }
@@ -114,7 +117,10 @@ class StartCondition
 
         if ($return === false) {
             foreach ($this->getProcessesFailed()->toArray() as $failedProcess) {
-                if ($failedProcess->isTerminated() && $failedProcess->isSuccessful()) {
+                if (
+                    ($failedProcess->isTerminated() && $failedProcess->isSuccessful())
+                    || $failedProcess->isCanceled()
+                ) {
                     $return = true;
                     break;
                 }
