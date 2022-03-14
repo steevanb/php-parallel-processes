@@ -2,42 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
+namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\SummaryTheme;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Console\Application\Theme\DefaultTheme,
-    Exception\ParallelProcessException,
+    Console\Application\Theme\SummaryTheme,
     Process\ProcessArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::outputSummary */
-final class OutputSummaryTest extends TestCase
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\SummaryTheme::outputStart */
+final class OutputStartTest extends TestCase
 {
     use CreateLsProcessTrait;
 
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new DefaultTheme())->outputSummary(
+        (new SummaryTheme())->outputStart(
             $output,
             new ProcessArray()
         );
 
-        static::assertSame('', $output->getOutputed());
+        static::assertSame("Starting <info></info>0 processes...\n", $output->getOutputed());
     }
 
     public function testNotStarted(): void
     {
-        $this->expectException(ParallelProcessException::class);
-        $this->expectExceptionMessage('Unknown process state.');
-        $this->expectExceptionCode(0);
-
-        (new DefaultTheme())->outputSummary(
-            new TestOutput(),
+        $output = new TestOutput();
+        (new SummaryTheme())->outputStart(
+            $output,
             new ProcessArray([$this->createLsProcess()])
+        );
+
+        static::assertSame(
+            "Starting <info></info>1 processe...\n",
+            $output->getOutputed()
         );
     }
 
@@ -53,10 +54,10 @@ final class OutputSummaryTest extends TestCase
 
         $output = new TestOutput();
 
-        (new DefaultTheme())->outputSummary($output, $processes);
+        (new SummaryTheme())->outputStart($output, $processes);
 
         static::assertSame(
-            "\e[1A\e[K\e[1A\e[K\e[37;42m ✓ \e[39;49m ls\n\e[37;42m ✓ \e[39;49m ls\n",
+            "Starting <info></info>2 processes...\n",
             $output->getOutputed()
         );
     }

@@ -1,6 +1,7 @@
 ### master
 
 - Fix `StartCondition::isCanceled()` when a previous process has been canceled
+- Add `SummaryTheme`
 
 ### [0.7.2](../../compare/0.7.1...0.7.2) - 2022-03-08
 

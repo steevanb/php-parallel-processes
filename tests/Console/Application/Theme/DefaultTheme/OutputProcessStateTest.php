@@ -37,7 +37,7 @@ final class OutputProcessStateTest extends TestCase
         );
 
         static::assertSame(
-            "\e[37;45m > \e[39;49m ls\n",
+            "\e[1A\e[K\e[37;45m > \e[39;49m ls\n",
             $output->getOutputed()
         );
     }
@@ -57,7 +57,7 @@ final class OutputProcessStateTest extends TestCase
         (new DefaultTheme())->outputProcessesState($output, $processes);
 
         static::assertSame(
-            "\e[37;42m ✓ \e[39;49m ls\n\e[37;42m ✓ \e[39;49m ls\n",
+            "\e[1A\e[K\e[1A\e[K\e[37;42m ✓ \e[39;49m ls\n\e[37;42m ✓ \e[39;49m ls\n",
             $output->getOutputed()
         );
     }

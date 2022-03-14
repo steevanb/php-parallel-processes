@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
+namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\SummaryTheme;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Console\Application\Theme\DefaultTheme,
+    Console\Application\Theme\SummaryTheme,
     Process\ProcessArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::resetOutput */
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\SummaryTheme::resetOutput */
 final class ResetOutputTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -20,7 +20,7 @@ final class ResetOutputTest extends TestCase
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new DefaultTheme())->resetOutput(
+        (new SummaryTheme())->resetOutput(
             $output,
             new ProcessArray()
         );
@@ -33,9 +33,9 @@ final class ResetOutputTest extends TestCase
         $processes = new ProcessArray([$this->createLsProcess(), $this->createLsProcess()]);
         $output = new TestOutput();
 
-        (new DefaultTheme())->resetOutput($output, $processes);
+        (new SummaryTheme())->resetOutput($output, $processes);
 
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame('', $output->getOutputed());
     }
 
     public function testStarted(): void
@@ -50,8 +50,8 @@ final class ResetOutputTest extends TestCase
 
         $output = new TestOutput();
 
-        (new DefaultTheme())->resetOutput($output, $processes);
+        (new SummaryTheme())->resetOutput($output, $processes);
 
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame('', $output->getOutputed());
     }
 }

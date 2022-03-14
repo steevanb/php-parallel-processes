@@ -153,18 +153,13 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function runProcessesInParallel(InputInterface $input, OutputInterface $output): int
     {
-        $this
-            ->getTheme()
-            ->outputProcessesState($output, $this->getProcesses());
+        $this->getTheme()->outputStart($output, $this->getProcesses());
 
         $this
             ->startProcesses()
             ->waitProcessesTermination($output);
 
-        $this
-            ->getTheme()
-            ->resetOutput($output, $this->getProcesses())
-            ->outputSummary($output, $this->getProcesses());
+        $this->getTheme()->outputSummary($output, $this->getProcesses());
 
         return $this->getExitCode();
     }
@@ -194,10 +189,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
                 }
             }
 
-            $this
-                ->getTheme()
-                ->resetOutput($output, $this->getProcesses())
-                ->outputProcessesState($output, $this->getProcesses());
+            $this->getTheme()->outputProcessesState($output, $this->getProcesses());
 
             if ($terminated < $this->getProcesses()->count()) {
                 usleep($this->getRefreshInterval());
