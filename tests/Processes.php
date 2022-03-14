@@ -16,10 +16,11 @@ use Steevanb\ParallelProcess\{
 use Symfony\Component\Console\Input\ArgvInput;
 
 require $_ENV['COMPOSER_GLOBAL_AUTOLOAD_FILE_NAME'];
+require __DIR__ . '/../vendor/autoload.php';
 
 $rootDir = dirname(__DIR__, 2);
 
-$process1 = new Process(['sleep', '1'], $rootDir);
+$process1 = new Process(['pwd'], $rootDir);
 
 $process2 = new Process(['pwd'], $rootDir);
 $process2->getStartCondition()->addProcessSuccessful($process1);
@@ -32,5 +33,4 @@ $process3->getStartCondition()->addProcessSuccessful($process2);
     ->addProcess($process2)
     ->addProcess($process3)
     ->setRefreshInterval(1)
-    ->setTheme(new \Steevanb\ParallelProcess\Console\Application\Theme\SummaryTheme())
-    ->run(new ArgvInput($argv));
+    ->run();

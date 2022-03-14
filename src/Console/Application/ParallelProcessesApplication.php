@@ -6,14 +6,17 @@ namespace Steevanb\ParallelProcess\Console\Application;
 
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
+    Console\Application\Theme\SummaryTheme,
     Console\Application\Theme\ThemeInterface,
     Console\Output\ConsoleBufferedOutput,
+    Exception\ParallelProcessException,
     Process\Process,
     Process\ProcessArray
 };
 use Symfony\Component\Console\{
     Command\SignalableCommandInterface,
     Input\InputInterface,
+    Input\InputOption,
     Output\OutputInterface,
     SingleCommandApplication
 };
@@ -146,6 +149,25 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         }
     }
 
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this
+            ->addOption(
+                'theme',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'Name or FQCN of the theme to use (examples: default, summary, ' . DefaultTheme::class . ')'
+            )
+            ->addOption(
+                'refresh-interval',
+                'r',
+                InputOption::VALUE_REQUIRED,
+                'Refresh interval in microseconds (example: 100000 for 100ms)'
+            );
+    }
+
     protected function isCanceled(): bool
     {
         return $this->canceled;
@@ -153,6 +175,10 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function runProcessesInParallel(InputInterface $input, OutputInterface $output): int
     {
+        $this
+            ->defineThemeFromInput($input)
+            ->defineRefreshIntervalFromInput($input);
+
         $this->getTheme()->outputStart($output, $this->getProcesses());
 
         $this
@@ -162,6 +188,53 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         $this->getTheme()->outputSummary($output, $this->getProcesses());
 
         return $this->getExitCode();
+    }
+
+    protected function defineThemeFromInput(InputInterface $input): self
+    {
+        $theme = $input->getOption('theme');
+        if (is_string($theme)) {
+            switch ($theme) {
+                case 'default':
+                    $this->setTheme(new DefaultTheme());
+                    break;
+                case 'summary':
+                    $this->setTheme(new SummaryTheme());
+                    break;
+                default:
+                    if (class_exists($theme) === false) {
+                        throw new ParallelProcessException('Theme "' . $theme . '" not found.');
+                    }
+
+                    $themeObject = new $theme();
+                    if ($themeObject instanceof ThemeInterface === false) {
+                        throw new ParallelProcessException(
+                            'Theme "' . $theme . '" should implements ' . ThemeInterface::class . '.'
+                        );
+                    }
+
+                    $this->setTheme($themeObject);
+                    break;
+            }
+        }
+
+        return $this;
+    }
+
+    protected function defineRefreshIntervalFromInput(InputInterface $input): self
+    {
+        $interval = $input->getOption('refresh-interval');
+        if (is_string($interval)) {
+            if (is_numeric($interval) === false || (string) abs(intval($interval)) !== $interval) {
+                throw new ParallelProcessException(
+                    'Refresh interval "' . $interval . '" should be an integer value in microseconds.'
+                );
+            }
+
+            $this->setRefreshInterval((int) $interval);
+        }
+
+        return $this;
     }
 
     protected function startProcesses(): self
