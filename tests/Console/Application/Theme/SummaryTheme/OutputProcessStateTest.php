@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
+namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\SummaryTheme;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Console\Application\Theme\DefaultTheme,
+    Console\Application\Theme\SummaryTheme,
     Process\ProcessArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::resetOutput */
-final class ResetOutputTest extends TestCase
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\SummaryTheme::outputProcessesState */
+final class OutputProcessStateTest extends TestCase
 {
     use CreateLsProcessTrait;
 
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new DefaultTheme())->resetOutput(
+        (new SummaryTheme())->outputProcessesState(
             $output,
             new ProcessArray()
         );
@@ -30,28 +30,29 @@ final class ResetOutputTest extends TestCase
 
     public function testNotStarted(): void
     {
-        $processes = new ProcessArray([$this->createLsProcess(), $this->createLsProcess()]);
         $output = new TestOutput();
+        (new SummaryTheme())->outputProcessesState(
+            $output,
+            new ProcessArray([$this->createLsProcess()])
+        );
 
-        (new DefaultTheme())->resetOutput($output, $processes);
-
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame('', $output->getOutputed());
     }
 
     public function testStarted(): void
     {
         $process1 = $this->createLsProcess();
-        $process1->start();
+        $process1->mustRun();
 
         $process2 = $this->createLsProcess();
-        $process2->start();
+        $process2->mustRun();
 
         $processes = new ProcessArray([$process1, $process2]);
 
         $output = new TestOutput();
 
-        (new DefaultTheme())->resetOutput($output, $processes);
+        (new SummaryTheme())->outputProcessesState($output, $processes);
 
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame('', $output->getOutputed());
     }
 }

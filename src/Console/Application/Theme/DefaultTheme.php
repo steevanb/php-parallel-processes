@@ -191,8 +191,21 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
+    public function outputStart(OutputInterface $output, ProcessArray $processes): ThemeInterface
+    {
+        foreach ($processes->toArray() as $process) {
+            $this->outputProcessState($output, $process);
+        }
+
+        $this->writeBufferedLines($output);
+
+        return $this;
+    }
+
     public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self
     {
+        $this->resetOutput($output, $processes);
+
         foreach ($processes->toArray() as $process) {
             $this->outputProcessState($output, $process);
         }
@@ -204,6 +217,8 @@ class DefaultTheme implements ThemeInterface
 
     public function outputSummary(OutputInterface $output, ProcessArray $processes): self
     {
+        $this->resetOutput($output, $processes);
+
         foreach ($processes->toArray() as $process) {
             $this
                 ->outputProcessState($output, $process, true)

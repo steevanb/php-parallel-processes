@@ -12,15 +12,15 @@ use Steevanb\ParallelProcess\{
     Tests\CreateLsProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::resetOutput */
-final class ResetOutputTest extends TestCase
+/** @covers \Steevanb\ParallelProcess\Console\Application\Theme\DefaultTheme::outputStart */
+final class OutputStartTest extends TestCase
 {
     use CreateLsProcessTrait;
 
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new DefaultTheme())->resetOutput(
+        (new DefaultTheme())->outputStart(
             $output,
             new ProcessArray()
         );
@@ -30,28 +30,35 @@ final class ResetOutputTest extends TestCase
 
     public function testNotStarted(): void
     {
-        $processes = new ProcessArray([$this->createLsProcess(), $this->createLsProcess()]);
         $output = new TestOutput();
+        (new DefaultTheme())->outputStart(
+            $output,
+            new ProcessArray([$this->createLsProcess()])
+        );
 
-        (new DefaultTheme())->resetOutput($output, $processes);
-
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame(
+            "\e[37;45m > \e[39;49m ls\n",
+            $output->getOutputed()
+        );
     }
 
     public function testStarted(): void
     {
         $process1 = $this->createLsProcess();
-        $process1->start();
+        $process1->mustRun();
 
         $process2 = $this->createLsProcess();
-        $process2->start();
+        $process2->mustRun();
 
         $processes = new ProcessArray([$process1, $process2]);
 
         $output = new TestOutput();
 
-        (new DefaultTheme())->resetOutput($output, $processes);
+        (new DefaultTheme())->outputStart($output, $processes);
 
-        static::assertSame("\e[1A\e[K\e[1A\e[K", $output->getOutputed());
+        static::assertSame(
+            "\e[37;42m ✓ \e[39;49m ls\n\e[37;42m ✓ \e[39;49m ls\n",
+            $output->getOutputed()
+        );
     }
 }
