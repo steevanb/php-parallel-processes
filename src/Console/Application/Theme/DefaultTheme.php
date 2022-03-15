@@ -237,22 +237,22 @@ class DefaultTheme implements ThemeInterface
         if ($process->isTerminated()) {
             if ($process->isSuccessful()) {
                 if ($process->getStandardOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($process->getErrorOutput(), $lines);
+                    $this->mergeProcessOutput($output, $process->getErrorOutput(), $lines);
                 }
                 if ($process->getErrorOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($process->getOutput(), $lines);
+                    $this->mergeProcessOutput($output, $process->getOutput(), $lines);
                 }
             } else {
                 if ($process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($process->getOutput(), $lines);
+                    $this->mergeProcessOutput($output, $process->getOutput(), $lines);
                 }
                 if ($process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($process->getErrorOutput(), $lines);
+                    $this->mergeProcessOutput($output, $process->getErrorOutput(), $lines);
                 }
             }
         } elseif ($process->isCanceled()) {
             if ($process->getCanceledOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput('Process has not beend started due to start conditions.', $lines);
+                $this->mergeProcessOutput($output, 'Process has not beend started due to start conditions.', $lines);
             }
         } else {
             throw new ParallelProcessException('Unknown process state.');
@@ -267,12 +267,12 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function mergeProcessOutput(string $processOutput, StringArray $lines): self
+    protected function mergeProcessOutput(OutputInterface $output, string $processOutput, StringArray $lines): self
     {
         $lines->merge(
             new StringArray(
                 array_map(
-                    fn(string $line): string => '    ' . $line,
+                    fn(string $line): string => $output->isDecorated() ? '    ' . $line : '  ' . $line,
                     explode("\n", $processOutput)
                 )
             )
@@ -296,14 +296,20 @@ class DefaultTheme implements ThemeInterface
 
     protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): self
     {
-        $state = $this->getProcessStateColor($process)->apply(' ' . $this->getProcessStateIcon($process) . ' ') . ' ';
+        if ($output->isDecorated()) {
+            $state = $this
+                ->getProcessStateColor($process)
+                ->apply(' ' . $this->getProcessStateIcon($process) . ' ') . ' ';
+        } else {
+            $state = $this->getProcessStateIcon($process) . ' ';
+        }
 
         $title = $process->getName();
         if ($output->getVerbosity() >= $this->getExecutionTimeVerbosity() && $process->isStarted()) {
             $title .= ' (' . $process->getExecutionTime() . 'ms)';
         }
 
-        if ($isSummary && $this->processWillHaveOutput($output, $process)) {
+        if ($isSummary && $this->processWillHaveOutput($output, $process) && $output->isDecorated()) {
             $state .= $this->getProcessStateColor($process)->apply(
                 ' ' . $title . str_repeat(' ', 79 - strlen($title))
             );

@@ -1,5 +1,7 @@
 ### master
 
+- Fix `--no-ansi`
+
 ### [0.8.0](../../compare/0.7.2...0.8.0) - 2022-03-14
 
 - Fix `StartCondition::isCanceled()` when a previous process has been canceled
