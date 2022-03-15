@@ -29,6 +29,17 @@ final class OutputSummaryTest extends TestCase
         static::assertSame('', $output->getOutputed());
     }
 
+    public function testEmptyNotStartedDecorated(): void
+    {
+        $output = (new TestOutput())->setDecorated(true);
+        (new DefaultTheme())->outputSummary(
+            $output,
+            new ProcessArray()
+        );
+
+        static::assertSame('', $output->getOutputed());
+    }
+
     public function testNotStarted(): void
     {
         $this->expectException(ParallelProcessException::class);
@@ -37,6 +48,18 @@ final class OutputSummaryTest extends TestCase
 
         (new DefaultTheme())->outputSummary(
             new TestOutput(),
+            new ProcessArray([$this->createLsProcess()])
+        );
+    }
+
+    public function testNotStartedDecorated(): void
+    {
+        $this->expectException(ParallelProcessException::class);
+        $this->expectExceptionMessage('Unknown process state.');
+        $this->expectExceptionCode(0);
+
+        (new DefaultTheme())->outputSummary(
+            (new TestOutput())->setDecorated(true),
             new ProcessArray([$this->createLsProcess()])
         );
     }
@@ -52,6 +75,26 @@ final class OutputSummaryTest extends TestCase
         $processes = new ProcessArray([$process1, $process2]);
 
         $output = new TestOutput();
+
+        (new DefaultTheme())->outputSummary($output, $processes);
+
+        static::assertSame(
+            "\e[1A\e[K\e[1A\e[K✓ ls\n✓ ls\n",
+            $output->getOutputed()
+        );
+    }
+
+    public function testStartedDecorated(): void
+    {
+        $process1 = $this->createLsProcess();
+        $process1->mustRun();
+
+        $process2 = $this->createLsProcess();
+        $process2->mustRun();
+
+        $processes = new ProcessArray([$process1, $process2]);
+
+        $output = (new TestOutput())->setDecorated(true);
 
         (new DefaultTheme())->outputSummary($output, $processes);
 

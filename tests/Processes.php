@@ -22,7 +22,7 @@ $rootDir = dirname(__DIR__, 2);
 
 $process1 = new Process(['pwd'], $rootDir);
 
-$process2 = new Process(['pwd'], $rootDir);
+$process2 = new Process(['commandNotFound'], $rootDir);
 $process2->getStartCondition()->addProcessSuccessful($process1);
 
 $process3 = new Process(['pwd'], $rootDir);

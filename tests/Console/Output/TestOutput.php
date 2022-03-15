@@ -80,9 +80,11 @@ final class TestOutput implements OutputInterface
         return $this->getVerbosity() === static::VERBOSITY_DEBUG;
     }
 
-    public function setDecorated(bool $decorated): void
+    public function setDecorated(bool $decorated): self
     {
         $this->decorated = $decorated;
+
+        return $this;
     }
 
     public function isDecorated(): bool

@@ -28,9 +28,34 @@ final class OutputStartTest extends TestCase
         static::assertSame('', $output->getOutputed());
     }
 
+    public function testEmptyNotStartedDecorated(): void
+    {
+        $output = (new TestOutput())->setDecorated(true);
+        (new DefaultTheme())->outputStart(
+            $output,
+            new ProcessArray()
+        );
+
+        static::assertSame('', $output->getOutputed());
+    }
+
     public function testNotStarted(): void
     {
         $output = new TestOutput();
+        (new DefaultTheme())->outputStart(
+            $output,
+            new ProcessArray([$this->createLsProcess()])
+        );
+
+        static::assertSame(
+            "> ls\n",
+            $output->getOutputed()
+        );
+    }
+
+    public function testNotStartedDecorated(): void
+    {
+        $output = (new TestOutput())->setDecorated(true);
         (new DefaultTheme())->outputStart(
             $output,
             new ProcessArray([$this->createLsProcess()])
@@ -53,6 +78,26 @@ final class OutputStartTest extends TestCase
         $processes = new ProcessArray([$process1, $process2]);
 
         $output = new TestOutput();
+
+        (new DefaultTheme())->outputStart($output, $processes);
+
+        static::assertSame(
+            "✓ ls\n✓ ls\n",
+            $output->getOutputed()
+        );
+    }
+
+    public function testStartedDecorated(): void
+    {
+        $process1 = $this->createLsProcess();
+        $process1->mustRun();
+
+        $process2 = $this->createLsProcess();
+        $process2->mustRun();
+
+        $processes = new ProcessArray([$process1, $process2]);
+
+        $output = (new TestOutput())->setDecorated(true);
 
         (new DefaultTheme())->outputStart($output, $processes);
 
