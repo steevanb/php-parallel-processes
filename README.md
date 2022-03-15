@@ -1,9 +1,9 @@
-[![Version](https://img.shields.io/badge/version-0.8.0-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/0.8.0)
+[![Version](https://img.shields.io/badge/version-0.8.1-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/0.8.1)
 [![PHP](https://img.shields.io/badge/php-^7.4||^8.0-blue.svg)](https://php.net)
-![Lines](https://img.shields.io/badge/code%20lines-5,518-blue.svg)
+![Lines](https://img.shields.io/badge/code%20lines-5,663-blue.svg)
 ![Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
 ![GitHub workflow status](https://img.shields.io/github/workflow/status/steevanb/php-parallel-processes/CI)
-![Coverage](https://img.shields.io/badge/coverage-56%25-success.svg)
+![Coverage](https://img.shields.io/badge/coverage-55%25-success.svg)
 ![Infection](https://img.shields.io/badge/infection-88%25-success.svg)
 
 # php-parallel-processes
