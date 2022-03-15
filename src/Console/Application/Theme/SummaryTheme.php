@@ -12,9 +12,9 @@ class SummaryTheme extends DefaultTheme
     public function outputStart(OutputInterface $output, ProcessArray $processes): ThemeInterface
     {
         $output->writeln(
-            'Starting <info></info>'
+            'Starting <info>'
             . $processes->count()
-            . ' processe'
+            . '</info> processe'
             . ($processes->count() !== 1 ? 's' : null)
             . '...'
         );
