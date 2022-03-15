@@ -25,7 +25,7 @@ final class OutputStartTest extends TestCase
             new ProcessArray()
         );
 
-        static::assertSame("Starting <info></info>0 processes...\n", $output->getOutputed());
+        static::assertSame("Starting <info>0</info> processes...\n", $output->getOutputed());
     }
 
     public function testNotStarted(): void
@@ -37,7 +37,7 @@ final class OutputStartTest extends TestCase
         );
 
         static::assertSame(
-            "Starting <info></info>1 processe...\n",
+            "Starting <info>1</info> processe...\n",
             $output->getOutputed()
         );
     }
@@ -57,7 +57,7 @@ final class OutputStartTest extends TestCase
         (new SummaryTheme())->outputStart($output, $processes);
 
         static::assertSame(
-            "Starting <info></info>2 processes...\n",
+            "Starting <info>2</info> processes...\n",
             $output->getOutputed()
         );
     }

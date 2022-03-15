@@ -1,5 +1,7 @@
 ### master
 
+- Fix `SummaryTheme` processes count color
+
 ### [0.8.1](../../compare/0.8.0...0.8.1) - 2022-03-15
 
 - Fix `--no-ansi`
