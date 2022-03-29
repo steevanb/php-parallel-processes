@@ -1,5 +1,7 @@
 ### master
 
+- Add `jq` in `-buster` Docker images (since `0.8.3`)
+
 ### [0.8.2](../../compare/0.8.1...0.8.2) - 2022-03-15
 
 - Fix `SummaryTheme` processes count color
