@@ -1,5 +1,7 @@
 ### master
 
+### [0.9.0](../../compare/0.8.3...0.9.0) - 2023-02-20
+
 - Remove compatibility with PHP 7.4 and 8.0
 - Remove compatibility with Symfony 5 and 6.0
 - Replace return type `self` by `static` everywhere
