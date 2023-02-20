@@ -4,7 +4,7 @@ FROM composer:${COMPOSER_VERSION} as composer
 
 FROM ubuntu:22.04
 
-COPY --from=composer:2.5.4 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_HOME=/composer/common
 ENV COMPOSER_HOME_SYMFONY_6_1=/composer/symfony-6-1
