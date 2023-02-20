@@ -2,7 +2,7 @@
 [![PHP](https://img.shields.io/badge/php-^8.1-blue.svg)](https://php.net)
 ![Lines](https://img.shields.io/badge/code%20lines-5,639-blue.svg)
 ![Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
-![GitHub workflow status](https://img.shields.io/github/workflow/status/steevanb/php-parallel-processes/CI)
+![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/steevanb/php-parallel-processes/ci.yml?branch=master)
 ![Coverage](https://img.shields.io/badge/coverage-53%25-success.svg)
 ![Infection](https://img.shields.io/badge/infection-87%25-success.svg)
 
