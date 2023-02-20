@@ -22,7 +22,7 @@ final class WriteTest extends TestCase
         $output->write('<comment>foo</comment>');
         static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(1, $output->getBufferedLines());
-        static::assertArrayHasKey(0, $output->getBufferedLines());
+        static::assertArrayHasKey(0, $output->getBufferedLines()->toArray());
         /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
         static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated());
     }

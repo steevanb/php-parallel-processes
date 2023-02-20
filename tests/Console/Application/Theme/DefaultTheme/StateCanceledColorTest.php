@@ -19,7 +19,8 @@ final class StateCanceledColorTest extends TestCase
     {
         $theme = new DefaultTheme();
 
-        static::assertInstanceOf(Color::class, $theme->getStateCanceledColor());
+        $theme->getStateCanceledColor();
+        $this->addToAssertionCount(1);
     }
 
     public function testSetter(): void

@@ -50,7 +50,7 @@ class DefaultTheme implements ThemeInterface
             ->setStateErrorColor(new Color('white', 'red'));
     }
 
-    public function setStateReadyColor(Color $stateReadyColor): self
+    public function setStateReadyColor(Color $stateReadyColor): static
     {
         $this->stateReadyColor = $stateReadyColor;
 
@@ -62,7 +62,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateReadyColor;
     }
 
-    public function setStateReadyIcon(string $stateReadyIcon): self
+    public function setStateReadyIcon(string $stateReadyIcon): static
     {
         $this->stateReadyIcon = $stateReadyIcon;
 
@@ -74,7 +74,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateReadyIcon;
     }
 
-    public function setStateCanceledColor(Color $stateCanceledColor): self
+    public function setStateCanceledColor(Color $stateCanceledColor): static
     {
         $this->stateCanceledColor = $stateCanceledColor;
 
@@ -86,7 +86,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateCanceledColor;
     }
 
-    public function setStateCanceledIcon(string $stateCanceledIcon): self
+    public function setStateCanceledIcon(string $stateCanceledIcon): static
     {
         $this->stateCanceledIcon = $stateCanceledIcon;
 
@@ -98,7 +98,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateCanceledIcon;
     }
 
-    public function setStateRunningColor(Color $stateRunningColor): self
+    public function setStateRunningColor(Color $stateRunningColor): static
     {
         $this->stateRunningColor = $stateRunningColor;
 
@@ -110,7 +110,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateRunningColor;
     }
 
-    public function setStateRunningIcon(string $stateRunningIcon): self
+    public function setStateRunningIcon(string $stateRunningIcon): static
     {
         $this->stateRunningIcon = $stateRunningIcon;
 
@@ -122,7 +122,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateRunningIcon;
     }
 
-    public function setStateSuccessfulColor(Color $stateSuccessfulColor): self
+    public function setStateSuccessfulColor(Color $stateSuccessfulColor): static
     {
         $this->stateSuccessfulColor = $stateSuccessfulColor;
 
@@ -134,7 +134,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateSuccessfulColor;
     }
 
-    public function setStateSuccessfulIcon(string $stateSuccessfulIcon): self
+    public function setStateSuccessfulIcon(string $stateSuccessfulIcon): static
     {
         $this->stateSuccessfulIcon = $stateSuccessfulIcon;
 
@@ -146,7 +146,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateSuccessfulIcon;
     }
 
-    public function setStateErrorColor(Color $stateErrorColor): self
+    public function setStateErrorColor(Color $stateErrorColor): static
     {
         $this->stateErrorColor = $stateErrorColor;
 
@@ -158,7 +158,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateErrorColor;
     }
 
-    public function setStateErrorIcon(string $stateErrorIcon): self
+    public function setStateErrorIcon(string $stateErrorIcon): static
     {
         $this->stateErrorIcon = $stateErrorIcon;
 
@@ -170,7 +170,7 @@ class DefaultTheme implements ThemeInterface
         return $this->stateErrorIcon;
     }
 
-    public function setExecutionTimeVerbosity(int $executionTimeVerbosity): self
+    public function setExecutionTimeVerbosity(int $executionTimeVerbosity): static
     {
         $this->executionTimeVerbosity = $executionTimeVerbosity;
 
@@ -182,7 +182,7 @@ class DefaultTheme implements ThemeInterface
         return $this->executionTimeVerbosity;
     }
 
-    public function resetOutput(OutputInterface $output, ProcessArray $processes): self
+    public function resetOutput(OutputInterface $output, ProcessArray $processes): static
     {
         for ($reset = 0; $reset < $processes->count(); $reset++) {
             $output->write("\e[1A\e[K");
@@ -191,7 +191,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputStart(OutputInterface $output, ProcessArray $processes): ThemeInterface
+    public function outputStart(OutputInterface $output, ProcessArray $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->outputProcessState($output, $process);
@@ -202,7 +202,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self
+    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -215,7 +215,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputSummary(OutputInterface $output, ProcessArray $processes): self
+    public function outputSummary(OutputInterface $output, ProcessArray $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -230,7 +230,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputProcessSummary(OutputInterface $output, Process $process): self
+    protected function outputProcessSummary(OutputInterface $output, Process $process): static
     {
         $lines = new StringArray();
 
@@ -267,7 +267,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function mergeProcessOutput(OutputInterface $output, string $processOutput, StringArray $lines): self
+    protected function mergeProcessOutput(OutputInterface $output, string $processOutput, StringArray $lines): static
     {
         $lines->merge(
             new StringArray(
@@ -281,7 +281,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function removeLastEmptyLines(StringArray $lines): self
+    protected function removeLastEmptyLines(StringArray $lines): static
     {
         while (
             $lines->count() >= 1
@@ -294,7 +294,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): self
+    protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): static
     {
         if ($output->isDecorated()) {
             $state = $this
@@ -383,7 +383,7 @@ class DefaultTheme implements ThemeInterface
         return $return;
     }
 
-    protected function writeBufferedLines(OutputInterface $output): self
+    protected function writeBufferedLines(OutputInterface $output): static
     {
         if ($output instanceof ConsoleBufferedOutput) {
             $output->writeBufferedLines();

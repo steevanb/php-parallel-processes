@@ -1,5 +1,10 @@
 ### master
 
+- Remove compatibility with PHP 7.4 and 8.0
+- Remove compatibility with Symfony 5 and 6.0
+- Replace return type `self` by `static` everywhere
+- Update CI tools
+
 ### [0.8.3](../../compare/0.8.2...0.8.3) - 2022-03-29
 
 - Add `jq` in `-buster` Docker images (since `0.8.3`)

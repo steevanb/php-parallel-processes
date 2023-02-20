@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: [--php=7.4, --php=8.0, --php=8.1]
+                php: [--php=8.1, --php=8.2]
         steps:
             - uses: actions/checkout@v2
             - uses: ./.github/actions/ci-env
@@ -55,32 +55,13 @@ jobs:
             - uses: actions/checkout@v2
             - run: bin/ci/unused-scanner
 
-    phpunit-php-7-4:
+    phpunit:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                symfony: [--symfony=5.0, --symfony=5.1, --symfony=5.2, --symfony=5.3, --symfony=5.4]
+                php: [--php=8.1, --php=8.2]
+                symfony: [--symfony=6.1, --symfony=6.2]
         steps:
             - uses: actions/checkout@v2
             - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpunit --php=7.4 ${{ matrix.symfony }}
-
-    phpunit-php-8-0:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                symfony: [--symfony=5.0, --symfony=5.1, --symfony=5.2, --symfony=5.3, --symfony=5.4, --symfony=6.0]
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpunit --php=8.0 ${{ matrix.symfony }}
-
-    phpunit-php-8-1:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                symfony: [--symfony=5.0, --symfony=5.1, --symfony=5.2, --symfony=5.3, --symfony=5.4, --symfony=6.0]
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpunit --php=8.1 ${{ matrix.symfony }}
+            - run: bin/ci/phpunit ${{ matrix.php }} ${{ matrix.symfony }}

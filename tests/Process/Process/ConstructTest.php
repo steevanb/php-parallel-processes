@@ -24,7 +24,8 @@ final class ConstructTest extends TestCase
         static::assertSame(60.0, $process->getTimeout());
 
         static::assertSame('ls', $process->getName());
-        static::assertInstanceOf(StartCondition::class, $process->getStartCondition());
+        $process->getStartCondition();
+        $this->addToAssertionCount(1);
         static::assertSame(64, $process->getStandardOutputVerbosity());
         static::assertSame(64, $process->getErrorOutputVerbosity());
         static::assertSame(64, $process->getCanceledOutputVerbosity());

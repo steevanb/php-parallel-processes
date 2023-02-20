@@ -18,7 +18,6 @@ class CreateRemoveDirectoryProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveDirectoryProcess(__DIR__, $application);
 
         static::assertInstanceOf(Process::class, $process);
@@ -38,7 +37,6 @@ class CreateRemoveDirectoryProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveDirectoryProcess(__DIR__, $application, 'foo');
 
         static::assertInstanceOf(Process::class, $process);
@@ -49,7 +47,6 @@ class CreateRemoveDirectoryProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveDirectoryProcess(__DIR__, $application, 'foo', '/foo/bar');
 
         static::assertInstanceOf(Process::class, $process);

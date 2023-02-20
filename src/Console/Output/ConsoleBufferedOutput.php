@@ -69,7 +69,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
         }
     }
 
-    public function writeBufferedLines(): self
+    public function writeBufferedLines(): static
     {
         $this->doWrite(implode('', $this->bufferedLines->toArray()), false);
 

@@ -6,7 +6,7 @@ namespace Steevanb\ParallelProcess\Tests\Console\Output\ConsoleBufferedOutput;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput;
-use Symfony\Component\Console\Formatter\OutputFormatterInterface;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /** @covers \Steevanb\ParallelProcess\Console\Output\ConsoleBufferedOutput::__construct */
 final class ConstructTest extends TestCase
@@ -18,6 +18,6 @@ final class ConstructTest extends TestCase
         static::assertCount(0, $output->getBufferedLines());
         static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertSame(32, $output->getVerbosity());
-        static::assertInstanceOf(OutputFormatterInterface::class, $output->getFormatter());
+        static::assertInstanceOf(OutputFormatter::class, $output->getFormatter());
     }
 }

@@ -18,7 +18,6 @@ final class CreateRemoveFileProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveFileProcess(__FILE__, $application);
 
         static::assertInstanceOf(Process::class, $process);
@@ -38,7 +37,6 @@ final class CreateRemoveFileProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveFileProcess(__FILE__, $application, 'foo');
 
         static::assertInstanceOf(Process::class, $process);
@@ -49,7 +47,6 @@ final class CreateRemoveFileProcessTest extends TestCase
     {
         $application = new ParallelProcessesApplication();
 
-        /** @var Process $process */
         $process = ProcessFactory::createRemoveFileProcess(__FILE__, $application, 'foo', '/foo/bar');
 
         static::assertInstanceOf(Process::class, $process);

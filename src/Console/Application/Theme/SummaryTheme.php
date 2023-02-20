@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SummaryTheme extends DefaultTheme
 {
-    public function outputStart(OutputInterface $output, ProcessArray $processes): ThemeInterface
+    public function outputStart(OutputInterface $output, ProcessArray $processes): static
     {
         $output->writeln(
             'Starting <info>'
@@ -23,12 +23,12 @@ class SummaryTheme extends DefaultTheme
         return $this;
     }
 
-    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self
+    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): static
     {
         return $this;
     }
 
-    public function resetOutput(OutputInterface $output, ProcessArray $processes): self
+    public function resetOutput(OutputInterface $output, ProcessArray $processes): static
     {
         return $this;
     }
