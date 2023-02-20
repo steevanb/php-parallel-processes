@@ -49,7 +49,7 @@ class Process extends SymfonyProcess
         $this->startCondition = new StartCondition();
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -61,7 +61,7 @@ class Process extends SymfonyProcess
         return $this->name;
     }
 
-    public function setStandardOutputVerbosity(int $standardOutputVerbosity): self
+    public function setStandardOutputVerbosity(int $standardOutputVerbosity): static
     {
         $this->standardOutputVerbosity = $standardOutputVerbosity;
 
@@ -73,7 +73,7 @@ class Process extends SymfonyProcess
         return $this->standardOutputVerbosity;
     }
 
-    public function setErrorOutputVerbosity(int $errorOutputVerbosity): self
+    public function setErrorOutputVerbosity(int $errorOutputVerbosity): static
     {
         $this->errorOutputVerbosity = $errorOutputVerbosity;
 
@@ -85,7 +85,7 @@ class Process extends SymfonyProcess
         return $this->errorOutputVerbosity;
     }
 
-    public function setFailureStandardOutputVerbosity(int $failureStandardOutputVerbosity): self
+    public function setFailureStandardOutputVerbosity(int $failureStandardOutputVerbosity): static
     {
         $this->failureStandardOutputVerbosity = $failureStandardOutputVerbosity;
 
@@ -97,7 +97,7 @@ class Process extends SymfonyProcess
         return $this->failureStandardOutputVerbosity;
     }
 
-    public function setFailureErrorOutputVerbosity(int $failureErrorOutputVerbosity): self
+    public function setFailureErrorOutputVerbosity(int $failureErrorOutputVerbosity): static
     {
         $this->failureErrorOutputVerbosity = $failureErrorOutputVerbosity;
 
@@ -109,7 +109,7 @@ class Process extends SymfonyProcess
         return $this->failureErrorOutputVerbosity;
     }
 
-    public function setCanceledOutputVerbosity(int $canceledOutputVerbosity): self
+    public function setCanceledOutputVerbosity(int $canceledOutputVerbosity): static
     {
         $this->canceledOutputVerbosity = $canceledOutputVerbosity;
 
@@ -135,7 +135,7 @@ class Process extends SymfonyProcess
         return $this->startCondition;
     }
 
-    public function setCanceled(bool $canceled = true): self
+    public function setCanceled(bool $canceled = true): static
     {
         $this->canceled = $canceled;
 
@@ -147,7 +147,7 @@ class Process extends SymfonyProcess
         return $this->canceled;
     }
 
-    public function setCanceledAsError(bool $canceledAsError = true): self
+    public function setCanceledAsError(bool $canceledAsError = true): static
     {
         $this->canceledAsError = $canceledAsError;
 
@@ -159,7 +159,7 @@ class Process extends SymfonyProcess
         return $this->canceledAsError;
     }
 
-    public function setSpreadErrorToApplicationExitCode(bool $spreadErrorToApplicationExitCode = true): self
+    public function setSpreadErrorToApplicationExitCode(bool $spreadErrorToApplicationExitCode = true): static
     {
         $this->spreadErrorToApplicationExitCode = $spreadErrorToApplicationExitCode;
 

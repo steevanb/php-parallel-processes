@@ -13,6 +13,7 @@ parameters:
 includes:
     - ../../vendor/steevanb/php-typed-array/bridge/Phpstan/rules.neon
     - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - /composer/common/vendor/phpstan/phpstan-phpunit/extension.neon
     - /composer/common/vendor/phpstan/phpstan-phpunit/rules.neon
     - /composer/common/vendor/phpstan/phpstan-strict-rules/rules.neon
     - /composer/common/vendor/spaze/phpstan-disallowed-calls/extension.neon

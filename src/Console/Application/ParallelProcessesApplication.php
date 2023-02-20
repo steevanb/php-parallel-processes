@@ -44,14 +44,14 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
             ->setTheme(new DefaultTheme());
     }
 
-    public function addProcess(Process $process): self
+    public function addProcess(Process $process): static
     {
         $this->processes[] = $process;
 
         return $this;
     }
 
-    public function addProcesses(ProcessArray $processes): self
+    public function addProcesses(ProcessArray $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->addProcess($process);
@@ -78,7 +78,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this->processes;
     }
 
-    public function setTheme(ThemeInterface $theme): self
+    public function setTheme(ThemeInterface $theme): static
     {
         $this->theme = $theme;
 
@@ -91,7 +91,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     }
 
     /** Set refresh interval in microseconds */
-    public function setRefreshInterval(int $refreshInterval): self
+    public function setRefreshInterval(int $refreshInterval): static
     {
         $this->refreshInterval = $refreshInterval;
 
@@ -104,7 +104,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this->refreshInterval;
     }
 
-    public function setMaximumParallelProcesses(?int $maximumParallelProcesses): self
+    public function setMaximumParallelProcesses(?int $maximumParallelProcesses): static
     {
         $this->maximumParallelProcesses = $maximumParallelProcesses;
 
@@ -190,7 +190,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this->getExitCode();
     }
 
-    protected function defineThemeFromInput(InputInterface $input): self
+    protected function defineThemeFromInput(InputInterface $input): static
     {
         $theme = $input->getOption('theme');
         if (is_string($theme)) {
@@ -221,7 +221,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    protected function defineRefreshIntervalFromInput(InputInterface $input): self
+    protected function defineRefreshIntervalFromInput(InputInterface $input): static
     {
         $interval = $input->getOption('refresh-interval');
         if (is_string($interval)) {
@@ -237,12 +237,12 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    protected function startProcesses(): self
+    protected function startProcesses(): static
     {
         return $this->startReadyProcesses();
     }
 
-    protected function waitProcessesTermination(OutputInterface $output): self
+    protected function waitProcessesTermination(OutputInterface $output): static
     {
         $terminated = 0;
         while ($terminated < $this->getProcesses()->count()) {
@@ -272,7 +272,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    protected function defineCanceledProcesses(): self
+    protected function defineCanceledProcesses(): static
     {
         foreach ($this->getProcesses()->getReady()->toArray() as $process) {
             if ($process->getStartCondition()->isCanceled()) {
@@ -283,7 +283,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    protected function startReadyProcesses(): self
+    protected function startReadyProcesses(): static
     {
         $countRunningProcesses = $this->getProcesses()->countRunning();
         $maximumParallelProcesses = $this->getMaximumParallelProcesses();

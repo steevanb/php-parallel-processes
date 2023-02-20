@@ -19,7 +19,8 @@ final class StateSuccessfulColorTest extends TestCase
     {
         $theme = new DefaultTheme();
 
-        static::assertInstanceOf(Color::class, $theme->getStateSuccessfulColor());
+        $theme->getStateSuccessfulColor();
+        $this->addToAssertionCount(1);
     }
 
     public function testSetter(): void

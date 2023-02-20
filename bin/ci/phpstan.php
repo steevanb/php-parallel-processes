@@ -15,7 +15,7 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 function createPhpstanProcesses(): ProcessArray
 {
-    $phpVersions = new StringArray(['7.4', '8.0', '8.1']);
+    $phpVersions = new StringArray(['8.1', '8.2']);
 
     $return = new ProcessArray();
     foreach ($phpVersions as $loopPhpVersion) {

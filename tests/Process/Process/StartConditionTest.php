@@ -20,6 +20,8 @@ final class StartConditionTest extends TestCase
 
     public function testGet(): void
     {
-        static::assertInstanceOf(StartCondition::class, $this->createLsProcess()->getStartCondition());
+        $this->createLsProcess()->getStartCondition();
+
+        $this->addToAssertionCount(1);
     }
 }

@@ -2,21 +2,17 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} as composer
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.5.4 /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_HOME=/composer/common
-ENV COMPOSER_HOME_SYMFONY_5_0=/composer/symfony-5-0
-ENV COMPOSER_HOME_SYMFONY_5_1=/composer/symfony-5-1
-ENV COMPOSER_HOME_SYMFONY_5_2=/composer/symfony-5-2
-ENV COMPOSER_HOME_SYMFONY_5_3=/composer/symfony-5-3
-ENV COMPOSER_HOME_SYMFONY_5_4=/composer/symfony-5-4
-ENV COMPOSER_HOME_SYMFONY_6_0=/composer/symfony-6-0
+ENV COMPOSER_HOME_SYMFONY_6_1=/composer/symfony-6-1
+ENV COMPOSER_HOME_SYMFONY_6_2=/composer/symfony-6-2
 
 ENV PHPSTAN_BIN_PATH=/usr/local/bin/phpstan
 
-COPY docker/ci/global.composer.json ${COMPOSER_HOME}/composer.json
+COPY docker/ci/composer.json ${COMPOSER_HOME}/composer.json
 
 RUN \
     apt-get update \
@@ -26,18 +22,14 @@ RUN \
     && apt-get install -y \
         bash \
         shellcheck \
-        # PHP 7.4
-        php7.4-cli \
-        php7.4-dom \
-        php7.4-mbstring \
-        # PHP 8.0
-        php8.0-cli \
-        php8.0-dom \
-        php8.0-mbstring \
         # PHP 8.1
         php8.1-cli \
         php8.1-dom \
         php8.1-mbstring \
+        # PHP 8.2
+        php8.2-cli \
+        php8.2-dom \
+        php8.2-mbstring \
         # For Composer
         curl \
         zip \
@@ -45,24 +37,11 @@ RUN \
         php8.1-zip \
         # For coverage
         php8.1-xdebug \
-
     # Install CI tools
-    && php7.4 /usr/local/bin/composer global require \
-        phpstan/phpstan:1.2.* \
-        phpstan/phpstan-deprecation-rules:1.0.* \
-        phpstan/phpstan-strict-rules:1.1. \
-        phpstan/phpstan-phpunit:1.0.* \
-        phpstan/phpstan-symfony:1.0.* \
-        spaze/phpstan-disallowed-calls:2.2.* \
-        ergebnis/phpstan-rules:1.0.* \
-        maglnet/composer-require-checker:3.3.* \
-        wapmorgan/php-deprecation-detector:2.0.* \
-        steevanb/php-code-sniffs:4.2.* \
-        insolita/unused-scanner:2.3.* \
-        ergebnis/composer-normalize:2.18.* \
-        infection/infection:0.24.* \
+    && cd ${COMPOSER_HOME} \
+    && php8.1 /usr/local/bin/composer update \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
-    && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \
+    && ln -s ${COMPOSER_HOME}/vendor/bin/phpcf /usr/local/bin/phpcf \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan ${PHPSTAN_BIN_PATH} \
     && ln -s ${COMPOSER_HOME}/vendor/bin/unused_scanner /usr/local/bin/unused-scanner \
@@ -73,18 +52,10 @@ RUN \
     && chmod 777 ${COMPOSER_HOME}/vendor/infection/extension-installer/src/GeneratedExtensionsConfig.php \
 
     # Install Symfony components
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_0} \
-        php7.4 /usr/local/bin/composer global require symfony/process:5.0.* symfony/console:5.2.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_1} \
-        php7.4 /usr/local/bin/composer global require symfony/process:5.1.* symfony/console:5.2.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_2} \
-        php7.4 /usr/local/bin/composer global require symfony/process:5.2.* symfony/console:5.2.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_3} \
-        php7.4 /usr/local/bin/composer global require symfony/process:5.3.* symfony/console:5.3.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_5_4} \
-        php7.4 /usr/local/bin/composer global require symfony/process:5.4.* symfony/console:5.4.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_0} \
-        php8.0 /usr/local/bin/composer global require symfony/process:6.0.* symfony/console:6.0.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_1} \
+        php8.1 /usr/local/bin/composer global require symfony/process:6.1.* symfony/console:6.1.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_2} \
+        php8.1 /usr/local/bin/composer global require symfony/process:6.2.* symfony/console:6.2.* \
 
     # Purge
     && apt-get purge -y software-properties-common \

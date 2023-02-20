@@ -9,9 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 interface ThemeInterface
 {
-    public function outputStart(OutputInterface $output, ProcessArray $processes): self;
+    public function outputStart(OutputInterface $output, ProcessArray $processes): static;
 
-    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): self;
+    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): static;
 
-    public function outputSummary(OutputInterface $output, ProcessArray $processes): self;
+    public function outputSummary(OutputInterface $output, ProcessArray $processes): static;
 }

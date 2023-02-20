@@ -19,7 +19,7 @@ class StartCondition
         $this->processesFailed = (new ProcessArray())->setReadOnly();
     }
 
-    public function addProcessTerminated(Process $process): self
+    public function addProcessTerminated(Process $process): static
     {
         $this->processesTerminated->setReadOnly(false);
         $this->processesTerminated[] = $process;
@@ -33,7 +33,7 @@ class StartCondition
         return $this->processesTerminated;
     }
 
-    public function addProcessSuccessful(Process $process): self
+    public function addProcessSuccessful(Process $process): static
     {
         $this->processesSuccessful->setReadOnly(false);
         $this->processesSuccessful[] = $process;
@@ -47,7 +47,7 @@ class StartCondition
         return $this->processesSuccessful;
     }
 
-    public function addProcessFailed(Process $process): self
+    public function addProcessFailed(Process $process): static
     {
         $this->processesFailed->setReadOnly(false);
         $this->processesFailed[] = $process;
