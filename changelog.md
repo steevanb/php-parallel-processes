@@ -1,5 +1,7 @@
 ### master
 
+### [0.10.0](../../compare/0.9.0...0.10.0) - 2023-02-21
+
 - Update [steevanb/php-typed-array](https://github.com/steevanb/php-typed-array) to 4.0
 
 ### [0.9.0](../../compare/0.8.3...0.9.0) - 2023-02-20
