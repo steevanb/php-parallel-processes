@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Steevanb\ParallelProcess\Console\Output;
 
-use steevanb\PhpTypedArray\ScalarArray\StringArray;
+use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\{
     Formatter\OutputFormatterInterface,
     Output\ConsoleOutput,

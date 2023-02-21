@@ -37,9 +37,11 @@ RUN \
         php8.1-zip \
         # For coverage
         php8.1-xdebug \
+    && update-alternatives --set php /usr/bin/php8.1 \
+
     # Install CI tools
     && cd ${COMPOSER_HOME} \
-    && php8.1 /usr/local/bin/composer update \
+    && composer update \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcf /usr/local/bin/phpcf \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
@@ -52,10 +54,8 @@ RUN \
     && chmod 777 ${COMPOSER_HOME}/vendor/infection/extension-installer/src/GeneratedExtensionsConfig.php \
 
     # Install Symfony components
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_1} \
-        php8.1 /usr/local/bin/composer global require symfony/process:6.1.* symfony/console:6.1.* \
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_2} \
-        php8.1 /usr/local/bin/composer global require symfony/process:6.2.* symfony/console:6.2.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_1} composer global require symfony/process:6.1.* symfony/console:6.1.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_2} composer global require symfony/process:6.2.* symfony/console:6.2.* \
 
     # Purge
     && apt-get purge -y software-properties-common \

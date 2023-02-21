@@ -14,7 +14,7 @@ use Symfony\Component\Console\{
     Color,
     Output\OutputInterface
 };
-use steevanb\PhpTypedArray\ScalarArray\StringArray;
+use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 
 class DefaultTheme implements ThemeInterface
 {

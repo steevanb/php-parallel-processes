@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Steevanb\ParallelProcess\Process;
 
-use steevanb\PhpTypedArray\ObjectArray\ObjectArray;
+use Steevanb\PhpTypedArray\ObjectArray\ObjectArray;
 
 class ProcessArray extends ObjectArray
 {

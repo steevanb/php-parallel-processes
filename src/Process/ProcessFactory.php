@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Process;
 
 use Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication;
-use steevanb\PhpTypedArray\ScalarArray\StringArray;
+use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 
 class ProcessFactory
 {
