@@ -9,6 +9,11 @@ use Steevanb\ParallelProcess\{
     Process\Process,
     Process\ProcessArray
 };
+use Steevanb\PhpTypedArray\{
+    NullValueModeEnum,
+    ObjectComparisonModeEnum,
+    ValueAlreadyExistsModeEnum
+};
 
 /** @covers \Steevanb\ParallelProcess\Process\ProcessArray::__construct */
 final class ConstructTest extends TestCase
@@ -19,8 +24,8 @@ final class ConstructTest extends TestCase
 
         static::assertCount(0, $processes);
         static::assertSame(Process::class, $processes->getClassName());
-        static::assertSame(ProcessArray::COMPARISON_STRING, $processes->getComparisonMode());
-        static::assertSame(ProcessArray::VALUE_ALREADY_EXIST_ADD, $processes->getValueAlreadyExistMode());
-        static::assertSame(ProcessArray::NULL_VALUE_ALLOW, $processes->getNullValueMode());
+        static::assertSame(ObjectComparisonModeEnum::STRING, $processes->getComparisonMode());
+        static::assertSame(ValueAlreadyExistsModeEnum::ADD, $processes->getValueAlreadyExistMode());
+        static::assertSame(NullValueModeEnum::ALLOW, $processes->getNullValueMode());
     }
 }
