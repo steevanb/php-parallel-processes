@@ -1,5 +1,7 @@
 ### master
 
+- Update [steevanb/php-typed-array](https://github.com/steevanb/php-typed-array) to 4.0
+
 ### [0.9.0](../../compare/0.8.3...0.9.0) - 2023-02-20
 
 - Remove compatibility with PHP 7.4 and 8.0
