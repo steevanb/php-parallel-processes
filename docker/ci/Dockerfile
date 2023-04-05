@@ -43,7 +43,7 @@ RUN \
     && cd ${COMPOSER_HOME} \
     && composer update \
     && ln -s ${COMPOSER_HOME}/vendor/bin/composer-require-checker /usr/local/bin/composer-require-checker \
-    && ln -s ${COMPOSER_HOME}/vendor/bin/phpcf /usr/local/bin/phpcf \
+    && ln -s ${COMPOSER_HOME}/vendor/bin/phpdd /usr/local/bin/phpdd \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpcs /usr/local/bin/phpcs \
     && ln -s ${COMPOSER_HOME}/vendor/bin/phpstan ${PHPSTAN_BIN_PATH} \
     && ln -s ${COMPOSER_HOME}/vendor/bin/unused_scanner /usr/local/bin/unused-scanner \
