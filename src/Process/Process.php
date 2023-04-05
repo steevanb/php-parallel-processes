@@ -12,6 +12,10 @@ class Process extends SymfonyProcess implements ProcessInterface
 {
     protected string $name;
 
+    protected ?string $outputStatePrefix = null;
+
+    protected ?string $outputSummaryPrefix = null;
+
     protected int $standardOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
 
     protected int $errorOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
@@ -59,6 +63,37 @@ class Process extends SymfonyProcess implements ProcessInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setOutputStatePrefix(string $prefix = null): static
+    {
+        $this->outputStatePrefix = $prefix;
+
+        return $this;
+    }
+
+    public function getOutputStatePrefix(): ?string
+    {
+        return $this->outputStatePrefix;
+    }
+
+    public function setOutputSummaryPrefix(string $prefix = null): static
+    {
+        $this->outputSummaryPrefix = $prefix;
+
+        return $this;
+    }
+
+    public function getOutputSummaryPrefix(): ?string
+    {
+        return $this->outputSummaryPrefix;
+    }
+
+    public function setOutputPrefix(string $prefix = null): static
+    {
+        return $this
+            ->setOutputStatePrefix($prefix)
+            ->setOutputSummaryPrefix($prefix);
     }
 
     public function setStandardOutputVerbosity(int $standardOutputVerbosity): static
