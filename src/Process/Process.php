@@ -8,7 +8,7 @@ use Steevanb\ParallelProcess\Exception\ParallelProcessException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process as SymfonyProcess;
 
-class Process extends SymfonyProcess
+class Process extends SymfonyProcess implements ProcessInterface
 {
     protected string $name;
 

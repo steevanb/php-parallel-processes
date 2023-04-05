@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Tests\Process\ProcessArray;
+namespace Steevanb\ParallelProcess\Tests\Process\ProcessInterfaceArray;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Process\ProcessArray,
+    Process\ProcessInterfaceArray,
     Tests\CreateLsProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Process\ProcessArray::getReady */
+/** @covers \Steevanb\ParallelProcess\Process\ProcessInterfaceArray::getReady */
 final class GetReadyTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -19,7 +19,7 @@ final class GetReadyTest extends TestCase
     {
         $process1 = $this->createLsProcess();
         $process2 = $this->createLsProcess();
-        $processes = new ProcessArray([$process1, $process2]);
+        $processes = new ProcessInterfaceArray([$process1, $process2]);
 
         $process2->run();
 

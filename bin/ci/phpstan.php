@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
     Process\Process,
-    Process\ProcessArray
+    Process\ProcessInterfaceArray
 };
 use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -13,11 +13,11 @@ use Symfony\Component\Console\Input\ArgvInput;
 require $_SERVER['COMPOSER_HOME'] . '/vendor/autoload.php';
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
-function createPhpstanProcesses(): ProcessArray
+function createPhpstanProcesses(): ProcessInterfaceArray
 {
     $phpVersions = new StringArray(['8.1', '8.2']);
 
-    $return = new ProcessArray();
+    $return = new ProcessInterfaceArray();
     foreach ($phpVersions as $loopPhpVersion) {
         $return[] = createPhpstanProcess($loopPhpVersion);
     }

@@ -6,11 +6,11 @@ namespace Steevanb\ParallelProcess\Process;
 
 use Steevanb\PhpTypedArray\ObjectArray\ObjectArray;
 
-class ProcessArray extends ObjectArray
+class ProcessInterfaceArray extends ObjectArray
 {
     public function __construct(iterable $values = [])
     {
-        parent::__construct($values, Process::class);
+        parent::__construct($values, ProcessInterface::class);
     }
 
     public function current(): ?Process
@@ -24,9 +24,9 @@ class ProcessArray extends ObjectArray
         return parent::toArray();
     }
 
-    public function getReady(): ProcessArray
+    public function getReady(): ProcessInterfaceArray
     {
-        $return = new ProcessArray();
+        $return = new ProcessInterfaceArray();
 
         foreach ($this->toArray() as $process) {
             if ($process->getStatus() === Process::STATUS_READY) {
@@ -37,9 +37,9 @@ class ProcessArray extends ObjectArray
         return $return;
     }
 
-    public function getStarted(): ProcessArray
+    public function getStarted(): ProcessInterfaceArray
     {
-        $return = new ProcessArray();
+        $return = new ProcessInterfaceArray();
 
         foreach ($this->toArray() as $process) {
             if ($process->getStatus() === Process::STATUS_STARTED) {

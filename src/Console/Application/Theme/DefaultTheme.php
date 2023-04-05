@@ -8,7 +8,8 @@ use Steevanb\ParallelProcess\{
     Console\Output\ConsoleBufferedOutput,
     Exception\ParallelProcessException,
     Process\Process,
-    Process\ProcessArray
+    Process\ProcessInterface,
+    Process\ProcessInterfaceArray
 };
 use Symfony\Component\Console\{
     Color,
@@ -182,7 +183,7 @@ class DefaultTheme implements ThemeInterface
         return $this->executionTimeVerbosity;
     }
 
-    public function resetOutput(OutputInterface $output, ProcessArray $processes): static
+    public function resetOutput(OutputInterface $output, ProcessInterfaceArray $processes): static
     {
         for ($reset = 0; $reset < $processes->count(); $reset++) {
             $output->write("\e[1A\e[K");
@@ -191,7 +192,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputStart(OutputInterface $output, ProcessArray $processes): static
+    public function outputStart(OutputInterface $output, ProcessInterfaceArray $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->outputProcessState($output, $process);
@@ -202,7 +203,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputProcessesState(OutputInterface $output, ProcessArray $processes): static
+    public function outputProcessesState(OutputInterface $output, ProcessInterfaceArray $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -215,7 +216,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputSummary(OutputInterface $output, ProcessArray $processes): static
+    public function outputSummary(OutputInterface $output, ProcessInterfaceArray $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -230,7 +231,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputProcessSummary(OutputInterface $output, Process $process): static
+    protected function outputProcessSummary(OutputInterface $output, ProcessInterface $process): static
     {
         $lines = new StringArray();
 
@@ -294,8 +295,11 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function outputProcessState(OutputInterface $output, Process $process, bool $isSummary = false): static
-    {
+    protected function outputProcessState(
+        OutputInterface $output,
+        ProcessInterface $process,
+        bool $isSummary = false
+    ): static {
         if ($output->isDecorated()) {
             $state = $this
                 ->getProcessStateColor($process)
@@ -322,7 +326,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function processWillHaveOutput(OutputInterface $output, Process $process): bool
+    protected function processWillHaveOutput(OutputInterface $output, ProcessInterface $process): bool
     {
         return
             (
@@ -345,7 +349,7 @@ class DefaultTheme implements ThemeInterface
             );
     }
 
-    protected function getProcessStateColor(Process $process): Color
+    protected function getProcessStateColor(ProcessInterface $process): Color
     {
         if ($process->isCanceled()) {
             $return = $this->getStateCanceledColor();
@@ -364,7 +368,7 @@ class DefaultTheme implements ThemeInterface
         return $return;
     }
 
-    protected function getProcessStateIcon(Process $process): string
+    protected function getProcessStateIcon(ProcessInterface $process): string
     {
         if ($process->isCanceled()) {
             $return = $this->getStateCanceledIcon();

@@ -4,6 +4,7 @@
     colors="true"
     forceCoversAnnotation="true"
     failOnRisky="true"
+    failOnWarning="true"
 >
     <testsuites>
         <testsuite name="default">
@@ -11,7 +12,7 @@
         </testsuite>
     </testsuites>
     <coverage
-        cacheDirectory="/app/var/ci/phpunit/coverage/cache"
+        cacheDirectory="../../var/ci/phpunit/coverage/cache"
         processUncoveredFiles="true"
     >
         <include>

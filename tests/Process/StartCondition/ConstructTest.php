@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Tests\Process\StartCondition;
 
 use PHPUnit\Framework\TestCase;
-use Steevanb\ParallelProcess\{
-    Process\ProcessArray,
-    Process\StartCondition
-};
+use Steevanb\ParallelProcess\Process\StartCondition;
 
 /** @covers \Steevanb\ParallelProcess\Process\StartCondition::__construct */
 final class ConstructTest extends TestCase

@@ -10,8 +10,10 @@ use Steevanb\ParallelProcess\{
     Console\Application\Theme\ThemeInterface,
     Console\Output\ConsoleBufferedOutput,
     Exception\ParallelProcessException,
-    Process\Process,
-    Process\ProcessArray
+    Process\BootstrapProcessInterface,
+    Process\ProcessInterface,
+    Process\ProcessInterfaceArray,
+    Process\TearDownProcessInterface
 };
 use Symfony\Component\Console\{
     Command\SignalableCommandInterface,
@@ -23,7 +25,7 @@ use Symfony\Component\Console\{
 
 class ParallelProcessesApplication extends SingleCommandApplication implements SignalableCommandInterface
 {
-    protected ProcessArray $processes;
+    protected ProcessInterfaceArray $processes;
 
     protected ThemeInterface $theme;
 
@@ -38,20 +40,20 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     {
         parent::__construct($name);
 
-        $this->processes = new ProcessArray();
+        $this->processes = new ProcessInterfaceArray();
         $this
             ->setCode([$this, 'runProcessesInParallel'])
             ->setTheme(new DefaultTheme());
     }
 
-    public function addProcess(Process $process): static
+    public function addProcess(ProcessInterface $process): static
     {
         $this->processes[] = $process;
 
         return $this;
     }
 
-    public function addProcesses(ProcessArray $processes): static
+    public function addProcesses(ProcessInterfaceArray $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->addProcess($process);
@@ -60,7 +62,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    public function hasProcess(Process $process): bool
+    public function hasProcess(ProcessInterface $process): bool
     {
         $return = false;
         foreach ($this->processes->toArray() as $loopProcess) {
@@ -73,7 +75,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $return;
     }
 
-    public function getProcesses(): ProcessArray
+    public function getProcesses(): ProcessInterfaceArray
     {
         return $this->processes;
     }
@@ -182,12 +184,71 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         $this->getTheme()->outputStart($output, $this->getProcesses());
 
         $this
+            ->configureBootstrapProcesses()
+            ->configureTearDownProcesses()
             ->startProcesses()
             ->waitProcessesTermination($output);
 
         $this->getTheme()->outputSummary($output, $this->getProcesses());
 
         return $this->getExitCode();
+    }
+
+    protected function configureBootstrapProcesses(): static
+    {
+        $standardProcesses = $this->getStandardProcesses();
+
+        $bootstrapProcesses = new ProcessInterfaceArray();
+        foreach ($this->getProcesses()->toArray() as $process) {
+            if ($process instanceof BootstrapProcessInterface) {
+                $bootstrapProcesses[] = $process;
+            }
+        }
+        $bootstrapProcesses->setReadOnly();
+
+        foreach ($bootstrapProcesses->toArray() as $bootstrapProcess) {
+            foreach ($standardProcesses->toArray() as $standardProcess) {
+                $standardProcess->getStartCondition()->addProcessSuccessful($bootstrapProcess);
+            }
+        }
+
+        return $this;
+    }
+
+    protected function configureTearDownProcesses(): static
+    {
+        $standardProcesses = $this->getStandardProcesses();
+
+        $tearDownProcesses = new ProcessInterfaceArray();
+        foreach ($this->getProcesses()->toArray() as $process) {
+            if ($process instanceof TearDownProcessInterface) {
+                $tearDownProcesses[] = $process;
+            }
+        }
+        $tearDownProcesses->setReadOnly();
+
+        foreach ($tearDownProcesses->toArray() as $tearDownProcess) {
+            foreach ($standardProcesses->toArray() as $standardProcess) {
+                $tearDownProcess->getStartCondition()->addProcessTerminated($standardProcess);
+            }
+        }
+
+        return $this;
+    }
+
+    protected function getStandardProcesses(): ProcessInterfaceArray
+    {
+        $return = new ProcessInterfaceArray();
+        foreach ($this->getProcesses()->toArray() as $process) {
+            if (
+                $process instanceof BootstrapProcessInterface === false
+                && $process instanceof TearDownProcessInterface === false
+            ) {
+                $return[] = $process;
+            }
+        }
+
+        return $return->setReadOnly();
     }
 
     protected function defineThemeFromInput(InputInterface $input): static
