@@ -14,8 +14,8 @@ class SummaryTheme extends DefaultTheme
         $output->writeln(
             'Starting <info>'
             . $processes->count()
-            . '</info> processe'
-            . ($processes->count() !== 1 ? 's' : null)
+            . '</info> process'
+            . ($processes->count() !== 1 ? 'es' : null)
             . '...'
         );
         $this->writeBufferedLines($output);
