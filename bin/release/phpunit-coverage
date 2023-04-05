@@ -10,7 +10,7 @@ set +e
 XDEBUG_MODE=coverage \
     php \
         vendor/bin/phpunit \
-            --bootstrap "${COMPOSER_HOME_SYMFONY_6_2}"/vendor/autoload.php \
+            --bootstrap "${COMPOSER_HOME_SYMFONY_6_1}"/vendor/autoload.php \
             --configuration "${ROOT_DIR}"/config/ci/phpunit.xml \
             --cache-result-file var/ci/release/coverage/.phpunit.result.cache \
             --coverage-xml "${ROOT_DIR}"/var/release/phpunit/coverage/xml \

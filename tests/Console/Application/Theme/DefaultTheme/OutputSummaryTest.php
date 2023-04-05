@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
     Exception\ParallelProcessException,
-    Process\ProcessArray,
+    Process\ProcessInterfaceArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
@@ -23,7 +23,7 @@ final class OutputSummaryTest extends TestCase
         $output = new TestOutput();
         (new DefaultTheme())->outputSummary(
             $output,
-            new ProcessArray()
+            new ProcessInterfaceArray()
         );
 
         static::assertSame('', $output->getOutputed());
@@ -34,7 +34,7 @@ final class OutputSummaryTest extends TestCase
         $output = (new TestOutput())->setDecorated(true);
         (new DefaultTheme())->outputSummary(
             $output,
-            new ProcessArray()
+            new ProcessInterfaceArray()
         );
 
         static::assertSame('', $output->getOutputed());
@@ -48,7 +48,7 @@ final class OutputSummaryTest extends TestCase
 
         (new DefaultTheme())->outputSummary(
             new TestOutput(),
-            new ProcessArray([$this->createLsProcess()])
+            new ProcessInterfaceArray([$this->createLsProcess()])
         );
     }
 
@@ -60,7 +60,7 @@ final class OutputSummaryTest extends TestCase
 
         (new DefaultTheme())->outputSummary(
             (new TestOutput())->setDecorated(true),
-            new ProcessArray([$this->createLsProcess()])
+            new ProcessInterfaceArray([$this->createLsProcess()])
         );
     }
 
@@ -72,7 +72,7 @@ final class OutputSummaryTest extends TestCase
         $process2 = $this->createLsProcess();
         $process2->mustRun();
 
-        $processes = new ProcessArray([$process1, $process2]);
+        $processes = new ProcessInterfaceArray([$process1, $process2]);
 
         $output = new TestOutput();
 
@@ -92,7 +92,7 @@ final class OutputSummaryTest extends TestCase
         $process2 = $this->createLsProcess();
         $process2->mustRun();
 
-        $processes = new ProcessArray([$process1, $process2]);
+        $processes = new ProcessInterfaceArray([$process1, $process2]);
 
         $output = (new TestOutput())->setDecorated(true);
 

@@ -6,17 +6,17 @@ namespace Steevanb\ParallelProcess\Process;
 
 class StartCondition
 {
-    protected ProcessArray $processesTerminated;
+    protected ProcessInterfaceArray $processesTerminated;
 
-    protected ProcessArray $processesSuccessful;
+    protected ProcessInterfaceArray $processesSuccessful;
 
-    protected ProcessArray $processesFailed;
+    protected ProcessInterfaceArray $processesFailed;
 
     public function __construct()
     {
-        $this->processesTerminated = (new ProcessArray())->setReadOnly();
-        $this->processesSuccessful = (new ProcessArray())->setReadOnly();
-        $this->processesFailed = (new ProcessArray())->setReadOnly();
+        $this->processesTerminated = (new ProcessInterfaceArray())->setReadOnly();
+        $this->processesSuccessful = (new ProcessInterfaceArray())->setReadOnly();
+        $this->processesFailed = (new ProcessInterfaceArray())->setReadOnly();
     }
 
     public function addProcessTerminated(Process $process): static
@@ -28,7 +28,7 @@ class StartCondition
         return $this;
     }
 
-    public function getProcessesTerminated(): ProcessArray
+    public function getProcessesTerminated(): ProcessInterfaceArray
     {
         return $this->processesTerminated;
     }
@@ -42,7 +42,7 @@ class StartCondition
         return $this;
     }
 
-    public function getProcessesSuccessful(): ProcessArray
+    public function getProcessesSuccessful(): ProcessInterfaceArray
     {
         return $this->processesSuccessful;
     }
@@ -56,7 +56,7 @@ class StartCondition
         return $this;
     }
 
-    public function getProcessesFailed(): ProcessArray
+    public function getProcessesFailed(): ProcessInterfaceArray
     {
         return $this->processesFailed;
     }

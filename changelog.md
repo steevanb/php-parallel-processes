@@ -1,5 +1,9 @@
 ### master
 
+- [BC Break] Replace `ProcessArray` by `ProcessInterfaceArray`
+- Add `ProcessInterface`, `BootstrapProcessInterface` and `TearDownProcessInterface`
+- Add `BootstrapProcess` and `TearDownProcess`
+
 ### [0.10.0](../../compare/0.9.0...0.10.0) - 2023-02-21
 
 - Update [steevanb/php-typed-array](https://github.com/steevanb/php-typed-array) to 4.0

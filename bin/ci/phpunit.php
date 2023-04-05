@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
     Process\Process,
-    Process\ProcessArray
+    Process\ProcessInterfaceArray
 };
 use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -22,11 +22,11 @@ function getAvailableSymfonyVersions(): StringArray
     return $return;
 }
 
-function createPhpunitProcesses(string $phpVersion = null, string $symfonyVersion = null): ProcessArray
+function createPhpunitProcesses(string $phpVersion = null, string $symfonyVersion = null): ProcessInterfaceArray
 {
     $phpVersions = new StringArray(is_string($phpVersion) ? [$phpVersion] : ['8.1', '8.2']);
 
-    $return = new ProcessArray();
+    $return = new ProcessInterfaceArray();
     foreach ($phpVersions as $loopPhpVersion) {
         $symfonyVersions = is_string($symfonyVersion)
             ? [$symfonyVersion]

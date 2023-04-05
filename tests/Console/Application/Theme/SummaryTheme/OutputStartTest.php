@@ -7,7 +7,7 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\SummaryTheme;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\SummaryTheme,
-    Process\ProcessArray,
+    Process\ProcessInterfaceArray,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
@@ -22,7 +22,7 @@ final class OutputStartTest extends TestCase
         $output = new TestOutput();
         (new SummaryTheme())->outputStart(
             $output,
-            new ProcessArray()
+            new ProcessInterfaceArray()
         );
 
         static::assertSame("Starting <info>0</info> processes...\n", $output->getOutputed());
@@ -33,7 +33,7 @@ final class OutputStartTest extends TestCase
         $output = new TestOutput();
         (new SummaryTheme())->outputStart(
             $output,
-            new ProcessArray([$this->createLsProcess()])
+            new ProcessInterfaceArray([$this->createLsProcess()])
         );
 
         static::assertSame(
@@ -50,7 +50,7 @@ final class OutputStartTest extends TestCase
         $process2 = $this->createLsProcess();
         $process2->mustRun();
 
-        $processes = new ProcessArray([$process1, $process2]);
+        $processes = new ProcessInterfaceArray([$process1, $process2]);
 
         $output = new TestOutput();
 
