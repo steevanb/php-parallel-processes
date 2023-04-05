@@ -1,5 +1,7 @@
 ### master
 
+### [0.11.0](../../compare/0.10.0...0.11.0) - 2023-04-05
+
 - [BC Break] Replace `ProcessArray` by `ProcessInterfaceArray`
 - Add `ProcessInterface`, `BootstrapProcessInterface` and `TearDownProcessInterface`
 - Add `BootstrapProcess` and `TearDownProcess`
