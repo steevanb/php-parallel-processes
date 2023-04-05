@@ -24,6 +24,10 @@ interface ProcessInterface
 
     public function getName(): string;
 
+    public function getOutputStatePrefix(): ?string;
+
+    public function getOutputSummaryPrefix(): ?string;
+
     public function setStandardOutputVerbosity(int $standardOutputVerbosity): static;
 
     public function getStandardOutputVerbosity(): int;

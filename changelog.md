@@ -3,6 +3,8 @@
 - [BC Break] Replace `ProcessArray` by `ProcessInterfaceArray`
 - Add `ProcessInterface`, `BootstrapProcessInterface` and `TearDownProcessInterface`
 - Add `BootstrapProcess` and `TearDownProcess`
+- [BC Break] Add ProcessInterface::getOutputStatePrefix() and getOutputSummaryPrefix()
+- Add Process::setOutputStatePrefix(), getOutputStatePrefix(), setOutputSummaryPrefix(), getOutputSummaryPrefix() and setOutputPrefix()
 
 ### [0.10.0](../../compare/0.9.0...0.10.0) - 2023-02-21
 

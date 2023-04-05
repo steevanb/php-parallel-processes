@@ -238,22 +238,47 @@ class DefaultTheme implements ThemeInterface
         if ($process->isTerminated()) {
             if ($process->isSuccessful()) {
                 if ($process->getStandardOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($output, $process->getErrorOutput(), $lines);
+                    $this->mergeProcessOutput(
+                        $output,
+                        $process->getOutputSummaryPrefix(),
+                        $process->getErrorOutput(),
+                        $lines
+                    );
                 }
                 if ($process->getErrorOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($output, $process->getOutput(), $lines);
+                    $this->mergeProcessOutput(
+                        $output,
+                        $process->getOutputSummaryPrefix(),
+                        $process->getOutput(),
+                        $lines
+                    );
                 }
             } else {
                 if ($process->getFailureStandardOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($output, $process->getOutput(), $lines);
+                    $this->mergeProcessOutput(
+                        $output,
+                        $process->getOutputSummaryPrefix(),
+                        $process->getOutput(),
+                        $lines
+                    );
                 }
                 if ($process->getFailureErrorOutputVerbosity() <= $output->getVerbosity()) {
-                    $this->mergeProcessOutput($output, $process->getErrorOutput(), $lines);
+                    $this->mergeProcessOutput(
+                        $output,
+                        $process->getOutputSummaryPrefix(),
+                        $process->getErrorOutput(),
+                        $lines
+                    );
                 }
             }
         } elseif ($process->isCanceled()) {
             if ($process->getCanceledOutputVerbosity() <= $output->getVerbosity()) {
-                $this->mergeProcessOutput($output, 'Process has not beend started due to start conditions.', $lines);
+                $this->mergeProcessOutput(
+                    $output,
+                    $process->getOutputSummaryPrefix(),
+                    'Process has not beend started due to start conditions.',
+                    $lines
+                );
             }
         } else {
             throw new ParallelProcessException('Unknown process state.');
@@ -268,12 +293,16 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function mergeProcessOutput(OutputInterface $output, string $processOutput, StringArray $lines): static
-    {
+    protected function mergeProcessOutput(
+        OutputInterface $output,
+        ?string $prefix,
+        string $processOutput,
+        StringArray $lines
+    ): static {
         $lines->merge(
             new StringArray(
                 array_map(
-                    fn(string $line): string => $output->isDecorated() ? '    ' . $line : '  ' . $line,
+                    fn(string $line): string => $prefix . ($output->isDecorated() ? '    ' . $line : '  ' . $line),
                     explode("\n", $processOutput)
                 )
             )
@@ -321,7 +350,7 @@ class DefaultTheme implements ThemeInterface
             $state .= $title;
         }
 
-        $output->writeln($state);
+        $output->writeln($process->getOutputStatePrefix() . $state);
 
         return $this;
     }
