@@ -37,7 +37,7 @@ final class OutputStartTest extends TestCase
         );
 
         static::assertSame(
-            "Starting <info>1</info> processe...\n",
+            "Starting <info>1</info> process...\n",
             $output->getOutputed()
         );
     }

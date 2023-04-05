@@ -276,7 +276,7 @@ class DefaultTheme implements ThemeInterface
                 $this->mergeProcessOutput(
                     $output,
                     $process->getOutputSummaryPrefix(),
-                    'Process has not beend started due to start conditions.',
+                    'Process has not been started due to start conditions.',
                     $lines
                 );
             }
