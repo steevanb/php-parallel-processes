@@ -1,5 +1,7 @@
 ### master
 
+### [0.12.0](../../compare/0.11.0...0.12.0) - 2023-06-01
+
 - [#227](https://github.com/steevanb/php-parallel-processes/issues/227) Fix TearDownProcess who never start in some cases
 - [#226](https://github.com/steevanb/php-parallel-processes/issues/226) Add compatibility with Symfony 6.3
 - [#228](https://github.com/steevanb/php-parallel-processes/issues/228) Execute phpstan for each Symfony version
