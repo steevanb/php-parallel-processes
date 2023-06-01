@@ -64,4 +64,23 @@ RUN \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
+    && rm -rf \
+        ${COMPOSER_HOME}/.htaccess \
+        ${COMPOSER_HOME}/cache \
+        ${COMPOSER_HOME}/composer.lock \
+    && rm -rf \
+        ${COMPOSER_HOME_SYMFONY_6_1}/.htaccess \
+        ${COMPOSER_HOME_SYMFONY_6_1}/cache \
+        ${COMPOSER_HOME_SYMFONY_6_1}/composer.json \
+        ${COMPOSER_HOME_SYMFONY_6_1}/composer.lock \
+    && rm -rf \
+        ${COMPOSER_HOME_SYMFONY_6_2}/.htaccess \
+        ${COMPOSER_HOME_SYMFONY_6_2}/cache \
+        ${COMPOSER_HOME_SYMFONY_6_2}/composer.json \
+        ${COMPOSER_HOME_SYMFONY_6_2}/composer.lock \
+    && rm -rf \
+        ${COMPOSER_HOME_SYMFONY_6_3}/.htaccess \
+        ${COMPOSER_HOME_SYMFONY_6_3}/cache \
+        ${COMPOSER_HOME_SYMFONY_6_3}/composer.json \
+        ${COMPOSER_HOME_SYMFONY_6_3}/composer.lock \
     && rm -rf /tmp/*
