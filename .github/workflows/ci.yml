@@ -12,10 +12,11 @@ jobs:
         strategy:
             matrix:
                 php: [--php=8.1, --php=8.2]
+                symfony: [--symfony=6.1, --symfony=6.2, --symfony=6.3]
         steps:
             - uses: actions/checkout@v2
             - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpstan ${{ matrix.php }}
+            - run: bin/ci/phpstan ${{ matrix.php }} ${{ matrix.symfony }}
 
     phpdd:
         runs-on: ubuntu-latest
@@ -60,7 +61,7 @@ jobs:
         strategy:
             matrix:
                 php: [--php=8.1, --php=8.2]
-                symfony: [--symfony=6.1, --symfony=6.2]
+                symfony: [--symfony=6.1, --symfony=6.2, --symfony=6.3]
         steps:
             - uses: actions/checkout@v2
             - uses: ./.github/actions/ci-env

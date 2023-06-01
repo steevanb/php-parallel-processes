@@ -15,7 +15,7 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
 function getAvailableSymfonyVersions(): StringArray
 {
     $return = new StringArray();
-    foreach (new StringArray(['6.1', '6.2']) as $symfonyVersion) {
+    foreach (new StringArray(['6.1', '6.2', '6.3']) as $symfonyVersion) {
         $return[] = $symfonyVersion;
     }
 
