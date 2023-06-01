@@ -28,6 +28,6 @@ final class ProcessTerminatedTest extends TestCase
         static::assertTrue($startCondition->getProcessesTerminated()->isReadOnly());
 
         static::assertCount(1, $startCondition->getProcessesTerminated());
-        static::assertSame($process, $startCondition->getProcessesTerminated()[0]);
+        static::assertSame($process, $startCondition->getProcessesTerminated()->get(0));
     }
 }

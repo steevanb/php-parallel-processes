@@ -9,13 +9,13 @@ use Steevanb\ParallelProcess\{
     Exception\ParallelProcessException,
     Process\Process,
     Process\ProcessInterface,
-    Process\ProcessInterfaceArray
+    Process\ProcessInterfaceCollection
 };
 use Symfony\Component\Console\{
     Color,
     Output\OutputInterface
 };
-use Steevanb\PhpTypedArray\ScalarArray\StringArray;
+use Steevanb\PhpCollection\ScalarCollection\StringCollection;
 
 class DefaultTheme implements ThemeInterface
 {
@@ -183,7 +183,7 @@ class DefaultTheme implements ThemeInterface
         return $this->executionTimeVerbosity;
     }
 
-    public function resetOutput(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function resetOutput(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         for ($reset = 0; $reset < $processes->count(); $reset++) {
             $output->write("\e[1A\e[K");
@@ -192,7 +192,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputStart(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function outputStart(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->outputProcessState($output, $process);
@@ -203,7 +203,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputProcessesState(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function outputProcessesState(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -216,7 +216,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    public function outputSummary(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function outputSummary(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $this->resetOutput($output, $processes);
 
@@ -233,7 +233,7 @@ class DefaultTheme implements ThemeInterface
 
     protected function outputProcessSummary(OutputInterface $output, ProcessInterface $process): static
     {
-        $lines = new StringArray();
+        $lines = new StringCollection();
 
         if ($process->isTerminated()) {
             if ($process->isSuccessful()) {
@@ -287,7 +287,7 @@ class DefaultTheme implements ThemeInterface
         $this->removeLastEmptyLines($lines);
 
         if ($lines->count() > 0) {
-            $output->writeln($lines);
+            $output->writeln($lines->toArray());
         }
 
         return $this;
@@ -297,10 +297,10 @@ class DefaultTheme implements ThemeInterface
         OutputInterface $output,
         ?string $prefix,
         string $processOutput,
-        StringArray $lines
+        StringCollection $lines
     ): static {
         $lines->merge(
-            new StringArray(
+            new StringCollection(
                 array_map(
                     fn(string $line): string => $prefix . ($output->isDecorated() ? '    ' . $line : '  ' . $line),
                     explode("\n", $processOutput)
@@ -311,14 +311,13 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
-    protected function removeLastEmptyLines(StringArray $lines): static
+    protected function removeLastEmptyLines(StringCollection $lines): static
     {
         while (
             $lines->count() >= 1
-            && is_string($lines[$lines->count() - 1])
-            && trim($lines[$lines->count() - 1]) === ''
+            && trim($lines->get($lines->count() - 1)) === ''
         ) {
-            unset($lines[$lines->count() - 1]);
+            $lines->remove($lines->count() - 1);
         }
 
         return $this;

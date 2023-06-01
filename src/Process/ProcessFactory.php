@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Process;
 
 use Steevanb\ParallelProcess\Console\Application\ParallelProcessesApplication;
-use Steevanb\PhpTypedArray\ScalarArray\StringArray;
+use Steevanb\PhpCollection\ScalarCollection\StringCollection;
 
 class ProcessFactory
 {
@@ -16,7 +16,7 @@ class ProcessFactory
         string $cwd = null
     ): ?Process {
         if (is_dir($path)) {
-            $return = static::createProcess(new StringArray(['rm', '-rf', $path]), $application, $name, $cwd);
+            $return = static::createProcess(new StringCollection(['rm', '-rf', $path]), $application, $name, $cwd);
         } else {
             $return = null;
         }
@@ -31,7 +31,7 @@ class ProcessFactory
         string $cwd = null
     ): ?Process {
         if (is_file($filePathname)) {
-            $return = static::createProcess(new StringArray(['rm', $filePathname]), $application, $name, $cwd);
+            $return = static::createProcess(new StringCollection(['rm', $filePathname]), $application, $name, $cwd);
         } else {
             $return = null;
         }
@@ -40,7 +40,7 @@ class ProcessFactory
     }
 
     protected static function createProcess(
-        StringArray $command,
+        StringCollection $command,
         ParallelProcessesApplication $application,
         string $name = null,
         string $cwd = null

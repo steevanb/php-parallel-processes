@@ -6,57 +6,63 @@ namespace Steevanb\ParallelProcess\Process;
 
 class StartCondition
 {
-    protected ProcessInterfaceArray $processesTerminated;
+    protected ProcessInterfaceCollection $processesTerminated;
 
-    protected ProcessInterfaceArray $processesSuccessful;
+    protected ProcessInterfaceCollection $processesSuccessful;
 
-    protected ProcessInterfaceArray $processesFailed;
+    protected ProcessInterfaceCollection $processesFailed;
 
     public function __construct(protected readonly ProcessInterface $process)
     {
-        $this->processesTerminated = (new ProcessInterfaceArray())->setReadOnly();
-        $this->processesSuccessful = (new ProcessInterfaceArray())->setReadOnly();
-        $this->processesFailed = (new ProcessInterfaceArray())->setReadOnly();
+        $this->processesTerminated = (new ProcessInterfaceCollection())->setReadOnly();
+        $this->processesSuccessful = (new ProcessInterfaceCollection())->setReadOnly();
+        $this->processesFailed = (new ProcessInterfaceCollection())->setReadOnly();
     }
 
-    public function addProcessTerminated(Process $process): static
+    public function addProcessTerminated(ProcessInterface $process): static
     {
-        $this->processesTerminated->setReadOnly(false);
-        $this->processesTerminated[] = $process;
-        $this->processesTerminated->setReadOnly();
+        $this
+            ->processesTerminated
+            ->setReadOnly(false)
+            ->add($process)
+            ->setReadOnly();
 
         return $this;
     }
 
-    public function getProcessesTerminated(): ProcessInterfaceArray
+    public function getProcessesTerminated(): ProcessInterfaceCollection
     {
         return $this->processesTerminated;
     }
 
-    public function addProcessSuccessful(Process $process): static
+    public function addProcessSuccessful(ProcessInterface $process): static
     {
-        $this->processesSuccessful->setReadOnly(false);
-        $this->processesSuccessful[] = $process;
-        $this->processesSuccessful->setReadOnly();
+        $this
+            ->processesSuccessful
+            ->setReadOnly(false)
+            ->add($process)
+            ->setReadOnly();
 
         return $this;
     }
 
-    public function getProcessesSuccessful(): ProcessInterfaceArray
+    public function getProcessesSuccessful(): ProcessInterfaceCollection
     {
         return $this->processesSuccessful;
     }
 
-    public function addProcessFailed(Process $process): static
+    public function addProcessFailed(ProcessInterface $process): static
     {
-        $this->processesFailed->setReadOnly(false);
-        $this->processesFailed[] = $process;
-        $this->processesFailed->setReadOnly();
+        $this
+            ->processesFailed
+            ->setReadOnly(false)
+            ->add($process)
+            ->setReadOnly();
 
         return $this;
     }
 
-    public function getProcessesFailed(): ProcessInterfaceArray
+    public function getProcessesFailed(): ProcessInterfaceCollection
     {
         return $this->processesFailed;
     }
@@ -143,7 +149,7 @@ class StartCondition
 
     protected function tearDownProcessCanBeStarted(): bool
     {
-        $processes = new ProcessInterfaceArray(
+        $processes = new ProcessInterfaceCollection(
             array_merge(
                 $this->getProcessesSuccessful()->toArray(),
                 $this->getProcessesTerminated()->toArray(),

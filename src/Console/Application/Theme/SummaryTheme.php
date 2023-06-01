@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Steevanb\ParallelProcess\Console\Application\Theme;
 
-use Steevanb\ParallelProcess\Process\ProcessInterfaceArray;
+use Steevanb\ParallelProcess\Process\ProcessInterfaceCollection;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SummaryTheme extends DefaultTheme
 {
-    public function outputStart(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function outputStart(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $output->writeln(
             'Starting <info>'
@@ -23,12 +23,12 @@ class SummaryTheme extends DefaultTheme
         return $this;
     }
 
-    public function outputProcessesState(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function outputProcessesState(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         return $this;
     }
 
-    public function resetOutput(OutputInterface $output, ProcessInterfaceArray $processes): static
+    public function resetOutput(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         return $this;
     }

@@ -36,6 +36,6 @@ final class ConfigureBootstrapProcessesTest extends TestCase
         $application->addProcess($bootstrapProcess);
         $application->callConfigureBootstrapProcesses();
 
-        static::assertSame($bootstrapProcess, $process->getStartCondition()->getProcessesSuccessful()[0]);
+        static::assertSame($bootstrapProcess, $process->getStartCondition()->getProcessesSuccessful()->get(0));
     }
 }

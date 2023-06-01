@@ -25,8 +25,10 @@ final class WriteBufferedLinesTest extends TestCase
             ->method('doWrite')
             ->with('foo', false);
 
-        $output->getBufferedLines()->setReadOnly(false);
-        $output->getBufferedLines()[] = 'foo';
+        $output
+            ->getBufferedLines()
+            ->setReadOnly(false)
+            ->add('foo');
         $output->writeBufferedLines();
 
         static::assertCount(0, $output->getBufferedLines());

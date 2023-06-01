@@ -36,6 +36,6 @@ final class ConfigureTearDownProcessesTest extends TestCase
         $application->addProcess($tearDownProcess);
         $application->callConfigureTearDownProcesses();
 
-        static::assertSame($process, $tearDownProcess->getStartCondition()->getProcessesTerminated()[0]);
+        static::assertSame($process, $tearDownProcess->getStartCondition()->getProcessesTerminated()->get(0));
     }
 }

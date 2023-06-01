@@ -12,7 +12,7 @@ use Steevanb\ParallelProcess\{
     Exception\ParallelProcessException,
     Process\BootstrapProcessInterface,
     Process\ProcessInterface,
-    Process\ProcessInterfaceArray,
+    Process\ProcessInterfaceCollection,
     Process\TearDownProcessInterface
 };
 use Symfony\Component\Console\{
@@ -25,7 +25,7 @@ use Symfony\Component\Console\{
 
 class ParallelProcessesApplication extends SingleCommandApplication implements SignalableCommandInterface
 {
-    protected ProcessInterfaceArray $processes;
+    protected ProcessInterfaceCollection $processes;
 
     protected ThemeInterface $theme;
 
@@ -47,7 +47,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     {
         parent::__construct($name);
 
-        $this->processes = new ProcessInterfaceArray();
+        $this->processes = new ProcessInterfaceCollection();
         $this
             ->setCode([$this, 'runProcessesInParallel'])
             ->setTheme(new DefaultTheme());
@@ -55,12 +55,12 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     public function addProcess(ProcessInterface $process): static
     {
-        $this->processes[] = $process;
+        $this->processes->add($process);
 
         return $this;
     }
 
-    public function addProcesses(ProcessInterfaceArray $processes): static
+    public function addProcesses(ProcessInterfaceCollection $processes): static
     {
         foreach ($processes->toArray() as $process) {
             $this->addProcess($process);
@@ -82,7 +82,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $return;
     }
 
-    public function getProcesses(): ProcessInterfaceArray
+    public function getProcesses(): ProcessInterfaceCollection
     {
         return $this->processes;
     }
@@ -217,10 +217,10 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function configureBootstrapProcesses(): static
     {
-        $bootstrapProcesses = new ProcessInterfaceArray();
+        $bootstrapProcesses = new ProcessInterfaceCollection();
         foreach ($this->getProcesses()->toArray() as $process) {
             if ($process instanceof BootstrapProcessInterface) {
-                $bootstrapProcesses[] = $process;
+                $bootstrapProcesses->add($process);
             }
         }
         $bootstrapProcesses->setReadOnly();
@@ -237,10 +237,10 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function configureTearDownProcesses(): static
     {
-        $tearDownProcesses = new ProcessInterfaceArray();
+        $tearDownProcesses = new ProcessInterfaceCollection();
         foreach ($this->getProcesses()->toArray() as $process) {
             if ($process instanceof TearDownProcessInterface) {
-                $tearDownProcesses[] = $process;
+                $tearDownProcesses->add($process);
             }
         }
         $tearDownProcesses->setReadOnly();
@@ -255,15 +255,15 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
-    protected function getStandardProcesses(): ProcessInterfaceArray
+    protected function getStandardProcesses(): ProcessInterfaceCollection
     {
-        $return = new ProcessInterfaceArray();
+        $return = new ProcessInterfaceCollection();
         foreach ($this->getProcesses()->toArray() as $process) {
             if (
                 $process instanceof BootstrapProcessInterface === false
                 && $process instanceof TearDownProcessInterface === false
             ) {
-                $return[] = $process;
+                $return->add($process);
             }
         }
 

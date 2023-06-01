@@ -15,7 +15,6 @@ parameters:
             message: '#Return type \(void\) of method Steevanb\\ParallelProcess\\Console\\Application\\ParallelProcessesApplication::handleSignal\(\) should be compatible with return type \(int\|false\) of method Symfony\\Component\\Console\\Command\\SignalableCommandInterface::handleSignal\(\)#'
             reportUnmatched: false
 includes:
-    - ../../vendor/steevanb/php-typed-array/bridge/Phpstan/rules.neon
     - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - /composer/common/vendor/phpstan/phpstan-phpunit/extension.neon
     - /composer/common/vendor/phpstan/phpstan-phpunit/rules.neon

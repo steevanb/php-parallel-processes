@@ -4,13 +4,16 @@
 - [#226](https://github.com/steevanb/php-parallel-processes/issues/226) Add compatibility with Symfony 6.3
 - [#228](https://github.com/steevanb/php-parallel-processes/issues/228) Execute phpstan for each Symfony version
 - [#224](https://github.com/steevanb/php-parallel-processes/issues/224) Add global timeout with ParallelProcessesApplication::setTimeout()
+- **[BC Break]** [#215](https://github.com/steevanb/php-parallel-processes/issues/215) Replace dependency `steevanb/php-typed-array` by `steevanb/php-collection`
+- **[BC Break]** Add `ProcessInterface::stop()` (it should not be a problem as it's a method already asked by symfony/process interface)
+- Use `ProcessInterface` as argument instead of `Process` everywhere
 
 ### [0.11.0](../../compare/0.10.0...0.11.0) - 2023-04-05
 
-- [BC Break] Replace `ProcessArray` by `ProcessInterfaceArray`
+- **[BC Break]** Replace `ProcessArray` by `ProcessInterfaceArray`
 - Add `ProcessInterface`, `BootstrapProcessInterface` and `TearDownProcessInterface`
 - Add `BootstrapProcess` and `TearDownProcess`
-- [BC Break] Add ProcessInterface::getOutputStatePrefix() and getOutputSummaryPrefix()
+- **[BC Break]** Add ProcessInterface::getOutputStatePrefix() and getOutputSummaryPrefix()
 - Add Process::setOutputStatePrefix(), getOutputStatePrefix(), setOutputSummaryPrefix(), getOutputSummaryPrefix() and setOutputPrefix()
 
 ### [0.10.0](../../compare/0.9.0...0.10.0) - 2023-02-21

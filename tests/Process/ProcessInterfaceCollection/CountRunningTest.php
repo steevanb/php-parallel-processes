@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Steevanb\ParallelProcess\Tests\Process\ProcessInterfaceArray;
+namespace Steevanb\ParallelProcess\Tests\Process\ProcessInterfaceCollection;
 
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
-    Process\ProcessInterfaceArray,
+    Process\ProcessInterfaceCollection,
     Tests\CreateLsProcessTrait,
     Tests\CreateSleepProcessTrait
 };
 
-/** @covers \Steevanb\ParallelProcess\Process\ProcessInterfaceArray::countRunning */
+/** @covers \Steevanb\ParallelProcess\Process\ProcessInterfaceCollection::countRunning */
 final class CountRunningTest extends TestCase
 {
     use CreateLsProcessTrait;
@@ -21,7 +21,7 @@ final class CountRunningTest extends TestCase
     {
         $process1 = $this->createLsProcess();
         $process2 = $this->createLsProcess();
-        $processes = new ProcessInterfaceArray([$process1, $process2]);
+        $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         static::assertSame(0, $processes->countRunning());
     }
@@ -30,7 +30,7 @@ final class CountRunningTest extends TestCase
     {
         $process1 = $this->createSleepProcess();
         $process2 = $this->createLsProcess();
-        $processes = new ProcessInterfaceArray([$process1, $process2]);
+        $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         $process1->start();
 
@@ -43,7 +43,7 @@ final class CountRunningTest extends TestCase
     {
         $process1 = $this->createSleepProcess();
         $process2 = $this->createSleepProcess();
-        $processes = new ProcessInterfaceArray([$process1, $process2]);
+        $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         $process1->start();
         $process2->start();
