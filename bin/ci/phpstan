@@ -7,11 +7,14 @@ readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 source "${ROOT_DIR}"/bin/ci/dockerise.inc.bash
 
 phpVersion=
+symfonyVersion=
 phpstanParameters=
 clearCache=false
 for arg in "${@}"; do
     if [ "${arg:0:6}" == "--php=" ]; then
         phpVersion="${arg:6}"
+    elif [ "${arg:0:10}" == "--symfony=" ]; then
+        symfonyVersion="${arg:10}"
     elif [ "${arg}" == "--clear-cache" ]; then
         clearCache=true
     else
@@ -24,15 +27,15 @@ if [ "${clearCache}" == true ] && [ -d "${ROOT_DIR}"/var/ci/phpstan ]; then
     rm -rf "${ROOT_DIR}"/var/ci/phpstan
 fi
 
-if [ "${phpVersion}" == "" ]; then
+if [ "${phpVersion}" == "" ] || [ "${symfonyVersion}" == "" ]; then
     php8.1 "${ROOT_DIR}"/bin/ci/phpstan.php ${phpstanParameters}
 else
-    echo "PHP ${phpVersion}"
+    echo "PHP ${phpVersion} - Symfony ${symfonyVersion}"
 
     "php${phpVersion}" \
         "${PHPSTAN_BIN_PATH}" \
             analyse \
                 --ansi \
-                --configuration config/ci/phpstan.php-"${phpVersion}".neon \
+                --configuration config/ci/phpstan.php-"${phpVersion}".symfony-"${symfonyVersion}".neon \
                 ${phpstanParameters}
 fi

@@ -9,6 +9,7 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 ENV COMPOSER_HOME=/composer/common
 ENV COMPOSER_HOME_SYMFONY_6_1=/composer/symfony-6-1
 ENV COMPOSER_HOME_SYMFONY_6_2=/composer/symfony-6-2
+ENV COMPOSER_HOME_SYMFONY_6_3=/composer/symfony-6-3
 
 ENV PHPSTAN_BIN_PATH=/usr/local/bin/phpstan
 
@@ -56,6 +57,7 @@ RUN \
     # Install Symfony components
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_1} composer global require symfony/process:6.1.* symfony/console:6.1.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_2} composer global require symfony/process:6.2.* symfony/console:6.2.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_3} composer global require symfony/process:6.3.* symfony/console:6.3.* \
 
     # Purge
     && apt-get purge -y software-properties-common \

@@ -10,27 +10,55 @@ use Steevanb\ParallelProcess\{
 use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\Input\ArgvInput;
 
-require $_SERVER['COMPOSER_HOME'] . '/vendor/autoload.php';
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
-function createPhpstanProcesses(): ProcessInterfaceArray
+function getAvailableSymfonyVersions(): StringArray
 {
-    $phpVersions = new StringArray(['8.1', '8.2']);
-
-    $return = new ProcessInterfaceArray();
-    foreach ($phpVersions as $loopPhpVersion) {
-        $return[] = createPhpstanProcess($loopPhpVersion);
+    $return = new StringArray();
+    foreach (new StringArray(['6.1', '6.2', '6.3']) as $symfonyVersion) {
+        $return[] = $symfonyVersion;
     }
 
     return $return;
 }
 
-function createPhpstanProcess(string $phpVersion): Process
+function createPhpstanProcesses(string $phpVersion = null, string $symfonyVersion = null): ProcessInterfaceArray
 {
-    return (new Process([__DIR__ . '/phpstan', '--php=' . $phpVersion]))
-        ->setName('phpstan --php=' . $phpVersion);
+    $phpVersions = new StringArray(is_string($phpVersion) ? [$phpVersion] : ['8.1', '8.2']);
+
+    $return = new ProcessInterfaceArray();
+    foreach ($phpVersions as $loopPhpVersion) {
+        $symfonyVersions = is_string($symfonyVersion)
+            ? [$symfonyVersion]
+            : getAvailableSymfonyVersions()->toArray();
+
+        foreach ($symfonyVersions as $loopSymfonyVersion) {
+            $return[] = createPhpstanProcess($loopPhpVersion, $loopSymfonyVersion);
+        }
+    }
+
+    return $return;
+}
+
+function createPhpstanProcess(string $phpVersion, string $symfonyVersion): Process
+{
+    return (new Process([__DIR__ . '/phpstan', '--php=' . $phpVersion, '--symfony=' . $symfonyVersion]))
+        ->setName('phpstan --php=' . $phpVersion . ' --symfony=' . $symfonyVersion);
+}
+
+$phpVersion = null;
+$symfonyVersion = null;
+$applicationArgv = new StringArray();
+foreach ($argv as $arg) {
+    if (str_starts_with($arg, '--php=')) {
+        $phpVersion = substr($arg, 6);
+    } elseif (str_starts_with($arg, '--symfony=')) {
+        $symfonyVersion = substr($arg, 10);
+    } else {
+        $applicationArgv[] = $arg;
+    }
 }
 
 (new ParallelProcessesApplication())
-    ->addProcesses(createPhpstanProcesses())
-    ->run(new ArgvInput($argv));
+    ->addProcesses(createPhpstanProcesses($phpVersion, $symfonyVersion))
+    ->run(new ArgvInput($applicationArgv->toArray()));
