@@ -214,20 +214,9 @@ class Process extends SymfonyProcess implements ProcessInterface
         $this->executionTime = 0;
     }
 
-    public function getStartTime(): float
-    {
-        // Before symfony/process 5.1, getStartTime() does not exist but $this->starttime already exists and is private
-        try {
-            $return = parent::getStartTime();
-        } catch (\Throwable $exception) {
-            $return = $this->getParentPrivatePropertyValue('starttime');
-        }
-
-        return $return;
-    }
-
     protected function updateStatus(bool $blocking): void
     {
+        // Do not call getStatuts() here to get the status, or it will call updateStatus() and do an infinite loop
         if ($this->isStarted() && $this->getParentPrivatePropertyValue('status') !== static::STATUS_TERMINATED) {
             $this->executionTime = (int) ((microtime(true) - $this->getStartTime()) * 1000);
         }
