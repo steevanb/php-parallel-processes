@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Steevanb\ParallelProcess\Console\Output;
 
-use Steevanb\PhpTypedArray\ScalarArray\StringArray;
 use Symfony\Component\Console\{
     Formatter\OutputFormatterInterface,
     Output\ConsoleOutput,
     Output\OutputInterface
 };
+use Steevanb\PhpCollection\ScalarCollection\StringCollection;
 
 /**
  * Use this implementation of OutputInterface to avoid clipping of ConsoleOutput when multiple lines are written.
@@ -18,7 +18,7 @@ use Symfony\Component\Console\{
  */
 class ConsoleBufferedOutput extends ConsoleOutput
 {
-    protected StringArray $bufferedLines;
+    protected StringCollection $bufferedLines;
 
     public function __construct(
         int $verbosity = self::VERBOSITY_NORMAL,
@@ -27,7 +27,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
     ) {
         parent::__construct($verbosity, $decorated, $formatter);
 
-        $this->bufferedLines = (new StringArray())->setReadOnly();
+        $this->bufferedLines = (new StringCollection())->setReadOnly();
     }
 
     /** @param iterable|string $messages */
@@ -63,9 +63,11 @@ class ConsoleBufferedOutput extends ConsoleOutput
             }
 
             // Difference with original write() is here
-            $this->bufferedLines->setReadOnly(false);
-            $this->bufferedLines[] = $message . ($newline ? "\n" : null);
-            $this->bufferedLines->setReadOnly();
+            $this
+                ->bufferedLines
+                ->setReadOnly(false)
+                ->add($message . ($newline ? "\n" : null))
+                ->setReadOnly();
         }
     }
 
@@ -73,12 +75,12 @@ class ConsoleBufferedOutput extends ConsoleOutput
     {
         $this->doWrite(implode('', $this->bufferedLines->toArray()), false);
 
-        $this->bufferedLines = new StringArray();
+        $this->bufferedLines = new StringCollection();
 
         return $this;
     }
 
-    public function getBufferedLines(): StringArray
+    public function getBufferedLines(): StringCollection
     {
         return $this->bufferedLines;
     }

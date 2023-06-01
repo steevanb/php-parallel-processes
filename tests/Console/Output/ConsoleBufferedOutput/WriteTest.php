@@ -23,8 +23,7 @@ final class WriteTest extends TestCase
         static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(1, $output->getBufferedLines());
         static::assertArrayHasKey(0, $output->getBufferedLines()->toArray());
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated());
+        static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
     }
 
     public function testIterable(): void
@@ -35,10 +34,8 @@ final class WriteTest extends TestCase
         $output->write(['<comment>foo</comment>', '<comment>bar</comment>']);
         static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(2, $output->getBufferedLines());
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated());
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('bar', $output->getBufferedLines()[1], $output->getFormatter()->isDecorated());
+        static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
+        static::assertLine('bar', $output->getBufferedLines()->get(1), $output->getFormatter()->isDecorated());
     }
 
     public function testNewLine(): void
@@ -47,8 +44,7 @@ final class WriteTest extends TestCase
         $output->write('<comment>foo</comment>', true);
 
         static::assertCount(1, $output->getBufferedLines());
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated(), true);
+        static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated(), true);
     }
 
     public function testVerbosity(): void
@@ -65,7 +61,7 @@ final class WriteTest extends TestCase
         $output->write('<comment>foo</comment>', false, ConsoleBufferedOutput::OUTPUT_RAW);
 
         static::assertCount(1, $output->getBufferedLines());
-        static::assertSame('<comment>foo</comment>', $output->getBufferedLines()[0]);
+        static::assertSame('<comment>foo</comment>', $output->getBufferedLines()->get(0));
     }
 
     public function testOutputPlain(): void
@@ -74,8 +70,7 @@ final class WriteTest extends TestCase
         $output->write('<comment>foo</comment>', false, ConsoleBufferedOutput::OUTPUT_PLAIN);
 
         static::assertCount(1, $output->getBufferedLines());
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated());
+        static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
     }
 
     public function testUnknownOutput(): void
@@ -83,8 +78,7 @@ final class WriteTest extends TestCase
         $output = new ConsoleBufferedOutput();
         $output->write('<comment>foo</comment>', false, 8);
 
-        /** @phpstan-ignore-next-line Parameter #2 $actual of static method expects string, string|null given. */
-        static::assertLine('foo', $output->getBufferedLines()[0], $output->getFormatter()->isDecorated());
+        static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
     }
 
     public static function assertLine(string $expected, string $actual, bool $isDecorated, bool $newLine = false): void

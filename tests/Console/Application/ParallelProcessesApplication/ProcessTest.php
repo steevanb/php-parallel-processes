@@ -28,7 +28,7 @@ final class ProcessTest extends TestCase
         $application->addProcess($process);
 
         static::assertCount(1, $application->getProcesses());
-        static::assertSame(spl_object_hash($process), spl_object_hash($application->getProcesses()[0]));
+        static::assertSame(spl_object_hash($process), spl_object_hash($application->getProcesses()->get(0)));
     }
 
     public function testAddMultipleProcess(): void
@@ -47,8 +47,8 @@ final class ProcessTest extends TestCase
         $application->addProcess($process3);
 
         static::assertCount(3, $application->getProcesses());
-        static::assertSame($process1, $application->getProcesses()[0]);
-        static::assertSame($process2, $application->getProcesses()[1]);
-        static::assertSame($process3, $application->getProcesses()[2]);
+        static::assertSame($process1, $application->getProcesses()->get(0));
+        static::assertSame($process2, $application->getProcesses()->get(1));
+        static::assertSame($process3, $application->getProcesses()->get(2));
     }
 }

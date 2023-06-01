@@ -28,6 +28,6 @@ final class ProcessSuccessfulTest extends TestCase
         static::assertTrue($startCondition->getProcessesSuccessful()->isReadOnly());
 
         static::assertCount(1, $startCondition->getProcessesSuccessful());
-        static::assertSame($process, $startCondition->getProcessesSuccessful()[0]);
+        static::assertSame($process, $startCondition->getProcessesSuccessful()->get(0));
     }
 }

@@ -7,7 +7,7 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\Theme\DefaultTheme;
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Console\Application\Theme\DefaultTheme,
-    Process\ProcessInterfaceArray,
+    Process\ProcessInterfaceCollection,
     Tests\Console\Output\TestOutput,
     Tests\CreateLsProcessTrait
 };
@@ -22,7 +22,7 @@ final class OutputProcessStateTest extends TestCase
         $output = new TestOutput();
         (new DefaultTheme())->outputProcessesState(
             $output,
-            new ProcessInterfaceArray()
+            new ProcessInterfaceCollection()
         );
 
         static::assertSame('', $output->getOutputed());
@@ -33,7 +33,7 @@ final class OutputProcessStateTest extends TestCase
         $output = (new TestOutput())->setDecorated(true);
         (new DefaultTheme())->outputProcessesState(
             $output,
-            new ProcessInterfaceArray()
+            new ProcessInterfaceCollection()
         );
 
         static::assertSame('', $output->getOutputed());
@@ -44,7 +44,7 @@ final class OutputProcessStateTest extends TestCase
         $output = new TestOutput();
         (new DefaultTheme())->outputProcessesState(
             $output,
-            new ProcessInterfaceArray([$this->createLsProcess()])
+            new ProcessInterfaceCollection([$this->createLsProcess()])
         );
 
         static::assertSame(
@@ -58,7 +58,7 @@ final class OutputProcessStateTest extends TestCase
         $output = (new TestOutput())->setDecorated(true);
         (new DefaultTheme())->outputProcessesState(
             $output,
-            new ProcessInterfaceArray([$this->createLsProcess()])
+            new ProcessInterfaceCollection([$this->createLsProcess()])
         );
 
         static::assertSame(
@@ -75,7 +75,7 @@ final class OutputProcessStateTest extends TestCase
         $process2 = $this->createLsProcess();
         $process2->mustRun();
 
-        $processes = new ProcessInterfaceArray([$process1, $process2]);
+        $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         $output = new TestOutput();
 
@@ -95,7 +95,7 @@ final class OutputProcessStateTest extends TestCase
         $process2 = $this->createLsProcess();
         $process2->mustRun();
 
-        $processes = new ProcessInterfaceArray([$process1, $process2]);
+        $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         $output = (new TestOutput())->setDecorated(true);
 
