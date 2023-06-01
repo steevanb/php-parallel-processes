@@ -4,7 +4,7 @@
  * This file is not used by PHPUnit tests
  * You can use it this command for example:
  * docker run --rm -it -v $(pwd):/composer/vendor/steevanb/php-parallel-processes -v $(pwd):/app
- * steevanb/php-parallel-processes:0.7.0-alpine php /app/tests/Processes.php
+ * steevanb/php-parallel-processes:0.11.0-alpine php /app/tests/Processes.php
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ use Steevanb\ParallelProcess\{
     Console\Application\ParallelProcessesApplication,
     Process\Process
 };
-use Symfony\Component\Console\Input\ArgvInput;
 
 require $_ENV['COMPOSER_GLOBAL_AUTOLOAD_FILE_NAME'];
 require __DIR__ . '/../vendor/autoload.php';

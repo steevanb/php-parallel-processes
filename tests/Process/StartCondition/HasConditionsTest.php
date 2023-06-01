@@ -20,14 +20,14 @@ final class HasConditionsTest extends TestCase
 
     public function testDontHave(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
 
         static::assertFalse($startCondition->hasConditions());
     }
 
     public function testHaveOneTerminated(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessTerminated($process);
 
@@ -36,7 +36,7 @@ final class HasConditionsTest extends TestCase
 
     public function testHaveTwoTerminated(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessTerminated($process);
         $startCondition->addProcessTerminated($process);
@@ -46,7 +46,7 @@ final class HasConditionsTest extends TestCase
 
     public function testHaveOneSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
 
@@ -55,7 +55,7 @@ final class HasConditionsTest extends TestCase
 
     public function testHaveTwoSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
         $startCondition->addProcessSuccessful($process);
@@ -65,7 +65,7 @@ final class HasConditionsTest extends TestCase
 
     public function testHaveOneFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessFailed($process);
 
@@ -74,7 +74,7 @@ final class HasConditionsTest extends TestCase
 
     public function testHaveTwoFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessFailed($process);
         $startCondition->addProcessFailed($process);

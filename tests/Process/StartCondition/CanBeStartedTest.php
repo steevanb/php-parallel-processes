@@ -24,14 +24,14 @@ final class CanBeStartedTest extends TestCase
 
     public function testCanBeStarted(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
 
         static::assertTrue($startCondition->canBeStarted());
     }
 
     public function testHaveOneNotTerminated(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessTerminated($process);
 
@@ -41,7 +41,7 @@ final class CanBeStartedTest extends TestCase
 
     public function testHaveOneTerminated(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->run();
         $startCondition->addProcessTerminated($process);
@@ -52,7 +52,7 @@ final class CanBeStartedTest extends TestCase
 
     public function testHaveOneNotSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
 
@@ -62,7 +62,7 @@ final class CanBeStartedTest extends TestCase
 
     public function testHaveOneSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessSuccessful($process);
@@ -74,7 +74,7 @@ final class CanBeStartedTest extends TestCase
 
     public function testHaveOneNotFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $startCondition->addProcessFailed($process);
 
@@ -84,7 +84,7 @@ final class CanBeStartedTest extends TestCase
 
     public function testHaveOneFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $process->run();
         $startCondition->addProcessFailed($process);

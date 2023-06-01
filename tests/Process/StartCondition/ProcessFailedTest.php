@@ -20,7 +20,7 @@ final class ProcessFailedTest extends TestCase
 
     public function testAdd(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
 
         static::assertTrue($startCondition->getProcessesFailed()->isReadOnly());

@@ -50,7 +50,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         parent::__construct($command, $cwd, $env, $input, $timeout);
 
         $this->setName(basename($command[0]));
-        $this->startCondition = new StartCondition();
+        $this->startCondition = new StartCondition($this);
     }
 
     public function setName(string $name): static

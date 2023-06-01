@@ -12,7 +12,7 @@ class StartCondition
 
     protected ProcessInterfaceArray $processesFailed;
 
-    public function __construct()
+    public function __construct(protected readonly ProcessInterface $process)
     {
         $this->processesTerminated = (new ProcessInterfaceArray())->setReadOnly();
         $this->processesSuccessful = (new ProcessInterfaceArray())->setReadOnly();
@@ -23,7 +23,7 @@ class StartCondition
     {
         $this->processesTerminated->setReadOnly(false);
         $this->processesTerminated[] = $process;
-        $this->processesTerminated->setReadOnly(true);
+        $this->processesTerminated->setReadOnly();
 
         return $this;
     }
@@ -37,7 +37,7 @@ class StartCondition
     {
         $this->processesSuccessful->setReadOnly(false);
         $this->processesSuccessful[] = $process;
-        $this->processesSuccessful->setReadOnly(true);
+        $this->processesSuccessful->setReadOnly();
 
         return $this;
     }
@@ -51,7 +51,7 @@ class StartCondition
     {
         $this->processesFailed->setReadOnly(false);
         $this->processesFailed[] = $process;
-        $this->processesFailed->setReadOnly(true);
+        $this->processesFailed->setReadOnly();
 
         return $this;
     }
@@ -70,6 +70,46 @@ class StartCondition
     }
 
     public function canBeStarted(): bool
+    {
+        if ($this->process instanceof TearDownProcess) {
+            $return = $this->tearDownProcessCanBeStarted();
+        } else {
+            $return = $this->standardProcessCanBeStarted();
+        }
+
+        return $return;
+    }
+
+    public function isCanceled(): bool
+    {
+        $return = false;
+
+        foreach ($this->getProcessesSuccessful()->toArray() as $successfulProcess) {
+            if (
+                ($successfulProcess->isTerminated() && $successfulProcess->isSuccessful() === false)
+                || $successfulProcess->isCanceled()
+            ) {
+                $return = true;
+                break;
+            }
+        }
+
+        if ($return === false) {
+            foreach ($this->getProcessesFailed()->toArray() as $failedProcess) {
+                if (
+                    ($failedProcess->isTerminated() && $failedProcess->isSuccessful())
+                    || $failedProcess->isCanceled()
+                ) {
+                    $return = true;
+                    break;
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    protected function standardProcessCanBeStarted(): bool
     {
         $return = true;
 
@@ -101,29 +141,21 @@ class StartCondition
         return $return;
     }
 
-    public function isCanceled(): bool
+    protected function tearDownProcessCanBeStarted(): bool
     {
-        $return = false;
+        $processes = new ProcessInterfaceArray(
+            array_merge(
+                $this->getProcessesSuccessful()->toArray(),
+                $this->getProcessesTerminated()->toArray(),
+                $this->getProcessesFailed()->toArray(),
+            )
+        );
 
-        foreach ($this->getProcessesSuccessful()->toArray() as $successfulProcess) {
-            if (
-                ($successfulProcess->isTerminated() && $successfulProcess->isSuccessful() === false)
-                || $successfulProcess->isCanceled()
-            ) {
-                $return = true;
+        $return = true;
+        foreach ($processes->toArray() as $process) {
+            if ($process->isTerminated() === false && $process->isCanceled() === false) {
+                $return = false;
                 break;
-            }
-        }
-
-        if ($return === false) {
-            foreach ($this->getProcessesFailed()->toArray() as $failedProcess) {
-                if (
-                    ($failedProcess->isTerminated() && $failedProcess->isSuccessful())
-                    || $failedProcess->isCanceled()
-                ) {
-                    $return = true;
-                    break;
-                }
             }
         }
 
