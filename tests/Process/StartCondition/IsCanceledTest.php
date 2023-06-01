@@ -21,14 +21,14 @@ final class IsCanceledTest extends TestCase
 
     public function testIsCanceled(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
 
         static::assertFalse($startCondition->isCanceled());
     }
 
     public function testHaveOneNotStartedNotSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $startCondition->addProcessSuccessful($process);
 
@@ -38,7 +38,7 @@ final class IsCanceledTest extends TestCase
 
     public function testHaveOneSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessSuccessful($process);
@@ -49,7 +49,7 @@ final class IsCanceledTest extends TestCase
 
     public function testHaveOneNotSuccessful(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $process->run();
         $startCondition->addProcessSuccessful($process);
@@ -60,7 +60,7 @@ final class IsCanceledTest extends TestCase
 
     public function testHaveOneNotStartedNotFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $startCondition->addProcessFailed($process);
 
@@ -70,7 +70,7 @@ final class IsCanceledTest extends TestCase
 
     public function testHaveOneFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $process->run();
         $startCondition->addProcessFailed($process);
@@ -81,7 +81,7 @@ final class IsCanceledTest extends TestCase
 
     public function testHaveOneNotFailed(): void
     {
-        $startCondition = new StartCondition();
+        $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->mustRun();
         $startCondition->addProcessFailed($process);

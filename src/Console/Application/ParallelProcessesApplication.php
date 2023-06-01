@@ -196,8 +196,6 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function configureBootstrapProcesses(): static
     {
-        $standardProcesses = $this->getStandardProcesses();
-
         $bootstrapProcesses = new ProcessInterfaceArray();
         foreach ($this->getProcesses()->toArray() as $process) {
             if ($process instanceof BootstrapProcessInterface) {
@@ -206,6 +204,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         }
         $bootstrapProcesses->setReadOnly();
 
+        $standardProcesses = $this->getStandardProcesses();
         foreach ($bootstrapProcesses->toArray() as $bootstrapProcess) {
             foreach ($standardProcesses->toArray() as $standardProcess) {
                 $standardProcess->getStartCondition()->addProcessSuccessful($bootstrapProcess);
@@ -217,8 +216,6 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function configureTearDownProcesses(): static
     {
-        $standardProcesses = $this->getStandardProcesses();
-
         $tearDownProcesses = new ProcessInterfaceArray();
         foreach ($this->getProcesses()->toArray() as $process) {
             if ($process instanceof TearDownProcessInterface) {
@@ -227,6 +224,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         }
         $tearDownProcesses->setReadOnly();
 
+        $standardProcesses = $this->getStandardProcesses();
         foreach ($tearDownProcesses->toArray() as $tearDownProcess) {
             foreach ($standardProcesses->toArray() as $standardProcess) {
                 $tearDownProcess->getStartCondition()->addProcessTerminated($standardProcess);

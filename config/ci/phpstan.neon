@@ -10,6 +10,10 @@ parameters:
         - '#Method Steevanb\\ParallelProcess\\Tests\\Console\\Output\\TestOutput::write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
         # I can't remove this phpstan error because of the bad typehint of Symfony
         - '#Method Steevanb\\ParallelProcess\\Tests\\Console\\Output\\TestOutput::writeln\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
+        # To be compatible with Symfony Console 6.3, who require int|false as return type insteand of void for olver versions
+        -
+            message: '#Return type \(void\) of method Steevanb\\ParallelProcess\\Console\\Application\\ParallelProcessesApplication::handleSignal\(\) should be compatible with return type \(int\|false\) of method Symfony\\Component\\Console\\Command\\SignalableCommandInterface::handleSignal\(\)#'
+            reportUnmatched: false
 includes:
     - ../../vendor/steevanb/php-typed-array/bridge/Phpstan/rules.neon
     - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
