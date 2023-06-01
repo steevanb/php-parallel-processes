@@ -36,6 +36,13 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected bool $canceled = false;
 
+    /** Timeout in seconds, null for no timeout */
+    protected ?int $timeout = null;
+
+    protected ?int $startTime = null;
+
+    protected ?int $exitCode = null;
+
     public function __construct(string $name = null)
     {
         parent::__construct($name);
@@ -78,6 +85,18 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     public function getProcesses(): ProcessInterfaceArray
     {
         return $this->processes;
+    }
+
+    public function setTimeout(?int $timeout): static
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    public function getTimeout(): ?int
+    {
+        return $this->timeout;
     }
 
     public function setTheme(ThemeInterface $theme): static
@@ -177,6 +196,8 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected function runProcessesInParallel(InputInterface $input, OutputInterface $output): int
     {
+        $this->startTime = time();
+
         $this
             ->defineThemeFromInput($input)
             ->defineRefreshIntervalFromInput($input);
@@ -309,6 +330,11 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
                 break;
             }
 
+            if (is_int($this->getTimeout()) && $this->getStartTime() + $this->getTimeout() < time()) {
+                $this->setExitCode(static::FAILURE);
+                $this->handleSignal(SIGINT);
+            }
+
             $terminated = 0;
 
             $this
@@ -365,8 +391,19 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this;
     }
 
+    protected function setExitCode(?int $exitCode): static
+    {
+        $this->exitCode = $exitCode;
+
+        return $this;
+    }
+
     protected function getExitCode(): int
     {
+        if (is_int($this->exitCode)) {
+            return $this->exitCode;
+        }
+
         $return = static::SUCCESS;
 
         foreach ($this->getProcesses()->toArray() as $process) {
@@ -392,5 +429,14 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     protected function createDefaultOutput(): OutputInterface
     {
         return new ConsoleBufferedOutput();
+    }
+
+    protected function getStartTime(): int
+    {
+        if (is_int($this->startTime) === false) {
+            throw new ParallelProcessException('Call ' . static::class . '::run() before getStartTime().');
+        }
+
+        return $this->startTime;
     }
 }

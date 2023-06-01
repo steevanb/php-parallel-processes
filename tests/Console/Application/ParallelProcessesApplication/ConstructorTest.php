@@ -21,5 +21,6 @@ final class ConstructorTest extends TestCase
         static::assertInstanceOf(DefaultTheme::class, $application->getTheme());
         static::assertSame(10000, $application->getRefreshInterval());
         static::assertNull($application->getMaximumParallelProcesses());
+        static::assertNull($application->getTimeout());
     }
 }
