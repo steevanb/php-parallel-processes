@@ -19,9 +19,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $rootDir = dirname(__DIR__, 2);
 
-$process1 = new Process(['pwd'], $rootDir);
+$process1 = new Process(['sleep', '63'], $rootDir);
 
-$process2 = new Process(['commandNotFound'], $rootDir);
+$process2 = new Process(['pwd'], $rootDir);
 $process2->getStartCondition()->addProcessSuccessful($process1);
 
 $process3 = new Process(['pwd'], $rootDir);
@@ -31,5 +31,5 @@ $process3->getStartCondition()->addProcessSuccessful($process2);
     ->addProcess($process1)
     ->addProcess($process2)
     ->addProcess($process3)
-    ->setRefreshInterval(1)
+    ->setRefreshInterval(1000000)
     ->run();

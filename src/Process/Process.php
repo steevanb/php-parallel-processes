@@ -16,11 +16,11 @@ class Process extends SymfonyProcess implements ProcessInterface
 
     protected ?string $outputSummaryPrefix = null;
 
-    protected int $standardOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+    protected int $standardOutputVerbosity = OutputInterface::VERBOSITY_VERY_VERBOSE;
 
-    protected int $errorOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+    protected int $errorOutputVerbosity = OutputInterface::VERBOSITY_VERY_VERBOSE;
 
-    protected int $canceledOutputVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+    protected int $canceledOutputVerbosity = OutputInterface::VERBOSITY_VERY_VERBOSE;
 
     protected int $failureStandardOutputVerbosity = OutputInterface::VERBOSITY_NORMAL;
 

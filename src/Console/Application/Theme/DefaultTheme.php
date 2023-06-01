@@ -41,6 +41,8 @@ class DefaultTheme implements ThemeInterface
 
     protected int $executionTimeVerbosity = OutputInterface::VERBOSITY_VERBOSE;
 
+    protected int $statusLabelVerbosity = OutputInterface::VERBOSITY_VERBOSE;
+
     public function __construct()
     {
         $this
@@ -51,9 +53,9 @@ class DefaultTheme implements ThemeInterface
             ->setStateErrorColor(new Color('white', 'red'));
     }
 
-    public function setStateReadyColor(Color $stateReadyColor): static
+    public function setStateReadyColor(Color $color): static
     {
-        $this->stateReadyColor = $stateReadyColor;
+        $this->stateReadyColor = $color;
 
         return $this;
     }
@@ -63,9 +65,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateReadyColor;
     }
 
-    public function setStateReadyIcon(string $stateReadyIcon): static
+    public function setStateReadyIcon(string $icon): static
     {
-        $this->stateReadyIcon = $stateReadyIcon;
+        $this->stateReadyIcon = $icon;
 
         return $this;
     }
@@ -75,9 +77,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateReadyIcon;
     }
 
-    public function setStateCanceledColor(Color $stateCanceledColor): static
+    public function setStateCanceledColor(Color $color): static
     {
-        $this->stateCanceledColor = $stateCanceledColor;
+        $this->stateCanceledColor = $color;
 
         return $this;
     }
@@ -87,9 +89,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateCanceledColor;
     }
 
-    public function setStateCanceledIcon(string $stateCanceledIcon): static
+    public function setStateCanceledIcon(string $icon): static
     {
-        $this->stateCanceledIcon = $stateCanceledIcon;
+        $this->stateCanceledIcon = $icon;
 
         return $this;
     }
@@ -99,9 +101,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateCanceledIcon;
     }
 
-    public function setStateRunningColor(Color $stateRunningColor): static
+    public function setStateRunningColor(Color $color): static
     {
-        $this->stateRunningColor = $stateRunningColor;
+        $this->stateRunningColor = $color;
 
         return $this;
     }
@@ -111,9 +113,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateRunningColor;
     }
 
-    public function setStateRunningIcon(string $stateRunningIcon): static
+    public function setStateRunningIcon(string $icon): static
     {
-        $this->stateRunningIcon = $stateRunningIcon;
+        $this->stateRunningIcon = $icon;
 
         return $this;
     }
@@ -123,9 +125,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateRunningIcon;
     }
 
-    public function setStateSuccessfulColor(Color $stateSuccessfulColor): static
+    public function setStateSuccessfulColor(Color $color): static
     {
-        $this->stateSuccessfulColor = $stateSuccessfulColor;
+        $this->stateSuccessfulColor = $color;
 
         return $this;
     }
@@ -135,9 +137,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateSuccessfulColor;
     }
 
-    public function setStateSuccessfulIcon(string $stateSuccessfulIcon): static
+    public function setStateSuccessfulIcon(string $icon): static
     {
-        $this->stateSuccessfulIcon = $stateSuccessfulIcon;
+        $this->stateSuccessfulIcon = $icon;
 
         return $this;
     }
@@ -147,9 +149,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateSuccessfulIcon;
     }
 
-    public function setStateErrorColor(Color $stateErrorColor): static
+    public function setStateErrorColor(Color $color): static
     {
-        $this->stateErrorColor = $stateErrorColor;
+        $this->stateErrorColor = $color;
 
         return $this;
     }
@@ -159,9 +161,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateErrorColor;
     }
 
-    public function setStateErrorIcon(string $stateErrorIcon): static
+    public function setStateErrorIcon(string $icon): static
     {
-        $this->stateErrorIcon = $stateErrorIcon;
+        $this->stateErrorIcon = $icon;
 
         return $this;
     }
@@ -171,9 +173,9 @@ class DefaultTheme implements ThemeInterface
         return $this->stateErrorIcon;
     }
 
-    public function setExecutionTimeVerbosity(int $executionTimeVerbosity): static
+    public function setExecutionTimeVerbosity(int $verbosity): static
     {
-        $this->executionTimeVerbosity = $executionTimeVerbosity;
+        $this->executionTimeVerbosity = $verbosity;
 
         return $this;
     }
@@ -181,6 +183,18 @@ class DefaultTheme implements ThemeInterface
     public function getExecutionTimeVerbosity(): int
     {
         return $this->executionTimeVerbosity;
+    }
+
+    public function setStatusLabelVerbosity(int $verbosity): static
+    {
+        $this->statusLabelVerbosity = $verbosity;
+
+        return $this;
+    }
+
+    public function getStatusLabelVerbosity(): int
+    {
+        return $this->statusLabelVerbosity;
     }
 
     public function resetOutput(OutputInterface $output, ProcessInterfaceCollection $processes): static
@@ -241,7 +255,7 @@ class DefaultTheme implements ThemeInterface
                     $this->mergeProcessOutput(
                         $output,
                         $process->getOutputSummaryPrefix(),
-                        $process->getErrorOutput(),
+                        $process->getOutput(),
                         $lines
                     );
                 }
@@ -249,7 +263,7 @@ class DefaultTheme implements ThemeInterface
                     $this->mergeProcessOutput(
                         $output,
                         $process->getOutputSummaryPrefix(),
-                        $process->getOutput(),
+                        $process->getErrorOutput(),
                         $lines
                     );
                 }
@@ -337,8 +351,13 @@ class DefaultTheme implements ThemeInterface
         }
 
         $title = $process->getName();
+
+        if ($output->getVerbosity() >= $this->getStatusLabelVerbosity()) {
+            $title .= ' - ' . $this->getStatusLabel($process);
+        }
+
         if ($output->getVerbosity() >= $this->getExecutionTimeVerbosity() && $process->isStarted()) {
-            $title .= ' (' . $process->getExecutionTime() . 'ms)';
+            $title .= ' - ' . $this->getExecutionTimeLabel($process->getExecutionTime());
         }
 
         if ($isSummary && $this->processWillHaveOutput($output, $process) && $output->isDecorated()) {
@@ -410,6 +429,38 @@ class DefaultTheme implements ThemeInterface
             $return = $this->getStateErrorIcon();
         } else {
             throw new \Exception('Unknown process state.');
+        }
+
+        return $return;
+    }
+
+    protected function getStatusLabel(ProcessInterface $process): string
+    {
+        if ($process->isCanceled()) {
+            $return = 'Canceled';
+        } elseif ($process->getStatus() === Process::STATUS_READY) {
+            $return = 'Waiting';
+        } elseif ($process->isRunning()) {
+            $return = 'Running';
+        } elseif ($process->isTerminated() && $process->isSuccessful()) {
+            $return = 'Success';
+        } elseif ($process->isTerminated() && $process->isSuccessful() === false) {
+            $return = 'Error';
+        } else {
+            throw new \Exception('Unknown process state.');
+        }
+
+        return $return;
+    }
+
+    protected function getExecutionTimeLabel(int $executionTime): string
+    {
+        if ($executionTime >= 60000) {
+            $return = number_format($executionTime / 60000, 2) . ' min';
+        } elseif ($executionTime >= 1000) {
+            $return = number_format($executionTime / 1000, 1) . ' sec';
+        } else {
+            $return = $executionTime . ' ms';
         }
 
         return $return;
