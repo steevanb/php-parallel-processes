@@ -19,7 +19,7 @@ final class ErrorOutputVerbosityTest extends TestCase
     public function testSet(): void
     {
         $process = $this->createLsProcess();
-        static::assertSame(64, $process->getErrorOutputVerbosity());
+        static::assertSame(128, $process->getErrorOutputVerbosity());
 
         $process->setErrorOutputVerbosity(32);
         static::assertSame(32, $process->getErrorOutputVerbosity());

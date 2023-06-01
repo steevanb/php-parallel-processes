@@ -19,7 +19,7 @@ final class CanceledOutputVerbosityTest extends TestCase
     public function testSet(): void
     {
         $process = $this->createLsProcess();
-        static::assertSame(64, $process->getCanceledOutputVerbosity());
+        static::assertSame(128, $process->getCanceledOutputVerbosity());
 
         $process->setCanceledOutputVerbosity(32);
         static::assertSame(32, $process->getCanceledOutputVerbosity());
