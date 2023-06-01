@@ -1,5 +1,7 @@
 ### master
 
+### [0.13.0](../../compare/0.12.0...0.13.0) - 2023-06-01
+
 - [#130](https://github.com/steevanb/php-parallel-processes/issues/130) Rework execution time output in `DefaultTheme`
 - [#236](https://github.com/steevanb/php-parallel-processes/issues/236) Rework verbosity for `DefaultTheme`
 - [#237](https://github.com/steevanb/php-parallel-processes/issues/237) Fix `getStandardOutputVerbosity()` and `getErrorOutputVerbosity()`
