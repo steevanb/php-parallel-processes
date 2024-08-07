@@ -13,17 +13,16 @@ function buildDockerImage() {
         local refreshArguments=
     fi
 
-    DOCKER_BUILDKIT=1 \
-        docker \
-            build \
-                --file "${dockerFilePath}" \
-                --tag "${dockerImageName}" \
-                --build-arg DOCKER_UID="$(id -u)" \
-                --build-arg DOCKER_GID="$(id -g)" \
-                --build-arg COMPOSER_VERSION="${COMPOSER_VERSION}" \
-                ${refreshArguments} \
-                ${dockerBuildParams} \
-                "${ROOT_DIR}"
+    docker \
+        build \
+            --file "${dockerFilePath}" \
+            --tag "${dockerImageName}" \
+            --build-arg DOCKER_UID="$(id -u)" \
+            --build-arg DOCKER_GID="$(id -g)" \
+            --build-arg COMPOSER_VERSION="${COMPOSER_VERSION}" \
+            ${refreshArguments} \
+            ${dockerBuildParams} \
+            "${ROOT_DIR}"
 }
 
 function pushDockerImage() {

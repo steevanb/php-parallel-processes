@@ -28,7 +28,7 @@ if [ "${clearCache}" == true ] && [ -d "${ROOT_DIR}"/var/ci/phpstan ]; then
 fi
 
 if [ "${phpVersion}" == "" ] || [ "${symfonyVersion}" == "" ]; then
-    php8.1 "${ROOT_DIR}"/bin/ci/phpstan.php ${phpstanParameters}
+    php "${ROOT_DIR}"/bin/ci/phpstan.php ${phpstanParameters}
 else
     echo "PHP ${phpVersion} - Symfony ${symfonyVersion}"
 
@@ -36,6 +36,6 @@ else
         "${PHPSTAN_BIN_PATH}" \
             analyse \
                 --ansi \
-                --configuration config/ci/phpstan.php-"${phpVersion}".symfony-"${symfonyVersion}".neon \
+                --configuration config/ci/phpstan/php-"${phpVersion}".symfony-"${symfonyVersion}".neon \
                 ${phpstanParameters}
 fi

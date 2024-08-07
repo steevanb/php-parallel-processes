@@ -1,0 +1,4 @@
+includes:
+    - common.neon
+parameters:
+    tmpDir: ../../../var/ci/phpstan/php-8-2/symfony-7-1

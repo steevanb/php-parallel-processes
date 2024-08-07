@@ -31,7 +31,6 @@ final class TestOutput implements OutputInterface
     {
         if (is_string($messages)) {
             $this->outputed .= $messages;
-        /** @phpstan-ignore-next-line Call to function is_iterable() with iterable will always evaluate to true. */
         } elseif (is_iterable($messages)) {
             foreach ($messages as $message) {
                 $this->outputed .= $message;
@@ -81,11 +80,9 @@ final class TestOutput implements OutputInterface
         return $this->getVerbosity() === static::VERBOSITY_DEBUG;
     }
 
-    public function setDecorated(bool $decorated): static
+    public function setDecorated(bool $decorated): void
     {
         $this->decorated = $decorated;
-
-        return $this;
     }
 
     public function isDecorated(): bool

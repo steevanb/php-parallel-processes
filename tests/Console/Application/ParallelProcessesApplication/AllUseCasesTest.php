@@ -24,7 +24,7 @@ final class AllUseCasesTest extends TestCase
 
         $process1 = new Process(['pwd'], $rootDir);
 
-        $process2 = new Process(['commandNotFound'], $rootDir);
+        $process2 = new Process(['unknown-command'], $rootDir);
         $process2->getStartCondition()->addProcessSuccessful($process1);
 
         $process3 = new Process(['pwd'], $rootDir);

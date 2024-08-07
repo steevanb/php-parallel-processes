@@ -62,35 +62,6 @@ function updateCoverageBadge() {
     sed -i "6s/.*/${badge}/" "${ROOT_DIR}"/README.md
 }
 
-function updateInfectionBadge() {
-    trap onError ERR
-
-    echo "Calculate Infection MSI"
-
-    local logsPath="${ROOT_DIR}"/var/release/infection/logs.json
-    if [ -f "${logsPath}" ]; then
-        rm "${logsPath}"
-    fi
-
-    "${ROOT_DIR}"/bin/release/infection > /dev/null
-
-    if [ ! -f "${logsPath}" ]; then
-        echo -e "\e[41mUnable to find infection logs.json.\e[0m"
-        ls -lah "${ROOT_DIR}"/var
-        ls -lah "${ROOT_DIR}"/var/release
-        ls -lah "${ROOT_DIR}"/var/release/infection
-        exit 1
-    fi
-
-    local infectionMsiPercent=
-    infectionMsiPercent=$(jq -r ".stats.msi" < "${logsPath}")
-    infectionMsiPercent=$(printf "%.0f" "${infectionMsiPercent}")
-    echo "Infection MSI: ${infectionMsiPercent}%"
-
-    local badge="![Infection](https:\/\/img.shields.io\/badge\/infection-${infectionMsiPercent}%25-success.svg)"
-    sed -i "7s/.*/${badge}/" "${ROOT_DIR}"/README.md
-}
-
 function updateComposerRequire() {
     trap onError ERR
 
@@ -117,7 +88,6 @@ initLog
 updateReleaseBadge
 updateCodeLinesBadge
 updateCoverageBadge
-updateInfectionBadge
 updateComposerRequire
 updateChangelog
 updateRepositoryVersion

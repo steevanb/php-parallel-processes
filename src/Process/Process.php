@@ -209,9 +209,9 @@ class Process extends SymfonyProcess implements ProcessInterface
     /** @param array<mixed> $env */
     public function start(callable $callback = null, array $env = []): void
     {
-        parent::start($callback, $env);
-
         $this->executionTime = 0;
+
+        parent::start($callback, $env);
     }
 
     protected function updateStatus(bool $blocking): void
