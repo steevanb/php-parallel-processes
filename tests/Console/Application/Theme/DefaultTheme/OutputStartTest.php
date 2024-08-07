@@ -30,7 +30,9 @@ final class OutputStartTest extends TestCase
 
     public function testEmptyNotStartedDecorated(): void
     {
-        $output = (new TestOutput())->setDecorated(true);
+        $output = new TestOutput();
+        $output->setDecorated(true);
+
         (new DefaultTheme())->outputStart(
             $output,
             new ProcessInterfaceCollection()
@@ -55,7 +57,9 @@ final class OutputStartTest extends TestCase
 
     public function testNotStartedDecorated(): void
     {
-        $output = (new TestOutput())->setDecorated(true);
+        $output = new TestOutput();
+        $output->setDecorated(true);
+
         (new DefaultTheme())->outputStart(
             $output,
             new ProcessInterfaceCollection([$this->createLsProcess()])
@@ -97,7 +101,8 @@ final class OutputStartTest extends TestCase
 
         $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
-        $output = (new TestOutput())->setDecorated(true);
+        $output = new TestOutput();
+        $output->setDecorated(true);
 
         (new DefaultTheme())->outputStart($output, $processes);
 

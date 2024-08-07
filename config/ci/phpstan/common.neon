@@ -1,8 +1,8 @@
 parameters:
     level: 8
     paths:
-        - ../../src
-        - ../../tests
+        - ../../../src
+        - ../../../tests
     ignoreErrors:
         # I can't remove this phpstan error because of the bad typehint of Symfony
         - '#Method Steevanb\\ParallelProcess\\Console\\Output\\ConsoleBufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'

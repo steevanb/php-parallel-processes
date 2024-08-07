@@ -4,7 +4,6 @@
 ![Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
 ![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/steevanb/php-parallel-processes/ci.yml?branch=master)
 ![Coverage](https://img.shields.io/badge/coverage-48%25-success.svg)
-![Infection](https://img.shields.io/badge/infection-83%25-success.svg)
 
 # php-parallel-processes
 

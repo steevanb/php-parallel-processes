@@ -3,6 +3,8 @@
 - Add `-bookworm` Docker image
 - Update PHP from 8.1 to 8.3 in `-alpine` Docker image
 - Update PHP from 8.1 to 8.2 in `-buster` Docker image
+- Remove Symfony < 7.0 support, because of BC break in `SignalableCommandInterface::handleSignal()`
+- Remove PHP 8.1 support, because Symfony 7.0 required PHP >= 8.1
 
 ### [0.13.0](../../compare/0.12.0...0.13.0) - 2023-06-01
 

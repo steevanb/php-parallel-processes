@@ -49,7 +49,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
         $this->processes = new ProcessInterfaceCollection();
         $this
-            ->setCode([$this, 'runProcessesInParallel'])
+            ->setCode($this->runProcessesInParallel(...))
             ->setTheme(new DefaultTheme());
     }
 
@@ -153,7 +153,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     }
 
     /** @internal */
-    public function handleSignal(int $signal): void
+    public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
     {
         if ($signal === SIGINT) {
             $this->canceled = true;
@@ -168,6 +168,8 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
                 $process->setCanceled();
             }
         }
+
+        return false;
     }
 
     protected function configure(): void

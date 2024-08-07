@@ -6,11 +6,11 @@ readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
 source "${ROOT_DIR}"/bin/ci/dockerise.inc.bash
 
-echo "PHP 8.1 - Symfony 6.1"
+echo "PHP 8.2 - Symfony 7.0"
 XDEBUG_MODE=coverage \
-    php8.1 \
+    php \
         "${ROOT_DIR}"/vendor/bin/phpunit \
-            --bootstrap "${COMPOSER_HOME_SYMFONY_6_1}"/vendor/autoload.php \
+            --bootstrap "${COMPOSER_HOME_SYMFONY_7_0}"/vendor/autoload.php \
             --configuration "${ROOT_DIR}"/config/ci/phpunit.xml \
             --cache-result-file var/ci/phpunit/coverage/.phpunit.result.cache \
             --coverage-html "${ROOT_DIR}"/var/ci/phpunit/coverage/html \

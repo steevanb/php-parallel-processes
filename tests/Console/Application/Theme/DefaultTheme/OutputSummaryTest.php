@@ -31,7 +31,9 @@ final class OutputSummaryTest extends TestCase
 
     public function testEmptyNotStartedDecorated(): void
     {
-        $output = (new TestOutput())->setDecorated(true);
+        $output = new TestOutput();
+        $output->setDecorated(true);
+
         (new DefaultTheme())->outputSummary(
             $output,
             new ProcessInterfaceCollection()
@@ -54,12 +56,14 @@ final class OutputSummaryTest extends TestCase
 
     public function testNotStartedDecorated(): void
     {
+        $output = new TestOutput();
+        $output->setDecorated(true);
+
         $this->expectException(ParallelProcessException::class);
         $this->expectExceptionMessage('Unknown process state.');
         $this->expectExceptionCode(0);
-
         (new DefaultTheme())->outputSummary(
-            (new TestOutput())->setDecorated(true),
+            $output,
             new ProcessInterfaceCollection([$this->createLsProcess()])
         );
     }
@@ -94,7 +98,8 @@ final class OutputSummaryTest extends TestCase
 
         $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
-        $output = (new TestOutput())->setDecorated(true);
+        $output = new TestOutput();
+        $output->setDecorated(true);
 
         (new DefaultTheme())->outputSummary($output, $processes);
 
