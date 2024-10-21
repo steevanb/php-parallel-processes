@@ -14,6 +14,7 @@ final class TestOutput implements OutputInterface
 {
     protected string $outputed = '';
 
+    /** @var 16|32|64|128|256 */
     protected int $verbosity = self::VERBOSITY_NORMAL;
 
     protected bool $decorated = false;

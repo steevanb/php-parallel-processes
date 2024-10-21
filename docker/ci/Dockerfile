@@ -1,6 +1,6 @@
 ARG COMPOSER_VERSION
 
-FROM composer:${COMPOSER_VERSION} as composer
+FROM composer:${COMPOSER_VERSION} AS composer
 
 FROM ubuntu:22.04
 
