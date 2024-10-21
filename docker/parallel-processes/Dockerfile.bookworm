@@ -2,8 +2,7 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} AS composer
 
-# PHP 8.2.7 is the latest with buster version
-FROM php:8.2.7-cli-buster
+FROM php:8.3.12-cli-bookworm
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 

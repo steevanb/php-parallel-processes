@@ -1,5 +1,9 @@
 ### master
 
+- Add `-bookworm` Docker image
+- Update PHP from 8.1 to 8.3 in `-alpine` Docker image
+- Update PHP from 8.1 to 8.2 in `-buster` Docker image
+
 ### [0.13.0](../../compare/0.12.0...0.13.0) - 2023-06-01
 
 - [#130](https://github.com/steevanb/php-parallel-processes/issues/130) Rework execution time output in `DefaultTheme`
