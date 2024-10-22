@@ -1,5 +1,7 @@
 ### master
 
+### [0.14.0](../../compare/0.13.0...0.14.0) - 2024-10-22
+
 - Add `-bookworm` Docker image
 - Update PHP from 8.1 to 8.3 in `-alpine` Docker image
 - Update PHP from 8.1 to 8.2 in `-buster` Docker image
