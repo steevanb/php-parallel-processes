@@ -1,6 +1,6 @@
-[![Version](https://img.shields.io/badge/version-0.13.0-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/0.13.0)
+[![Version](https://img.shields.io/badge/version-0.14.0-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/0.14.0)
 [![PHP](https://img.shields.io/badge/php-^8.1-blue.svg)](https://php.net)
-![Lines](https://img.shields.io/badge/code%20lines-6,268-blue.svg)
+![Lines](https://img.shields.io/badge/code%20lines-6,198-blue.svg)
 ![Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
 ![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/steevanb/php-parallel-processes/ci.yml?branch=master)
 ![Coverage](https://img.shields.io/badge/coverage-48%25-success.svg)
@@ -12,7 +12,7 @@ Work in progress ;)
 # Installation
 
 ```
-composer require steevanb/php-parallel-processes ^0.13
+composer require steevanb/php-parallel-processes ^0.14
 ```
 
 # Usage with Docker
