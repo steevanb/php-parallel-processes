@@ -7,7 +7,7 @@ FROM php:8.2.22-cli-alpine3.20
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 ENV COMPOSER_HOME=/composer/common
-ENV COMPOSER_HOME_SYMFONY_6_2=/composer/symfony-6-2
+ENV COMPOSER_HOME_SYMFONY_7_0=/composer/symfony-7-0
 
 COPY docker/release/global.composer.json ${COMPOSER_HOME}/composer.json
 
@@ -27,8 +27,8 @@ RUN \
     && apk del .build-deps \
 
     # Install symfony components for coverage
-    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_6_2} \
-        composer global require symfony/console:6.2.* symfony/process:6.2.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_7_0} \
+        composer global require symfony/console:7.0.* symfony/process:7.0.* \
 
     # Purge
     && rm -rf /tmp/*
