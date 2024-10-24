@@ -20,7 +20,6 @@ final class WriteTest extends TestCase
         static::assertCount(0, $output->getBufferedLines());
 
         $output->write('<comment>foo</comment>');
-        static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(1, $output->getBufferedLines());
         static::assertArrayHasKey(0, $output->getBufferedLines()->toArray());
         static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
@@ -32,7 +31,6 @@ final class WriteTest extends TestCase
         static::assertCount(0, $output->getBufferedLines());
 
         $output->write(['<comment>foo</comment>', '<comment>bar</comment>']);
-        static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(2, $output->getBufferedLines());
         static::assertLine('foo', $output->getBufferedLines()->get(0), $output->getFormatter()->isDecorated());
         static::assertLine('bar', $output->getBufferedLines()->get(1), $output->getFormatter()->isDecorated());

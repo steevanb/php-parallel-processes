@@ -22,10 +22,7 @@ final class ProcessSuccessfulTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-
-        static::assertTrue($startCondition->getProcessesSuccessful()->isReadOnly());
-        $startCondition->addProcessSuccessful($process);
-        static::assertTrue($startCondition->getProcessesSuccessful()->isReadOnly());
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertCount(1, $startCondition->getProcessesSuccessful());
         static::assertSame($process, $startCondition->getProcessesSuccessful()->get(0));

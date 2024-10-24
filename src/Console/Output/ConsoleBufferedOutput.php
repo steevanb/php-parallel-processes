@@ -27,7 +27,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
     ) {
         parent::__construct($verbosity, $decorated, $formatter);
 
-        $this->bufferedLines = (new StringCollection())->setReadOnly();
+        $this->bufferedLines = new StringCollection();
     }
 
     /** @param iterable|string $messages */
@@ -63,11 +63,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
             }
 
             // Difference with original write() is here
-            $this
-                ->bufferedLines
-                ->setReadOnly(false)
-                ->add($message . ($newline ? "\n" : null))
-                ->setReadOnly();
+            $this->bufferedLines->add($message . ($newline ? "\n" : null));
         }
     }
 

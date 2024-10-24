@@ -30,7 +30,7 @@ final class IsCanceledTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessSuccessful($process);
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertFalse($process->isSuccessful());
         static::assertFalse($startCondition->isCanceled());
@@ -41,7 +41,7 @@ final class IsCanceledTest extends TestCase
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->mustRun();
-        $startCondition->addProcessSuccessful($process);
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertTrue($process->isSuccessful());
         static::assertFalse($startCondition->isCanceled());
@@ -52,7 +52,7 @@ final class IsCanceledTest extends TestCase
         $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $process->run();
-        $startCondition->addProcessSuccessful($process);
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertFalse($process->isSuccessful());
         static::assertTrue($startCondition->isCanceled());
@@ -62,7 +62,7 @@ final class IsCanceledTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
-        $startCondition->addProcessFailed($process);
+        $startCondition->getProcessesFailed()->add($process);
 
         static::assertFalse($process->isSuccessful());
         static::assertFalse($startCondition->isCanceled());
@@ -73,7 +73,7 @@ final class IsCanceledTest extends TestCase
         $startCondition = new StartCondition($this->createLsProcess());
         $process = new Process(['unknown-command']);
         $process->run();
-        $startCondition->addProcessFailed($process);
+        $startCondition->getProcessesFailed()->add($process);
 
         static::assertFalse($process->isSuccessful());
         static::assertFalse($startCondition->isCanceled());
@@ -84,7 +84,7 @@ final class IsCanceledTest extends TestCase
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
         $process->mustRun();
-        $startCondition->addProcessFailed($process);
+        $startCondition->getProcessesFailed()->add($process);
 
         static::assertTrue($process->isSuccessful());
         static::assertTrue($startCondition->isCanceled());

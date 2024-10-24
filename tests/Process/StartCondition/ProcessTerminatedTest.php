@@ -22,10 +22,7 @@ final class ProcessTerminatedTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-
-        static::assertTrue($startCondition->getProcessesTerminated()->isReadOnly());
-        $startCondition->addProcessTerminated($process);
-        static::assertTrue($startCondition->getProcessesTerminated()->isReadOnly());
+        $startCondition->getProcessesTerminated()->add($process);
 
         static::assertCount(1, $startCondition->getProcessesTerminated());
         static::assertSame($process, $startCondition->getProcessesTerminated()->get(0));

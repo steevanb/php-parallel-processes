@@ -29,7 +29,7 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessTerminated($process);
+        $startCondition->getProcessesTerminated()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }
@@ -38,8 +38,8 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessTerminated($process);
-        $startCondition->addProcessTerminated($process);
+        $startCondition->getProcessesTerminated()->add($process);
+        $startCondition->getProcessesTerminated()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }
@@ -48,7 +48,7 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessSuccessful($process);
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }
@@ -57,8 +57,8 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessSuccessful($process);
-        $startCondition->addProcessSuccessful($process);
+        $startCondition->getProcessesSuccessful()->add($process);
+        $startCondition->getProcessesSuccessful()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }
@@ -67,7 +67,7 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessFailed($process);
+        $startCondition->getProcessesFailed()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }
@@ -76,8 +76,8 @@ final class HasConditionsTest extends TestCase
     {
         $startCondition = new StartCondition($this->createLsProcess());
         $process = $this->createLsProcess();
-        $startCondition->addProcessFailed($process);
-        $startCondition->addProcessFailed($process);
+        $startCondition->getProcessesFailed()->add($process);
+        $startCondition->getProcessesFailed()->add($process);
 
         static::assertTrue($startCondition->hasConditions());
     }

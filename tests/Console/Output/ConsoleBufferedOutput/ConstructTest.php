@@ -16,7 +16,6 @@ final class ConstructTest extends TestCase
         $output = new ConsoleBufferedOutput();
 
         static::assertCount(0, $output->getBufferedLines());
-        static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertSame(32, $output->getVerbosity());
         static::assertInstanceOf(OutputFormatter::class, $output->getFormatter());
     }

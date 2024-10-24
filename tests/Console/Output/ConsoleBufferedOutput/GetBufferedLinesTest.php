@@ -19,7 +19,6 @@ final class GetBufferedLinesTest extends TestCase
         static::assertCount(0, $output->getBufferedLines());
 
         $output->write('foo');
-        static::assertTrue($output->getBufferedLines()->isReadOnly());
         static::assertCount(1, $output->getBufferedLines());
         static::assertSame('foo', $output->getBufferedLines()->get(0));
     }
