@@ -25,13 +25,13 @@ final class AllUseCasesTest extends TestCase
         $process1 = new Process(['pwd'], $rootDir);
 
         $process2 = new Process(['unknown-command'], $rootDir);
-        $process2->getStartCondition()->addProcessSuccessful($process1);
+        $process2->getStartCondition()->getProcessesSuccessful()->add($process1);
 
         $process3 = new Process(['pwd'], $rootDir);
-        $process3->getStartCondition()->addProcessSuccessful($process2);
+        $process3->getStartCondition()->getProcessesSuccessful()->add($process2);
 
         $process4 = new Process(['pwd'], $rootDir);
-        $process4->getStartCondition()->addProcessSuccessful($process3);
+        $process4->getStartCondition()->getProcessesSuccessful()->add($process3);
 
         $tearDownProcess = new TearDownProcess(['pwd']);
 

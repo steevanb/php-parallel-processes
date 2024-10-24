@@ -27,7 +27,6 @@ final class WriteBufferedLinesTest extends TestCase
 
         $output
             ->getBufferedLines()
-            ->setReadOnly(false)
             ->add('foo');
         $output->writeBufferedLines();
 

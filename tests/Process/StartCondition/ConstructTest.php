@@ -20,12 +20,7 @@ final class ConstructTest extends TestCase
         $startCondition = new StartCondition($this->createLsProcess());
 
         static::assertCount(0, $startCondition->getProcessesTerminated());
-        static::assertTrue($startCondition->getProcessesTerminated()->isReadOnly());
-
         static::assertCount(0, $startCondition->getProcessesSuccessful());
-        static::assertTrue($startCondition->getProcessesSuccessful()->isReadOnly());
-
         static::assertCount(0, $startCondition->getProcessesFailed());
-        static::assertTrue($startCondition->getProcessesFailed()->isReadOnly());
     }
 }

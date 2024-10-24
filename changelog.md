@@ -1,5 +1,9 @@
 ### master
 
+- [BC Break] Remove `StartCondition::addProcessTerminated()`, `addProcessSuccessful()` and `addProcessFailed()`: use `getProcesses[Terminated|Successful|Failed]()->add()` instead
+- Update `steevanb/php-collection` dependency to `^6.0`
+- Remove readonly mode in collections
+
 ### [0.14.0](../../compare/0.13.0...0.14.0) - 2024-10-22
 
 - Add `-bookworm` Docker image

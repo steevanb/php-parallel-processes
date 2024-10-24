@@ -230,7 +230,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         $standardProcesses = $this->getStandardProcesses();
         foreach ($bootstrapProcesses->toArray() as $bootstrapProcess) {
             foreach ($standardProcesses->toArray() as $standardProcess) {
-                $standardProcess->getStartCondition()->addProcessSuccessful($bootstrapProcess);
+                $standardProcess->getStartCondition()->getProcessesSuccessful()->add($bootstrapProcess);
             }
         }
 
@@ -250,7 +250,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         $standardProcesses = $this->getStandardProcesses();
         foreach ($tearDownProcesses->toArray() as $tearDownProcess) {
             foreach ($standardProcesses->toArray() as $standardProcess) {
-                $tearDownProcess->getStartCondition()->addProcessTerminated($standardProcess);
+                $tearDownProcess->getStartCondition()->getProcessesTerminated()->add($standardProcess);
             }
         }
 

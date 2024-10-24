@@ -22,10 +22,10 @@ $rootDir = dirname(__DIR__, 2);
 $process1 = new Process(['sleep', '63'], $rootDir);
 
 $process2 = new Process(['pwd'], $rootDir);
-$process2->getStartCondition()->addProcessSuccessful($process1);
+$process2->getStartCondition()->getProcessesSuccessful()->add($process1);
 
 $process3 = new Process(['pwd'], $rootDir);
-$process3->getStartCondition()->addProcessSuccessful($process2);
+$process3->getStartCondition()->getProcessesSuccessful()->add($process2);
 
 (new ParallelProcessesApplication())
     ->addProcess($process1)

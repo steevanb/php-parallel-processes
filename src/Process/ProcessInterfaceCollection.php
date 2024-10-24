@@ -6,30 +6,12 @@ namespace Steevanb\ParallelProcess\Process;
 
 use Steevanb\PhpCollection\ObjectCollection\AbstractObjectCollection;
 
+/** @extends AbstractObjectCollection<ProcessInterface> */
 class ProcessInterfaceCollection extends AbstractObjectCollection
 {
-    public function __construct(iterable $values = [])
+    public static function getValueFqcn(): string
     {
-        parent::__construct(ProcessInterface::class, $values);
-    }
-
-    public function add(ProcessInterface $process): static
-    {
-        return $this->doAdd($process);
-    }
-
-    public function get(int|string $key): ProcessInterface
-    {
-        return $this->doGet($key);
-    }
-
-    /** @return array<int|string, ProcessInterface> */
-    public function toArray(): array
-    {
-        /** @var array<int|string, ProcessInterface> $return */
-        $return = parent::toArray();
-
-        return $return;
+        return ProcessInterface::class;
     }
 
     public function getReady(): ProcessInterfaceCollection

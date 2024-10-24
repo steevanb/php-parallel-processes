@@ -14,20 +14,9 @@ class StartCondition
 
     public function __construct(protected readonly ProcessInterface $process)
     {
-        $this->processesTerminated = (new ProcessInterfaceCollection())->setReadOnly();
-        $this->processesSuccessful = (new ProcessInterfaceCollection())->setReadOnly();
-        $this->processesFailed = (new ProcessInterfaceCollection())->setReadOnly();
-    }
-
-    public function addProcessTerminated(ProcessInterface $process): static
-    {
-        $this
-            ->processesTerminated
-            ->setReadOnly(false)
-            ->add($process)
-            ->setReadOnly();
-
-        return $this;
+        $this->processesTerminated = new ProcessInterfaceCollection();
+        $this->processesSuccessful = new ProcessInterfaceCollection();
+        $this->processesFailed = new ProcessInterfaceCollection();
     }
 
     public function getProcessesTerminated(): ProcessInterfaceCollection
@@ -35,31 +24,9 @@ class StartCondition
         return $this->processesTerminated;
     }
 
-    public function addProcessSuccessful(ProcessInterface $process): static
-    {
-        $this
-            ->processesSuccessful
-            ->setReadOnly(false)
-            ->add($process)
-            ->setReadOnly();
-
-        return $this;
-    }
-
     public function getProcessesSuccessful(): ProcessInterfaceCollection
     {
         return $this->processesSuccessful;
-    }
-
-    public function addProcessFailed(ProcessInterface $process): static
-    {
-        $this
-            ->processesFailed
-            ->setReadOnly(false)
-            ->add($process)
-            ->setReadOnly();
-
-        return $this;
     }
 
     public function getProcessesFailed(): ProcessInterfaceCollection
