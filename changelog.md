@@ -1,5 +1,7 @@
 ### master
 
+### [1.0.0](../../compare/0.15.0...1.0.0) - 2024-11-28
+
 ### [0.15.0](../../compare/0.14.0...0.15.0) - 2024-10-24
 
 - [BC Break] Remove `StartCondition::addProcessTerminated()`, `addProcessSuccessful()` and `addProcessFailed()`: use `getProcesses[Terminated|Successful|Failed]()->add()` instead
