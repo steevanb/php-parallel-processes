@@ -1,5 +1,7 @@
 ### master
 
+### [1.0.1](../../compare/1.0.0...1.0.1) - 2024-12-02
+
 - Fix dependency `symfony/console` version to `^7.0`
 
 ### [1.0.0](../../compare/0.15.0...1.0.0) - 2024-11-28
