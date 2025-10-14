@@ -1,68 +1,19 @@
 name: CI
+
 on: [push]
+
 jobs:
-    phpcs:
+    validate:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - run: bin/ci/phpcs
+            - uses: actions/checkout@v5
 
-    phpstan:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php: [--php=8.2, --php=8.3]
-                symfony: [--symfony=7.0, --symfony=7.1]
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpstan ${{ matrix.php }} ${{ matrix.symfony }}
+            - name: Cache vendor
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: composer-${{ hashFiles('composer.json') }}
 
-    phpdd:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpdd
+            - run: bin/ci/env
 
-    composer-normalize:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - run: bin/ci/composer-normalize
-
-    composer-require-checker:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/composer-require-checker
-
-    composer-validate:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - run: bin/ci/composer-validate
-
-    shellcheck:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - run: bin/ci/shellcheck
-
-    unused-scanner:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - run: bin/ci/unused-scanner
-
-    phpunit:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php: [--php=8.2, --php=8.3]
-                symfony: [--symfony=7.0, --symfony=7.1]
-        steps:
-            - uses: actions/checkout@v2
-            - uses: ./.github/actions/ci-env
-            - run: bin/ci/phpunit ${{ matrix.php }} ${{ matrix.symfony }}
+            - run: bin/ci/validate -v --theme=summary

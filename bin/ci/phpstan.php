@@ -36,4 +36,5 @@ $dependenciesVersions = new DependenciesVersions($argv);
 
 (new ParallelProcessesApplication())
     ->addProcesses(createPhpstanProcesses($dependenciesVersions))
+    ->setRefreshInterval(50000)
     ->run(new ArgvInput($dependenciesVersions->getFilteredArgv()->toArray()));

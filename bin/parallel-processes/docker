@@ -7,17 +7,21 @@ readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 source "${ROOT_DIR}"/config/version/composer-version.env
 source "${ROOT_DIR}"/config/version/repository-version.env
 source "${ROOT_DIR}"/config/docker/parallel-processes-docker-image-name.env
+source "${ROOT_DIR}"/bin/theme.inc.bash
 
+title "Build Docker image: ${PARALLEL_PROCESSES_ALPINE_DOCKER_IMAGE_NAME}"
 DOCKER_IMAGE_NAME="${PARALLEL_PROCESSES_ALPINE_DOCKER_IMAGE_NAME}" \
 DOCKER_FILE_PATH="${ROOT_DIR}"/docker/parallel-processes/Dockerfile.alpine \
 DOCKER_BUILD_PARAMS="--build-arg REPOSITORY_VERSION=${REPOSITORY_VERSION}" \
     source "${ROOT_DIR}"/bin/docker-build.inc.bash
 
+title "Build Docker image: ${PARALLEL_PROCESSES_BUSTER_DOCKER_IMAGE_NAME}"
 DOCKER_IMAGE_NAME="${PARALLEL_PROCESSES_BUSTER_DOCKER_IMAGE_NAME}" \
 DOCKER_FILE_PATH="${ROOT_DIR}"/docker/parallel-processes/Dockerfile.buster \
 DOCKER_BUILD_PARAMS="--build-arg REPOSITORY_VERSION=${REPOSITORY_VERSION}" \
     source "${ROOT_DIR}"/bin/docker-build.inc.bash
 
+title "Build Docker image: ${PARALLEL_PROCESSES_BOOKWORM_DOCKER_IMAGE_NAME}"
 DOCKER_IMAGE_NAME="${PARALLEL_PROCESSES_BOOKWORM_DOCKER_IMAGE_NAME}" \
 DOCKER_FILE_PATH="${ROOT_DIR}"/docker/parallel-processes/Dockerfile.bookworm \
 DOCKER_BUILD_PARAMS="--build-arg REPOSITORY_VERSION=${REPOSITORY_VERSION}" \

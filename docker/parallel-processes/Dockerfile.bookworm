@@ -2,7 +2,7 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} AS composer
 
-FROM php:8.3.12-cli-bookworm
+FROM php:8.4.13-cli-bookworm
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
@@ -14,13 +14,23 @@ ARG REPOSITORY_VERSION
 RUN \
     apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y bash unzip jq \
+    && apt-get install -y bash unzip jq docker.io \
     && docker-php-ext-install pcntl \
     && composer global require steevanb/php-parallel-processes:${REPOSITORY_VERSION} \
+
+    # Install Docker compose and buildx plugins
+    && apt-get install -y ca-certificates curl gnupg lsb-release \
+    && install -m 0755 -d /etc/apt/keyrings \
+    && curl -fsSL https://download.docker.com/linux/$(. /etc/os-release && echo "$ID")/gpg  | gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+        https://download.docker.com/linux/$(. /etc/os-release && echo "$ID") \
+        $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list \
+    && apt-get update \
+    && apt-get install -y docker-compose-plugin docker-buildx-plugin \
 
     # Purge
     && rm /usr/local/bin/composer \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
-    && rm -rf /tmp/*
+    && rm -rf /tmp/* var/lib/apt/lists/*

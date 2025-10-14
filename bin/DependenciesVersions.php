@@ -34,6 +34,7 @@ class DependenciesVersions
                 ->phpVersions
                 ->add('8.2')
                 ->add('8.3')
+                ->add('8.4')
                 ->setReadOnly();
         }
 
@@ -42,6 +43,8 @@ class DependenciesVersions
                 ->symfonyVersions
                 ->add('7.0')
                 ->add('7.1')
+                ->add('7.2')
+                ->add('7.3')
                 ->setReadOnly();
         }
     }

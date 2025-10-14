@@ -43,7 +43,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
 
     protected ?int $exitCode = null;
 
-    public function __construct(string $name = null)
+    public function __construct(?string $name = null)
     {
         parent::__construct($name);
 
@@ -137,7 +137,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this->maximumParallelProcesses;
     }
 
-    public function run(InputInterface $input = null, OutputInterface $output = null): int
+    public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         if ($output instanceof OutputInterface === false) {
             $output = $this->createDefaultOutput();

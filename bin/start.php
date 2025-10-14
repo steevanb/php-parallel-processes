@@ -17,7 +17,7 @@ $ciDockerProcess = (new Process([$rootDir . '/bin/ci/docker']))
 
 $ciEnvProcess = (new Process([$rootDir . '/bin/ci/env']))
     ->setName('bin/ci/env');
-$ciEnvProcess->getStartCondition()->addProcessSuccessful($ciDockerProcess);
+$ciEnvProcess->getStartCondition()->getProcessesSuccessful()->add($ciDockerProcess);
 
 (new ParallelProcessesApplication())
     ->addProcess($ciDockerProcess)
@@ -30,4 +30,5 @@ $ciEnvProcess->getStartCondition()->addProcessSuccessful($ciDockerProcess);
         (new Process([$rootDir . '/bin/release/docker']))
             ->setName('bin/release/docker')
     )
+    ->setRefreshInterval(50000)
     ->run(new ArgvInput($argv));

@@ -14,6 +14,6 @@ XDEBUG_MODE=coverage \
             --configuration "${ROOT_DIR}"/config/ci/phpunit.xml \
             --cache-result-file var/ci/phpunit/coverage/.phpunit.result.cache \
             --coverage-html "${ROOT_DIR}"/var/ci/phpunit/coverage/html \
-            "${@}"
+            $@
 
 printf "Open \e[33mvar/ci/phpunit/coverage/html/index.html\e[0m in your browser to see code coverage results.\n"

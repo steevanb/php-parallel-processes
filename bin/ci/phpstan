@@ -10,7 +10,7 @@ phpVersion=
 symfonyVersion=
 phpstanParameters=
 clearCache=false
-for arg in "${@}"; do
+for arg in "$@"; do
     if [ "${arg:0:6}" == "--php=" ]; then
         phpVersion="${arg:6}"
     elif [ "${arg:0:10}" == "--symfony=" ]; then

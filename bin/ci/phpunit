@@ -9,7 +9,7 @@ source "${ROOT_DIR}"/bin/ci/dockerise.inc.bash
 phpVersion=
 symfonyVersion=
 phpunitParameters=
-for arg in "${@}"; do
+for arg in "$@"; do
     if [ "${arg:0:6}" == "--php=" ]; then
         phpVersion="${arg:6}"
     elif [ "${arg:0:10}" == "--symfony=" ]; then
@@ -20,7 +20,7 @@ for arg in "${@}"; do
 done
 
 if [ "${phpVersion}" == "" ] || [ "${symfonyVersion}" == "" ]; then
-    php "${ROOT_DIR}"/bin/ci/phpunit.php "${@}"
+    php "${ROOT_DIR}"/bin/ci/phpunit.php $@
 else
     echo "PHP ${phpVersion} - Symfony ${symfonyVersion}"
 
