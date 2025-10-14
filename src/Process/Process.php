@@ -42,7 +42,7 @@ class Process extends SymfonyProcess implements ProcessInterface
      */
     public function __construct(
         array $command,
-        string $cwd = null,
+        ?string $cwd = null,
         array $env = [],
         $input = null,
         ?float $timeout = 60
@@ -65,7 +65,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this->name;
     }
 
-    public function setOutputStatePrefix(string $prefix = null): static
+    public function setOutputStatePrefix(?string $prefix = null): static
     {
         $this->outputStatePrefix = $prefix;
 
@@ -77,7 +77,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this->outputStatePrefix;
     }
 
-    public function setOutputSummaryPrefix(string $prefix = null): static
+    public function setOutputSummaryPrefix(?string $prefix = null): static
     {
         $this->outputSummaryPrefix = $prefix;
 
@@ -89,7 +89,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this->outputSummaryPrefix;
     }
 
-    public function setOutputPrefix(string $prefix = null): static
+    public function setOutputPrefix(?string $prefix = null): static
     {
         return $this
             ->setOutputStatePrefix($prefix)
@@ -207,7 +207,7 @@ class Process extends SymfonyProcess implements ProcessInterface
     }
 
     /** @param array<mixed> $env */
-    public function start(callable $callback = null, array $env = []): void
+    public function start(?callable $callback = null, array $env = []): void
     {
         $this->executionTime = 0;
 

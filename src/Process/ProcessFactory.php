@@ -12,8 +12,8 @@ class ProcessFactory
     public static function createRemoveDirectoryProcess(
         string $path,
         ParallelProcessesApplication $application,
-        string $name = null,
-        string $cwd = null
+        ?string $name = null,
+        ?string $cwd = null
     ): ?Process {
         if (is_dir($path)) {
             $return = static::createProcess(new StringCollection(['rm', '-rf', $path]), $application, $name, $cwd);
@@ -27,8 +27,8 @@ class ProcessFactory
     public static function createRemoveFileProcess(
         string $filePathname,
         ParallelProcessesApplication $application,
-        string $name = null,
-        string $cwd = null
+        ?string $name = null,
+        ?string $cwd = null
     ): ?Process {
         if (is_file($filePathname)) {
             $return = static::createProcess(new StringCollection(['rm', $filePathname]), $application, $name, $cwd);
@@ -42,8 +42,8 @@ class ProcessFactory
     protected static function createProcess(
         StringCollection $command,
         ParallelProcessesApplication $application,
-        string $name = null,
-        string $cwd = null
+        ?string $name = null,
+        ?string $cwd = null
     ): Process {
         $return = new Process($command->toArray(), $cwd);
         if (is_string($name)) {

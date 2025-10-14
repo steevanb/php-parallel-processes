@@ -20,4 +20,5 @@ require dirname(__DIR__, 2) . '/vendor/autoload.php';
     ->addProcess(new Process([__DIR__ . '/phpunit-coverage']))
     ->addProcess(new Process([__DIR__ . '/shellcheck']))
     ->addProcess(new Process([__DIR__ . '/unused-scanner']))
+    ->setRefreshInterval(50000)
     ->run(new ArgvInput($argv));

@@ -20,4 +20,4 @@ docker \
         --workdir "${ROOT_DIR}" \
         "${CI_DOCKER_IMAGE_NAME}" \
         composer \
-            "${@}"
+            $@

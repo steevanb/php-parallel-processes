@@ -22,8 +22,8 @@ class ConsoleBufferedOutput extends ConsoleOutput
 
     public function __construct(
         int $verbosity = self::VERBOSITY_NORMAL,
-        bool $decorated = null,
-        OutputFormatterInterface $formatter = null
+        ?bool $decorated = null,
+        ?OutputFormatterInterface $formatter = null
     ) {
         parent::__construct($verbosity, $decorated, $formatter);
 

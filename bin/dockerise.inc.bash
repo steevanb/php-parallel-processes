@@ -21,6 +21,6 @@ if ! ${isInDocker}; then
             --entrypoint "${BIN_DIR}"/"$(basename "${0}")" \
             --workdir /app \
             "${DOCKER_IMAGE_NAME}" \
-            "${@}"
+            $@
     exit 0
 fi

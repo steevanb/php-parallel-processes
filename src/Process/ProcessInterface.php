@@ -65,9 +65,9 @@ interface ProcessInterface
     public function isSpreadErrorToApplicationExitCode(): bool;
 
     /** @param array<mixed> $env */
-    public function start(callable $callback = null, array $env = []): void;
+    public function start(?callable $callback = null, array $env = []): void;
 
-    public function stop(float $timeout = 10, int $signal = null): ?int;
+    public function stop(float $timeout = 10, ?int $signal = null): ?int;
 
     public function getStartTime(): float;
 }

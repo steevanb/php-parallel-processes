@@ -2,7 +2,7 @@ ARG COMPOSER_VERSION
 
 FROM composer:${COMPOSER_VERSION} AS composer
 
-FROM php:8.2.22-cli-alpine3.20
+FROM php:8.2.29-cli-alpine3.21
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
@@ -21,7 +21,7 @@ RUN \
     && docker-php-ext-install pcntl \
 
     # Install xdebug
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers \
+    && apk add --no-cache --virtual .build-deps ${PHPIZE_DEPS} linux-headers \
     && pecl install xdebug-3.2.0 \
     && docker-php-ext-enable xdebug \
     && apk del .build-deps \

@@ -1,5 +1,13 @@
 ### master
 
+- Add `docker` and `docker compose` in `alpine` Docker image
+- Add `docker`, `docker compose` and `docker buildx` in `bookworm` and `buster` Docker images
+- Update PHP version to `8.4.13` in `bookworm` and `buster` Docker images
+- Add compatibility for PHP 8.4, Symfony 7.2 and 7.3
+- Add compatibility for MAC
+- Move `ci` and `release` Docker images from hub.docker.com to GitHub package repository
+- Add documentation in README.md
+
 ### [1.0.1](../../compare/1.0.0...1.0.1) - 2024-12-02
 
 - Fix dependency `symfony/console` version to `^7.0`

@@ -17,8 +17,6 @@ function buildDockerImage() {
         build \
             --file "${dockerFilePath}" \
             --tag "${dockerImageName}" \
-            --build-arg DOCKER_UID="$(id -u)" \
-            --build-arg DOCKER_GID="$(id -g)" \
             --build-arg COMPOSER_VERSION="${COMPOSER_VERSION}" \
             ${refreshArguments} \
             ${dockerBuildParams} \
@@ -34,7 +32,7 @@ function pushDockerImage() {
 
 refresh=false
 push=false
-for param in "${@}"; do
+for param in "$@"; do
     if [ "${param}" == "--refresh" ]; then
         refresh=true
     elif [ "${param}" == "--push" ]; then

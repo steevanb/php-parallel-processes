@@ -19,4 +19,4 @@ phpcs \
     --report=steevanb\\PhpCodeSniffs\\Reports\\Steevanb \
     --cache="${ROOT_DIR}"/var/ci/phpcs/cache \
     . \
-    "${@}"
+    $@
