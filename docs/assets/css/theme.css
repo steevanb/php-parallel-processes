@@ -1,0 +1,16 @@
+body {
+    cursor: default;
+}
+
+h1 {
+    margin-bottom: 0.5em !important;
+    color: #4051B5 !important;
+}
+
+div.md-main__inner {
+    margin-top: 0;
+}
+
+:root {
+    --md-typeset-a-color: #30a2a9;
+}

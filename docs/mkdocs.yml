@@ -1,0 +1,17 @@
+site_name: PHP parallel processes
+theme:
+    name: material
+site_url: !ENV READTHEDOCS_CANONICAL_URL
+extra_javascript:
+    - assets/js/readthedocs-search.js
+extra_css:
+    - assets/css/theme.css
+docs_dir: .
+nav:
+    - Getting started:
+        - Summary: index.md
+        - License: getting-started/license.md
+        - Compatibility: getting-started/compatibility.md
+    - Installation:
+        - Composer dependency: installation/composer-dependency.md
+        - Docker image: installation/docker-image.md
