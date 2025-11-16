@@ -53,6 +53,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         $this->startCondition = new StartCondition($this);
     }
 
+    #[\Override]
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -60,6 +61,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -72,6 +74,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getOutputStatePrefix(): ?string
     {
         return $this->outputStatePrefix;
@@ -84,6 +87,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getOutputSummaryPrefix(): ?string
     {
         return $this->outputSummaryPrefix;
@@ -96,6 +100,7 @@ class Process extends SymfonyProcess implements ProcessInterface
             ->setOutputSummaryPrefix($prefix);
     }
 
+    #[\Override]
     public function setStandardOutputVerbosity(int $standardOutputVerbosity): static
     {
         $this->standardOutputVerbosity = $standardOutputVerbosity;
@@ -103,11 +108,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getStandardOutputVerbosity(): int
     {
         return $this->standardOutputVerbosity;
     }
 
+    #[\Override]
     public function setErrorOutputVerbosity(int $errorOutputVerbosity): static
     {
         $this->errorOutputVerbosity = $errorOutputVerbosity;
@@ -115,11 +122,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getErrorOutputVerbosity(): int
     {
         return $this->errorOutputVerbosity;
     }
 
+    #[\Override]
     public function setFailureStandardOutputVerbosity(int $failureStandardOutputVerbosity): static
     {
         $this->failureStandardOutputVerbosity = $failureStandardOutputVerbosity;
@@ -127,11 +136,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getFailureStandardOutputVerbosity(): int
     {
         return $this->failureStandardOutputVerbosity;
     }
 
+    #[\Override]
     public function setFailureErrorOutputVerbosity(int $failureErrorOutputVerbosity): static
     {
         $this->failureErrorOutputVerbosity = $failureErrorOutputVerbosity;
@@ -139,11 +150,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getFailureErrorOutputVerbosity(): int
     {
         return $this->failureErrorOutputVerbosity;
     }
 
+    #[\Override]
     public function setCanceledOutputVerbosity(int $canceledOutputVerbosity): static
     {
         $this->canceledOutputVerbosity = $canceledOutputVerbosity;
@@ -151,11 +164,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function getCanceledOutputVerbosity(): int
     {
         return $this->canceledOutputVerbosity;
     }
 
+    #[\Override]
     public function getExecutionTime(): int
     {
         if (is_int($this->executionTime) === false) {
@@ -165,11 +180,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this->executionTime;
     }
 
+    #[\Override]
     public function getStartCondition(): StartCondition
     {
         return $this->startCondition;
     }
 
+    #[\Override]
     public function setCanceled(bool $canceled = true): static
     {
         $this->canceled = $canceled;
@@ -177,11 +194,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function isCanceled(): bool
     {
         return $this->canceled;
     }
 
+    #[\Override]
     public function setCanceledAsError(bool $canceledAsError = true): static
     {
         $this->canceledAsError = $canceledAsError;
@@ -189,11 +208,13 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function isCanceledAsError(): bool
     {
         return $this->canceledAsError;
     }
 
+    #[\Override]
     public function setSpreadErrorToApplicationExitCode(bool $spreadErrorToApplicationExitCode = true): static
     {
         $this->spreadErrorToApplicationExitCode = $spreadErrorToApplicationExitCode;
@@ -201,12 +222,14 @@ class Process extends SymfonyProcess implements ProcessInterface
         return $this;
     }
 
+    #[\Override]
     public function isSpreadErrorToApplicationExitCode(): bool
     {
         return $this->spreadErrorToApplicationExitCode;
     }
 
     /** @param array<mixed> $env */
+    #[\Override]
     public function start(?callable $callback = null, array $env = []): void
     {
         $this->executionTime = 0;
@@ -214,6 +237,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         parent::start($callback, $env);
     }
 
+    #[\Override]
     protected function updateStatus(bool $blocking): void
     {
         // Do not call getStatuts() here to get the status, or it will call updateStatus() and do an infinite loop
@@ -224,8 +248,7 @@ class Process extends SymfonyProcess implements ProcessInterface
         parent::updateStatus($blocking);
     }
 
-    /** @return mixed */
-    protected function getParentPrivatePropertyValue(string $property)
+    protected function getParentPrivatePropertyValue(string $property): mixed
     {
         $reflection = new \ReflectionProperty(SymfonyProcess::class, $property);
         $reflection->setAccessible(true);

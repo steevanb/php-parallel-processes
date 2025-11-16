@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SummaryTheme extends DefaultTheme
 {
+    #[\Override]
     public function outputStart(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $output->writeln(
@@ -23,11 +24,13 @@ class SummaryTheme extends DefaultTheme
         return $this;
     }
 
+    #[\Override]
     public function outputProcessesState(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         return $this;
     }
 
+    #[\Override]
     public function resetOutput(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         return $this;

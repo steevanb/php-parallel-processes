@@ -28,6 +28,8 @@ RUN \
         php8.2-cli \
         php8.2-dom \
         php8.2-mbstring \
+        php8.2-bcmath \
+        php8.2-intl \
         # PHP 8.3
         php8.3-cli \
         php8.3-dom \

@@ -9,6 +9,7 @@ use Steevanb\PhpCollection\ObjectCollection\AbstractObjectCollection;
 /** @extends AbstractObjectCollection<ProcessInterface> */
 class ProcessInterfaceCollection extends AbstractObjectCollection
 {
+    #[\Override]
     public static function getValueFqcn(): string
     {
         return ProcessInterface::class;

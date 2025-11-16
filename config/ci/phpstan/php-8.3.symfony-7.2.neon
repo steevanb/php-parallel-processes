@@ -1,4 +1,5 @@
 includes:
     - common.neon
 parameters:
+    phpVersion: 80300
     tmpDir: ../../../var/ci/phpstan/php-8-3/symfony-7-2

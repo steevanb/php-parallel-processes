@@ -20,11 +20,13 @@ final class ResetOutputTest extends TestCase
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new SummaryTheme())->resetOutput(
+        $theme = new SummaryTheme();
+        $result = $theme->resetOutput(
             $output,
             new ProcessInterfaceCollection()
         );
 
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 
@@ -32,9 +34,10 @@ final class ResetOutputTest extends TestCase
     {
         $processes = new ProcessInterfaceCollection([$this->createLsProcess(), $this->createLsProcess()]);
         $output = new TestOutput();
+        $theme = new SummaryTheme();
+        $result = $theme->resetOutput($output, $processes);
 
-        (new SummaryTheme())->resetOutput($output, $processes);
-
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 
@@ -47,11 +50,11 @@ final class ResetOutputTest extends TestCase
         $process2->start();
 
         $processes = new ProcessInterfaceCollection([$process1, $process2]);
-
         $output = new TestOutput();
+        $theme = new SummaryTheme();
+        $result = $theme->resetOutput($output, $processes);
 
-        (new SummaryTheme())->resetOutput($output, $processes);
-
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 }

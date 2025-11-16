@@ -1,8 +1,9 @@
 parameters:
-    level: 8
+    level: 9
     paths:
         - ../../../src
         - ../../../tests
+    checkMissingOverrideMethodAttribute: true
     ignoreErrors:
         # I can't remove this phpstan error because of the bad typehint of Symfony
         - '#Method Steevanb\\ParallelProcess\\Console\\Output\\ConsoleBufferedOutput\:\:write\(\) has parameter \$messages with no value type specified in iterable type iterable.#'
@@ -14,6 +15,7 @@ parameters:
         -
             message: '#Return type \(void\) of method Steevanb\\ParallelProcess\\Console\\Application\\ParallelProcessesApplication::handleSignal\(\) should be compatible with return type \(int\|false\) of method Symfony\\Component\\Console\\Command\\SignalableCommandInterface::handleSignal\(\)#'
             reportUnmatched: false
+        - '#Instantiation of deprecated class Steevanb\\ParallelProcess\\Process\\BoostrapProcess:#'
 includes:
     - /composer/common/vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - /composer/common/vendor/phpstan/phpstan-phpunit/extension.neon

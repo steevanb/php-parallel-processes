@@ -7,6 +7,11 @@
 - Add compatibility for MAC
 - Move `ci` and `release` Docker images from hub.docker.com to GitHub package repository
 - Add documentation in README.md
+- Add `Steevanb\ParallelProcess\Process\BootstrapProcess`, it's the same as `BoostrapProcess`, name has been fixed
+- Set `Steevanb\ParallelProcess\Process\BoostrapProcess` as deprecated, it will be removed in 2.0.0: use `BootstrapProcess` instead
+- Add `#[\Override]` attribute
+- Fix PHP version for phpstan
+- Update CI tools
 
 ### [1.0.1](../../compare/1.0.0...1.0.1) - 2024-12-02
 

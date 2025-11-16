@@ -7,6 +7,7 @@ namespace Steevanb\ParallelProcess\Tests\Console\Application\ParallelProcessesAp
 use PHPUnit\Framework\TestCase;
 use Steevanb\ParallelProcess\{
     Process\BoostrapProcess,
+    Process\BootstrapProcess,
     Tests\CreateLsProcessTrait
 };
 
@@ -27,6 +28,19 @@ final class ConfigureBootstrapProcessesTest extends TestCase
     }
 
     public function testBootstrapProcess(): void
+    {
+        $application = new TestParallelProcessesApplication();
+
+        $process = $this->createLsProcess();
+        $bootstrapProcess = new BootstrapProcess(['ls']);
+        $application->addProcess($process);
+        $application->addProcess($bootstrapProcess);
+        $application->callConfigureBootstrapProcesses();
+
+        static::assertSame($bootstrapProcess, $process->getStartCondition()->getProcessesSuccessful()->get(0));
+    }
+
+    public function testDeprecatedBoostrapProcess(): void
     {
         $application = new TestParallelProcessesApplication();
 

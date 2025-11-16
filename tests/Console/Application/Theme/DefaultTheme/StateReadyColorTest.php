@@ -17,10 +17,10 @@ final class StateReadyColorTest extends TestCase
 {
     public function testDefaultValue(): void
     {
-        $theme = new DefaultTheme();
-
-        $theme->getStateReadyColor();
-        $this->addToAssertionCount(1);
+        static::assertEquals(
+            new Color('white', 'magenta'),
+            (new DefaultTheme())->getStateReadyColor()
+        );
     }
 
     public function testSetter(): void

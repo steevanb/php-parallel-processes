@@ -17,10 +17,10 @@ final class StateCanceledColorTest extends TestCase
 {
     public function testDefaultValue(): void
     {
-        $theme = new DefaultTheme();
-
-        $theme->getStateCanceledColor();
-        $this->addToAssertionCount(1);
+        static::assertEquals(
+            new Color('black', 'yellow'),
+            (new DefaultTheme())->getStateCanceledColor()
+        );
     }
 
     public function testSetter(): void
