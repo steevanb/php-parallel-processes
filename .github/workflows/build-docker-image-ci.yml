@@ -9,7 +9,7 @@ permissions:
 
 jobs:
     build:
-        name: Build Docker image ci
+        name: Build ci Docker image
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
