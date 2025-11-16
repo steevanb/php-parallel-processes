@@ -1,4 +1,4 @@
-name: Build Docker image parallel-processes
+name: Build parallel-processes Docker images
 
 on:
     workflow_dispatch: ~
