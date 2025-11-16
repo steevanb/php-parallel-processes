@@ -5,7 +5,7 @@ on:
 
 jobs:
     build:
-        name: Build Docker image parallel-processes
+        name: Build parallel-processes Docker images
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v5
