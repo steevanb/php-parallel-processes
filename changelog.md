@@ -1,5 +1,7 @@
 ### master
 
+### [1.1.0](../../compare/1.0.1...1.1.0) - 2025-11-16
+
 - Add `docker` and `docker compose` in `alpine` Docker image
 - Add `docker`, `docker compose` and `docker buildx` in `bookworm` and `buster` Docker images
 - Update PHP version to `8.4.13` in `bookworm` and `buster` Docker images
