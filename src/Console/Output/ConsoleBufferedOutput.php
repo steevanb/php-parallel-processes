@@ -31,6 +31,7 @@ class ConsoleBufferedOutput extends ConsoleOutput
     }
 
     /** @param iterable|string $messages */
+    #[\Override]
     public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL): void
     {
         // Mostly copied from Symfony\Component\Console\Output\Output::write()

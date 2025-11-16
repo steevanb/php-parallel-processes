@@ -20,11 +20,13 @@ final class OutputProcessStateTest extends TestCase
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new DefaultTheme())->outputProcessesState(
+        $theme = new DefaultTheme();
+        $result = $theme->outputProcessesState(
             $output,
             new ProcessInterfaceCollection()
         );
 
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 

@@ -20,22 +20,26 @@ final class OutputProcessStateTest extends TestCase
     public function testEmptyNotStarted(): void
     {
         $output = new TestOutput();
-        (new SummaryTheme())->outputProcessesState(
+        $theme = new SummaryTheme();
+        $result = $theme->outputProcessesState(
             $output,
             new ProcessInterfaceCollection()
         );
 
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 
     public function testNotStarted(): void
     {
         $output = new TestOutput();
-        (new SummaryTheme())->outputProcessesState(
+        $theme = new SummaryTheme();
+        $result = $theme->outputProcessesState(
             $output,
             new ProcessInterfaceCollection([$this->createLsProcess()])
         );
 
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 
@@ -50,9 +54,10 @@ final class OutputProcessStateTest extends TestCase
         $processes = new ProcessInterfaceCollection([$process1, $process2]);
 
         $output = new TestOutput();
+        $theme = new SummaryTheme();
+        $result = $theme->outputProcessesState($output, $processes);
 
-        (new SummaryTheme())->outputProcessesState($output, $processes);
-
+        static::assertSame($theme, $result);
         static::assertSame('', $output->getOutputed());
     }
 }

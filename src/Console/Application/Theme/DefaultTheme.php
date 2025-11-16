@@ -206,6 +206,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
+    #[\Override]
     public function outputStart(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         foreach ($processes->toArray() as $process) {
@@ -217,6 +218,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
+    #[\Override]
     public function outputProcessesState(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $this->resetOutput($output, $processes);
@@ -230,6 +232,7 @@ class DefaultTheme implements ThemeInterface
         return $this;
     }
 
+    #[\Override]
     public function outputSummary(OutputInterface $output, ProcessInterfaceCollection $processes): static
     {
         $this->resetOutput($output, $processes);

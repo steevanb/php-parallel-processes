@@ -17,10 +17,10 @@ final class StateErrorColorTest extends TestCase
 {
     public function testDefaultValue(): void
     {
-        $theme = new DefaultTheme();
-
-        $theme->getStateErrorColor();
-        $this->addToAssertionCount(1);
+        static::assertEquals(
+            new Color('white', 'red'),
+            (new DefaultTheme())->getStateErrorColor()
+        );
     }
 
     public function testSetter(): void

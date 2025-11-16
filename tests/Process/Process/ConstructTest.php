@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Steevanb\ParallelProcess\Tests\Process\Process;
 
 use PHPUnit\Framework\TestCase;
-use Steevanb\ParallelProcess\{
-    Process\Process,
-    Process\StartCondition
-};
+use Steevanb\ParallelProcess\Process\Process;
 
 /** @covers \Steevanb\ParallelProcess\Process\Process::__construct */
 final class ConstructTest extends TestCase
@@ -22,10 +19,7 @@ final class ConstructTest extends TestCase
         static::assertCount(0, $process->getEnv());
         static::assertNull($process->getInput());
         static::assertSame(60.0, $process->getTimeout());
-
         static::assertSame('ls', $process->getName());
-        $process->getStartCondition();
-        $this->addToAssertionCount(1);
         static::assertSame(128, $process->getStandardOutputVerbosity());
         static::assertSame(128, $process->getErrorOutputVerbosity());
         static::assertSame(128, $process->getCanceledOutputVerbosity());
@@ -34,5 +28,9 @@ final class ConstructTest extends TestCase
         static::assertFalse($process->isCanceled());
         static::assertTrue($process->isCanceledAsError());
         static::assertTrue($process->isSpreadErrorToApplicationExitCode());
+
+        static::assertCount(0, $process->getStartCondition()->getProcessesSuccessful());
+        static::assertCount(0, $process->getStartCondition()->getProcessesTerminated());
+        static::assertCount(0, $process->getStartCondition()->getProcessesFailed());
     }
 }

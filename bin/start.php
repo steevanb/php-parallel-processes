@@ -22,13 +22,5 @@ $ciEnvProcess->getStartCondition()->getProcessesSuccessful()->add($ciDockerProce
 (new ParallelProcessesApplication())
     ->addProcess($ciDockerProcess)
     ->addProcess($ciEnvProcess)
-    ->addProcess(
-        (new Process([$rootDir . '/bin/parallel-processes/docker']))
-            ->setName('bin/parallel-processes/docker')
-    )
-    ->addProcess(
-        (new Process([$rootDir . '/bin/release/docker']))
-            ->setName('bin/release/docker')
-    )
     ->setRefreshInterval(50000)
     ->run(new ArgvInput($argv));

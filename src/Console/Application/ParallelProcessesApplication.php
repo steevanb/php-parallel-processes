@@ -137,6 +137,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return $this->maximumParallelProcesses;
     }
 
+    #[\Override]
     public function run(?InputInterface $input = null, ?OutputInterface $output = null): int
     {
         if ($output instanceof OutputInterface === false) {
@@ -147,12 +148,14 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
     }
 
     /** @return array<int, int> */
+    #[\Override]
     public function getSubscribedSignals(): array
     {
         return [SIGINT];
     }
 
     /** @internal */
+    #[\Override]
     public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
     {
         if ($signal === SIGINT) {
@@ -172,6 +175,7 @@ class ParallelProcessesApplication extends SingleCommandApplication implements S
         return false;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
