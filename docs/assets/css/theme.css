@@ -1,0 +1,44 @@
+body {
+    cursor: default;
+}
+
+h1 {
+    margin-bottom: 0.5em !important;
+    color: #4051B5 !important;
+    font-weight: 500 !important;
+}
+
+h2 {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+    color: #4051B5 !important;
+    font-size: 1.3em;
+}
+
+div.md-main__inner {
+    margin-top: 0;
+}
+
+:root {
+    --md-typeset-a-color: #30a2a9;
+}
+
+.icon-green {
+    color: #069006;
+}
+
+.md-typeset .admonition > .admonition-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tryit-link {
+    margin-left: auto;
+}
+
+li.md-nav__item--active > label.md-nav__link > span.md-ellipsis,
+li.md-nav__item--active > label.md-nav__link > span.md-nav__icon
+{
+    color: var(--md-typeset-a-color);
+}

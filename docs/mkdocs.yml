@@ -1,0 +1,57 @@
+site_name: Parallel processes
+theme:
+    name: material
+    features:
+        - content.code.copy
+site_url: !ENV READTHEDOCS_CANONICAL_URL
+extra_javascript:
+    - assets/js/readthedocs-search.js
+    - assets/js/try-it.js
+extra_css:
+    - assets/css/theme.css
+    - assets/css/try-it.css
+docs_dir: .
+nav:
+    - Getting started:
+        - Presentation: index.md
+        - License: getting-started/license.md
+    - Installation:
+        - Composer dependency: installation/composer-dependency.md
+        - Docker image: installation/docker-image.md
+    - Usage:
+        - Minimal configuration: usage/minimal-configuration.md
+        - Application configuration: usage/application-configuration.md
+        - Process configuration:
+            - Miscellaneous: usage/process-configuration/miscellaneous.md
+            - Output prefix: usage/process-configuration/output-prefix.md
+            - Verbosity: usage/process-configuration/verbosity.md
+        - Bootstrap / tear down: usage/bootstrap-tear-down.md
+        - Output verbosity: usage/output-verbosity.md
+    - Theme:
+        - Configuration: theme/configuration.md
+        - Create a theme: theme/create-a-theme.md
+    - Examples:
+        - Available examples: examples/available-examples.md
+    - Contributing:
+        - Tips for devs: contributing/tips-for-devs.md
+markdown_extensions:
+    - pymdownx.highlight:
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences
+    - admonition
+    - pymdownx.details
+    - pymdownx.superfences
+    - attr_list
+    - md_in_html
+    - pymdownx.emoji:
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+extra:
+    package_version: "1.1.0"
+plugins:
+    - search
+    - macros
