@@ -1,6 +1,6 @@
-[![Version](https://img.shields.io/badge/version-1.1.0-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/1.1.0)
+[![Version](https://img.shields.io/badge/version-1.2.0-blueviolet.svg)](https://github.com/steevanb/php-parallel-processes/tree/1.2.0)
 [![PHP](https://img.shields.io/badge/php-^8.1-blue.svg)](https://php.net)
-![Lines](https://img.shields.io/badge/code%20lines-6,388-blue.svg)
+![Lines](https://img.shields.io/badge/code%20lines-6,649-blue.svg)
 ![Downloads](https://poser.pugx.org/steevanb/php-parallel-processes/downloads)
 ![GitHub workflow status](https://img.shields.io/github/actions/workflow/status/steevanb/php-parallel-processes/ci.yml?branch=master)
 ![Coverage](https://img.shields.io/badge/coverage-46%25-success.svg)
@@ -52,7 +52,7 @@ All official `php-parallel-processes` images have Docker and Docker compose inst
 If you want to add `php-parallel-processes` directly in your project:
 
 ```bash
-composer require steevanb/php-parallel-processes ^1.1
+composer require steevanb/php-parallel-processes ^1.2
 ```
 
 # Create processes configuration
