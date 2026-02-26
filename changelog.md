@@ -1,5 +1,7 @@
 ### master
 
+### [1.2.0](../../compare/1.1.0...1.2.0) - 2026-02-26
+
 - Add compatibility for PHP 8.5, Symfony 7.4 and 8.0
 
 ### [1.1.0](../../compare/1.0.1...1.1.0) - 2025-11-16
