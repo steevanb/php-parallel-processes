@@ -27,7 +27,6 @@ final class UpdateStatusTest extends TestCase
     {
         $process = $this->createLsProcess();
         $reflection = $this->createReflection($process);
-        $reflection->setAccessible(true);
 
         static::assertNull($reflection->getClosure($process)->call($process, false));
         $this->expectException(ParallelProcessException::class);
@@ -40,7 +39,6 @@ final class UpdateStatusTest extends TestCase
     {
         $process = $this->createLsProcess();
         $reflection = $this->createReflection($process);
-        $reflection->setAccessible(true);
         $process->mustRun();
 
         static::assertNull($reflection->getClosure($process)->call($process, false));

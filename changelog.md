@@ -1,5 +1,7 @@
 ### master
 
+- Add compatibility for PHP 8.5, Symfony 7.4 and 8.0
+
 ### [1.1.0](../../compare/1.0.1...1.1.0) - 2025-11-16
 
 - Add `docker` and `docker compose` in `alpine` Docker image

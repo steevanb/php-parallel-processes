@@ -251,7 +251,6 @@ class Process extends SymfonyProcess implements ProcessInterface
     protected function getParentPrivatePropertyValue(string $property): mixed
     {
         $reflection = new \ReflectionProperty(SymfonyProcess::class, $property);
-        $reflection->setAccessible(true);
 
         return $reflection->getValue($this);
     }

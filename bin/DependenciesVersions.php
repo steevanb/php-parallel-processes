@@ -35,6 +35,7 @@ class DependenciesVersions
                 ->add('8.2')
                 ->add('8.3')
                 ->add('8.4')
+                ->add('8.5')
                 ->setReadOnly();
         }
 
@@ -45,6 +46,8 @@ class DependenciesVersions
                 ->add('7.1')
                 ->add('7.2')
                 ->add('7.3')
+                ->add('7.4')
+                ->add('8.0')
                 ->setReadOnly();
         }
     }
