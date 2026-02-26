@@ -7,6 +7,10 @@ on:
                 description: Version
                 required: true
 
+permissions:
+    contents: write
+    pull-requests: write
+
 jobs:
     build:
         name: Release
@@ -25,7 +29,7 @@ jobs:
             -
                 id: create-pull-request
                 name: Create pull request
-                uses: peter-evans/create-pull-request@v3
+                uses: peter-evans/create-pull-request@v7
                 with:
                     title: Release ${{ github.event.inputs.version }}
                     commit-message: Release ${{ github.event.inputs.version }}
@@ -37,11 +41,11 @@ jobs:
                 uses: juliangruber/merge-pull-request-action@v1
                 with:
                     github-token: ${{ secrets.GITHUB_TOKEN }}
-                    number: ${{ steps.create-pull-request.outputs.pull-request-number }}"
+                    number: ${{ steps.create-pull-request.outputs.pull-request-number }}
                     method: rebase
             -
                 name: Create release
-                uses: softprops/action-gh-release@v1
+                uses: softprops/action-gh-release@v2
                 with:
                     tag_name: ${{ github.event.inputs.version }}
                     body: "[Changelog](changelog.md)"
