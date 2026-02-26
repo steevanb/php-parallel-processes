@@ -77,17 +77,9 @@ function updateChangelog() {
     "${ROOT_DIR}"/bin/release/changelog "${NEW_REPOSITORY_VERSION}"
 }
 
-function updateRepositoryVersion() {
-    trap onError ERR
-
-    echo "Edit REPOSITORY_VERSION"
-    echo "REPOSITORY_VERSION=${NEW_REPOSITORY_VERSION}" > "${ROOT_DIR}"/config/version/repository-version.env
-}
-
 initLog
 updateReleaseBadge
 updateCodeLinesBadge
 updateCoverageBadge
 updateComposerRequire
 updateChangelog
-updateRepositoryVersion

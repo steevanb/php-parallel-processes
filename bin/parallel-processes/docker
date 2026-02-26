@@ -4,8 +4,22 @@ set -eu
 
 readonly ROOT_DIR="$(realpath "$(dirname "$(realpath "$0")")/../..")"
 
+REPOSITORY_VERSION=
+remaining_args=()
+for param in "$@"; do
+    if [[ "${param}" == --version=* ]]; then
+        REPOSITORY_VERSION="${param#--version=}"
+    else
+        remaining_args+=("${param}")
+    fi
+done
+if [ -z "${REPOSITORY_VERSION}" ]; then
+    echo "Error: --version=X.X.X is required"
+    exit 1
+fi
+set -- "${remaining_args[@]+"${remaining_args[@]}"}"
+
 source "${ROOT_DIR}"/config/version/composer-version.env
-source "${ROOT_DIR}"/config/version/repository-version.env
 source "${ROOT_DIR}"/config/docker/parallel-processes-docker-image-name.env
 source "${ROOT_DIR}"/bin/theme.inc.bash
 

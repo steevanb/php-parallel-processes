@@ -52,4 +52,5 @@ jobs:
                 name: Build and push Docker image parallel-processes-${{ github.event.inputs.version }}
                 uses: ./.github/actions/build-docker-image-parallel-processes
                 with:
+                    version: ${{ github.event.inputs.version }}
                     DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
