@@ -24,7 +24,6 @@ final class GetParentPrivatePropertyValueTest extends TestCase
     {
         $process = $this->createLsProcess();
         $reflection = $this->createReflection($process);
-        $reflection->setAccessible(true);
 
         static::assertSame('ready', $reflection->getClosure($process)->call($process, 'status'));
     }
@@ -34,7 +33,6 @@ final class GetParentPrivatePropertyValueTest extends TestCase
         $process = $this->createLsProcess();
         $process->run();
         $reflection = $this->createReflection($process);
-        $reflection->setAccessible(true);
 
         static::assertLessThanOrEqual(
             microtime(true),

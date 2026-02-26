@@ -1,0 +1,5 @@
+includes:
+    - common.neon
+parameters:
+    phpVersion: 80500
+    tmpDir: ../../../var/ci/phpstan/php-8-5/symfony-8-0

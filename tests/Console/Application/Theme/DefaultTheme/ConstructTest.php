@@ -37,7 +37,6 @@ final class ConstructTest extends TestCase
     private function getProtectedPropertyValue(DefaultTheme $theme, string $property)
     {
         $reflection = new \ReflectionProperty($theme, $property);
-        $reflection->setAccessible(true);
 
         return $reflection->getValue($theme);
     }

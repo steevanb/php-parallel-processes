@@ -11,6 +11,8 @@ ENV COMPOSER_HOME_SYMFONY_7_0=/composer/symfony-7-0
 ENV COMPOSER_HOME_SYMFONY_7_1=/composer/symfony-7-1
 ENV COMPOSER_HOME_SYMFONY_7_2=/composer/symfony-7-2
 ENV COMPOSER_HOME_SYMFONY_7_3=/composer/symfony-7-3
+ENV COMPOSER_HOME_SYMFONY_7_4=/composer/symfony-7-4
+ENV COMPOSER_HOME_SYMFONY_8_0=/composer/symfony-8-0
 
 ENV PHPSTAN_BIN_PATH=/usr/local/bin/phpstan
 
@@ -38,6 +40,10 @@ RUN \
         php8.4-cli \
         php8.4-dom \
         php8.4-mbstring \
+        # PHP 8.5
+        php8.5-cli \
+        php8.5-dom \
+        php8.5-mbstring \
         # For Composer
         curl \
         zip \
@@ -61,6 +67,8 @@ RUN \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_7_1} composer global require symfony/process:~7.1.5 symfony/console:7.1.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_7_2} composer global require symfony/process:7.2.* symfony/console:7.2.* \
     && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_7_3} composer global require symfony/process:7.3.* symfony/console:7.3.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_7_4} composer global require symfony/process:7.4.* symfony/console:7.4.* \
+    && COMPOSER_HOME=${COMPOSER_HOME_SYMFONY_8_0} php8.4 /usr/local/bin/composer global require symfony/process:8.0.* symfony/console:8.0.* \
 
     # Purge
     && apt-get purge -y software-properties-common \
@@ -91,4 +99,14 @@ RUN \
         ${COMPOSER_HOME_SYMFONY_7_3}/cache \
         ${COMPOSER_HOME_SYMFONY_7_3}/composer.json \
         ${COMPOSER_HOME_SYMFONY_7_3}/composer.lock \
+    && rm -rf \
+        ${COMPOSER_HOME_SYMFONY_7_4}/.htaccess \
+        ${COMPOSER_HOME_SYMFONY_7_4}/cache \
+        ${COMPOSER_HOME_SYMFONY_7_4}/composer.json \
+        ${COMPOSER_HOME_SYMFONY_7_4}/composer.lock \
+    && rm -rf \
+        ${COMPOSER_HOME_SYMFONY_8_0}/.htaccess \
+        ${COMPOSER_HOME_SYMFONY_8_0}/cache \
+        ${COMPOSER_HOME_SYMFONY_8_0}/composer.json \
+        ${COMPOSER_HOME_SYMFONY_8_0}/composer.lock \
     && rm -rf /tmp/*

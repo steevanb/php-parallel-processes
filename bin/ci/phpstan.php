@@ -14,7 +14,7 @@ $rootPath = dirname(__DIR__, 2);
 require $rootPath . '/vendor/autoload.php';
 require $rootPath . '/bin/DependenciesVersions.php';
 
-function createPhpstanProcesses($dependenciesVersions): ProcessInterfaceCollection
+function createPhpstanProcesses(DependenciesVersions $dependenciesVersions): ProcessInterfaceCollection
 {
     $return = new ProcessInterfaceCollection();
     foreach ($dependenciesVersions->getPhpVersions()->toArray() as $phpVersion) {
