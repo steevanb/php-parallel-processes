@@ -2,6 +2,9 @@ name: build-docker-image-parallel-processes
 description: Build Docker image parallel-processes
 
 inputs:
+    version:
+        description: 'Version to build'
+        required: true
     DOCKER_HUB_TOKEN:
         description: 'hub.docker.com token'
         required: true
@@ -14,4 +17,4 @@ runs:
             run: echo "${{ inputs.DOCKER_HUB_TOKEN }}" | docker login --username steevanb --password-stdin
         -
             shell: bash
-            run: bin/parallel-processes/docker --push
+            run: bin/parallel-processes/docker --version=${{ inputs.version }} --push
