@@ -33,6 +33,7 @@ jobs:
                 with:
                     title: Release ${{ github.event.inputs.version }}
                     commit-message: Release ${{ github.event.inputs.version }}
+                    base: master
                     branch: release-${{ github.event.inputs.version }}
                     labels: Release
                     delete-branch: true
